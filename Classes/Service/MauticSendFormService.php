@@ -77,7 +77,7 @@ class MauticSendFormService implements SingletonInterface
             $headers['Client-Ip'] = $ip;
         }
 
-        if($this->extensionConfiguration['authorizeMode'] !== EmConfiguration::OAUTH1_AUTHORIZATION_MODE) {
+        if ($this->extensionConfiguration['authorizeMode'] !== EmConfiguration::OAUTH1_AUTHORIZATION_MODE) {
             if ($this->authorizeService->accessTokenToBeRefreshed()) {
                 $this->authorizeService->authorize();
             }
