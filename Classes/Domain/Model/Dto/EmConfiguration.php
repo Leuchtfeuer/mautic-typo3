@@ -8,6 +8,7 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class EmConfiguration implements SingletonInterface
 {
+    public const OAUTH1_AUTHORIZATION_MODE = 'OAuth1a';
     /**
      * @var int
      */
