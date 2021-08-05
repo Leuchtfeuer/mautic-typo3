@@ -76,7 +76,7 @@ class MauticSendFormService implements SingletonInterface
             $headers['X-Forwarded-For'] = $ip;
             $headers['Client-Ip'] = $ip;
         }
-        if($this->extensionConfiguration['authorizeMode'] !== 'OAuth1a') {
+        if ($this->extensionConfiguration['authorizeMode'] !== 'OAuth1a') {
             if ($this->authorizeService->accessTokenToBeRefreshed()) {
                 $this->authorizeService->authorize();
             }
