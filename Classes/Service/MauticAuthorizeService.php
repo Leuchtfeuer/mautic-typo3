@@ -71,7 +71,7 @@ class MauticAuthorizeService
         $iconFactory = GeneralUtility::makeInstance(IconFactory::class);
         $title = $this->translate('authorization.withMautic');
         $target = '';
-        if($this->extensionConfiguration['authorizeMode'] !== 'OAuth1a') {
+        if ($this->extensionConfiguration['authorizeMode'] !== 'OAuth1a') {
             //open authorizaion in new tab to avoid x-frame sameorigin issue in typo3 backend
             $target = 'target="_blank"';
         }
@@ -156,7 +156,7 @@ class MauticAuthorizeService
                 if ($this->authorization->accessTokenUpdated()) {
                     $accessTokenData = $this->authorization->getAccessTokenData();
                     $this->extensionConfiguration['accessToken'] = $accessTokenData['access_token'];
-                    if($this->extensionConfiguration['authorizeMode'] === 'OAuth1a') {
+                    if ($this->extensionConfiguration['authorizeMode'] === 'OAuth1a') {
                         $this->extensionConfiguration['accessTokenSecret'] = $accessTokenData['access_token_secret'];
                     } else {
                         $this->extensionConfiguration['refreshToken'] = $accessTokenData['refresh_token'];
@@ -242,7 +242,7 @@ class MauticAuthorizeService
 
     public function validateAccessToken(): bool
     {
-        if($this->extensionConfiguration['authorizeMode'] === 'OAuth1a') {
+        if ($this->extensionConfiguration['authorizeMode'] === 'OAuth1a') {
             if ($this->extensionConfiguration['accessToken'] !== ''
                 && $this->extensionConfiguration['accessTokenSecret'] !== ''
             ) {
@@ -252,7 +252,7 @@ class MauticAuthorizeService
             return false;
         }
 
-        if($this->extensionConfiguration['accessToken'] === ''
+        if ($this->extensionConfiguration['accessToken'] === ''
             || $this->extensionConfiguration['refreshToken'] === ''
         ) {
             return false;
@@ -270,11 +270,11 @@ class MauticAuthorizeService
     public function accessTokenToBeRefreshed(): bool
     {
         //Access token have no expire on OAuth 1
-        if($this->extensionConfiguration['authorizeMode'] === 'OAuth1a') {
+        if ($this->extensionConfiguration['authorizeMode'] === 'OAuth1a') {
             return false;
         }
 
-        if($this->extensionConfiguration['accessToken'] === ''
+        if ($this->extensionConfiguration['accessToken'] === ''
             || $this->extensionConfiguration['refreshToken'] === ''
         ) {
             return false;
