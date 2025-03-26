@@ -13,13 +13,13 @@ $EM_CONF['mautic'] = [
     'version' => '4.3.4',
     'constraints' => [
         'depends' => [
-            'typo3' => '10.4.2-11.5.99',
+            'typo3' => '12.4.0-12.4.99',
             'marketing_automation' => '1.2.3-1.3.99',
         ],
         'conflicts' => [],
         'suggests' => [
             'static_info_tables' => '6.7.0',
-            'form' => '10.4.0',
+            'form' => '12.4.0',
         ],
     ],
 ];
