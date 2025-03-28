@@ -6,7 +6,7 @@ return [
         'access' => 'admin',
         'iconIdentifier' => 'tx_mautic-mautic-icon',
         'labels' => 'LLL:EXT:mautic/Resources/Private/Language/locallang_mod.xlf',
-        'extensionName' => null,
+        'extensionName' => 'Mautic',
         'controllerActions' => [
             'Bitmotion\Mautic\Controller\BackendController' => [
                 'show',
