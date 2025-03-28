@@ -1,18 +1,17 @@
 <?php
 
 declare(strict_types=1);
-namespace Bitmotion\Mautic\Domain\Repository;
 
-/***
- *
+/*
  * This file is part of the "Mautic" extension for TYPO3 CMS.
  *
  * For the full copyright and license information, please read the
  * LICENSE.txt file that was distributed with this source code.
  *
- *  (c) 2023 Leuchtfeuer Digital Marketing <dev@leuchtfeuer.com>
- *
- ***/
+ * (c) Leuchtfeuer Digital Marketing <dev@leuchtfeuer.com>
+ */
+
+namespace Bitmotion\Mautic\Domain\Repository;
 
 use Bitmotion\Mautic\Service\MauticSendFormService;
 use Mautic\Api\Forms;
@@ -76,7 +75,7 @@ class FormRepository extends AbstractRepository
     public function submitForm(int $id, array $data)
     {
         $data['formId'] = $id;
-        $url = rtrim(trim((string) $this->authorization->getBaseUrl()), '/') . '/form/submit?formId=' . $id;
+        $url = rtrim(trim((string)$this->authorization->getBaseUrl()), '/') . '/form/submit?formId=' . $id;
 
         $mauticSendFormService = GeneralUtility::makeInstance(MauticSendFormService::class);
         $code = $mauticSendFormService->submitForm($url, $data);

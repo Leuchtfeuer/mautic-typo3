@@ -1,18 +1,17 @@
 <?php
 
 declare(strict_types=1);
-namespace Bitmotion\Mautic\Service;
 
-/***
- *
+/*
  * This file is part of the "Mautic" extension for TYPO3 CMS.
  *
  * For the full copyright and license information, please read the
  * LICENSE.txt file that was distributed with this source code.
  *
- *  (c) 2023 Leuchtfeuer Digital Marketing <dev@leuchtfeuer.com>
- *
- ***/
+ * (c) Leuchtfeuer Digital Marketing <dev@leuchtfeuer.com>
+ */
+
+namespace Bitmotion\Mautic\Service;
 
 use Bitmotion\Mautic\Controller\BackendController;
 use Bitmotion\Mautic\Domain\Model\Dto\YamlConfiguration;
@@ -120,7 +119,7 @@ class MauticAuthorizeService
             );
         }
 
-        if (str_starts_with((string) $this->extensionConfiguration['baseUrl'], 'http:')) {
+        if (str_starts_with((string)$this->extensionConfiguration['baseUrl'], 'http:')) {
             $this->showInsecureConnectionInformation();
 
             return false;

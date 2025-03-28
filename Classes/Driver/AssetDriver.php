@@ -1,18 +1,17 @@
 <?php
 
 declare(strict_types=1);
-namespace Bitmotion\Mautic\Driver;
 
-/***
- *
+/*
  * This file is part of the "Mautic" extension for TYPO3 CMS.
  *
  * For the full copyright and license information, please read the
  * LICENSE.txt file that was distributed with this source code.
  *
- *  (c) 2023 Leuchtfeuer Digital Marketing <dev@leuchtfeuer.com>
- *
- ***/
+ * (c) Leuchtfeuer Digital Marketing <dev@leuchtfeuer.com>
+ */
+
+namespace Bitmotion\Mautic\Driver;
 
 use Bitmotion\Mautic\Domain\Model\Dto\YamlConfiguration;
 use Bitmotion\Mautic\Domain\Repository\AssetRepository;
@@ -34,10 +33,10 @@ class AssetDriver extends AbstractHierarchicalFilesystemDriver implements Logger
 {
     use LoggerAwareTrait;
 
-    const DRIVER_SHORT_NAME = 'mautic';
-    const DRIVER_NAME = 'Mautic';
-    const DRIVER_TYPE = 'mautic';
-    const ROOT_LEVEL_FOLDER = '/';
+    public const DRIVER_SHORT_NAME = 'mautic';
+    public const DRIVER_NAME = 'Mautic';
+    public const DRIVER_TYPE = 'mautic';
+    public const ROOT_LEVEL_FOLDER = '/';
 
     protected $capabilities;
 
@@ -83,9 +82,7 @@ class AssetDriver extends AbstractHierarchicalFilesystemDriver implements Logger
     }
 
     #[\Override]
-    public function processConfiguration(): void
-    {
-    }
+    public function processConfiguration(): void {}
 
     #[\Override]
     public function initialize(): void
@@ -380,7 +377,7 @@ class AssetDriver extends AbstractHierarchicalFilesystemDriver implements Logger
 
         return [
             'identifier' => $folderIdentifier,
-            'name' => basename(rtrim((string) $folderIdentifier, '/')),
+            'name' => basename(rtrim((string)$folderIdentifier, '/')),
             'storage' => $this->storageUid,
         ];
     }

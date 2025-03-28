@@ -1,18 +1,17 @@
 <?php
 
 declare(strict_types=1);
-namespace Bitmotion\Mautic\Transformation\Form;
 
-/***
- *
+/*
  * This file is part of the "Mautic" extension for TYPO3 CMS.
  *
  * For the full copyright and license information, please read the
  * LICENSE.txt file that was distributed with this source code.
  *
- *  (c) 2023 Leuchtfeuer Digital Marketing <dev@leuchtfeuer.com>
- *
- ***/
+ * (c) Leuchtfeuer Digital Marketing <dev@leuchtfeuer.com>
+ */
+
+namespace Bitmotion\Mautic\Transformation\Form;
 
 use Bitmotion\Mautic\Domain\Repository\FieldRepository;
 use Bitmotion\Mautic\Domain\Repository\FormRepository;
@@ -34,9 +33,7 @@ abstract class AbstractFormTransformation extends AbstractTransformation impleme
 
     protected $customFieldValues = [];
 
-    public function __construct(protected array $formDefinition = [])
-    {
-    }
+    public function __construct(protected array $formDefinition = []) {}
 
     #[\Override]
     public function transform()

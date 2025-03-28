@@ -1,25 +1,24 @@
 <?php
 
 declare(strict_types=1);
-namespace Bitmotion\Mautic\Controller;
 
-/***
- *
+/*
  * This file is part of the "Mautic" extension for TYPO3 CMS.
  *
  * For the full copyright and license information, please read the
  * LICENSE.txt file that was distributed with this source code.
  *
- *  (c) 2023 Leuchtfeuer Digital Marketing <dev@leuchtfeuer.com>
- *
- ***/
+ * (c) Leuchtfeuer Digital Marketing <dev@leuchtfeuer.com>
+ */
+
+namespace Bitmotion\Mautic\Controller;
 
 use Bitmotion\Mautic\Mautic\AuthorizationFactory;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 
 class FrontendController extends ActionController
 {
-    const DEFAULT_TEMPLATE_PATH = 'EXT:mautic/Resources/Private/Templates/Form.html';
+    public const DEFAULT_TEMPLATE_PATH = 'EXT:mautic/Resources/Private/Templates/Form.html';
 
     public function formAction(): \Psr\Http\Message\ResponseInterface
     {

@@ -1,22 +1,20 @@
 <?php
 
 declare(strict_types=1);
-namespace Bitmotion\Mautic\Controller;
 
-/***
- *
+/*
  * This file is part of the "Mautic" extension for TYPO3 CMS.
  *
  * For the full copyright and license information, please read the
  * LICENSE.txt file that was distributed with this source code.
  *
- *  (c) 2023 Leuchtfeuer Digital Marketing <dev@leuchtfeuer.com>
- *
- ***/
+ * (c) Leuchtfeuer Digital Marketing <dev@leuchtfeuer.com>
+ */
+
+namespace Bitmotion\Mautic\Controller;
 
 use Bitmotion\Mautic\Domain\Model\Dto\YamlConfiguration;
 use Bitmotion\Mautic\Service\MauticAuthorizeService;
-use TYPO3\CMS\Backend\View\BackendTemplateView;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 use TYPO3\CMS\Extbase\Mvc\Exception\StopActionException;
@@ -24,11 +22,9 @@ use TYPO3\CMS\Extbase\Mvc\Exception\UnsupportedRequestTypeException;
 
 class BackendController extends ActionController
 {
-    const FLASH_MESSAGE_QUEUE = 'marketingautomation.mautic.flashMessages';
+    public const FLASH_MESSAGE_QUEUE = 'marketingautomation.mautic.flashMessages';
 
-    public function __construct(private readonly \TYPO3\CMS\Backend\Template\ModuleTemplateFactory $moduleTemplateFactory)
-    {
-    }
+    public function __construct(private readonly \TYPO3\CMS\Backend\Template\ModuleTemplateFactory $moduleTemplateFactory) {}
 
     public function showAction(): \Psr\Http\Message\ResponseInterface
     {
@@ -63,8 +59,8 @@ class BackendController extends ActionController
     {
         $emConfiguration = new YamlConfiguration();
 
-        if (str_ends_with((string) $configuration['baseUrl'], '/')) {
-            $configuration['baseUrl'] = rtrim((string) $configuration['baseUrl'], '/');
+        if (str_ends_with((string)$configuration['baseUrl'], '/')) {
+            $configuration['baseUrl'] = rtrim((string)$configuration['baseUrl'], '/');
         }
 
         if (!in_array($emConfiguration->getAccessToken(), ['', '0'], true) && !$emConfiguration->isSameCredentials($configuration)) {

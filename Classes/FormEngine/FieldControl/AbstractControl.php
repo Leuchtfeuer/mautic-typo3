@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the "Mautic" extension for TYPO3 CMS.
+ *
+ * For the full copyright and license information, please read the
+ * LICENSE.txt file that was distributed with this source code.
+ *
+ * (c) Leuchtfeuer Digital Marketing <dev@leuchtfeuer.com>
+ */
+
 namespace Bitmotion\Mautic\FormEngine\FieldControl;
 
 use TYPO3\CMS\Backend\Form\AbstractNode;

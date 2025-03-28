@@ -1,18 +1,17 @@
 <?php
 
 declare(strict_types=1);
-namespace Bitmotion\Mautic\Hooks;
 
-/***
- *
+/*
  * This file is part of the "Mautic" extension for TYPO3 CMS.
  *
  * For the full copyright and license information, please read the
  * LICENSE.txt file that was distributed with this source code.
  *
- *  (c) 2023 Leuchtfeuer Digital Marketing <dev@leuchtfeuer.com>
- *
- ***/
+ * (c) Leuchtfeuer Digital Marketing <dev@leuchtfeuer.com>
+ */
+
+namespace Bitmotion\Mautic\Hooks;
 
 use Bitmotion\Mautic\Domain\Repository\FormRepository;
 use Bitmotion\Mautic\Exception\InvalidTransformationClassException;
@@ -26,13 +25,12 @@ use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerAwareTrait;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Form\Mvc\Configuration\Exception\ParseErrorException;
-use TYPO3\CMS\Form\Mvc\Persistence\FormPersistenceManagerInterface;
 
 class MauticFormHook implements LoggerAwareInterface
 {
     use LoggerAwareTrait;
 
-    const FORM_PROTOTYPE_NAME = 'mautic';
+    public const FORM_PROTOTYPE_NAME = 'mautic';
 
     /**
      * @var FormRepository

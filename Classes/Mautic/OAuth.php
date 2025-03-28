@@ -1,20 +1,18 @@
 <?php
 
 declare(strict_types=1);
-namespace Bitmotion\Mautic\Mautic;
 
-/***
- *
+/*
  * This file is part of the "Mautic" extension for TYPO3 CMS.
  *
  * For the full copyright and license information, please read the
  * LICENSE.txt file that was distributed with this source code.
  *
- *  (c) 2023 Leuchtfeuer Digital Marketing <dev@leuchtfeuer.com>
- *
- ***/
+ * (c) Leuchtfeuer Digital Marketing <dev@leuchtfeuer.com>
+ */
 
-use Bitmotion\Mautic\Domain\Model\Dto\YamlConfiguration;
+namespace Bitmotion\Mautic\Mautic;
+
 use Mautic\Auth\AuthInterface;
 
 class OAuth implements AuthInterface

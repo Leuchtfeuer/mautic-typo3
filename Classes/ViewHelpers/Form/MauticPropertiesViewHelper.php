@@ -1,20 +1,18 @@
 <?php
 
 declare(strict_types=1);
-namespace Bitmotion\Mautic\ViewHelpers\Form;
 
-/***
- *
+/*
  * This file is part of the "Mautic" extension for TYPO3 CMS.
  *
  * For the full copyright and license information, please read the
  * LICENSE.txt file that was distributed with this source code.
  *
- *  (c) 2023 Leuchtfeuer Digital Marketing <dev@leuchtfeuer.com>
- *
- ***/
+ * (c) Leuchtfeuer Digital Marketing <dev@leuchtfeuer.com>
+ */
 
-use Bitmotion\Mautic\Domain\Repository\FieldRepository;
+namespace Bitmotion\Mautic\ViewHelpers\Form;
+
 use TYPO3\CMS\Core\Localization\LanguageService;
 use TYPO3\CMS\Fluid\ViewHelpers\Form\SelectViewHelper;
 
@@ -35,13 +33,13 @@ class MauticPropertiesViewHelper extends SelectViewHelper
 
         $contactFields = $this->fieldRepository->getContactFields();
 
-//        TODO: Support companies
-//        $companyFields = $this->companyRepository->findCompanyFields();
+        //        TODO: Support companies
+        //        $companyFields = $this->companyRepository->findCompanyFields();
 
         $languageService = $this->getLanguageService();
         $contactsLang = $languageService->sL('LLL:EXT:mautic/Resources/Private/Language/locallang_tca.xlf:mautic.contact');
-//        TODO: Support companies
-//        $companiesLang = $languageService->sL('LLL:EXT:mautic/Resources/Private/Language/locallang_tca.xlf:mautic.company');
+        //        TODO: Support companies
+        //        $companiesLang = $languageService->sL('LLL:EXT:mautic/Resources/Private/Language/locallang_tca.xlf:mautic.company');
 
         foreach ($contactFields as $field) {
             $options[$field['alias']] = sprintf('%s: %s |||%s|||', $contactsLang, $field['label'], $field['type']);
@@ -49,10 +47,10 @@ class MauticPropertiesViewHelper extends SelectViewHelper
 
         asort($options);
 
-//        TODO: Support companies
-//        foreach ($companyFields as $field) {
-//            $options[$field['alias']] = $companiesLang . ': ' . $field['label'];
-//        }
+        //        TODO: Support companies
+        //        foreach ($companyFields as $field) {
+        //            $options[$field['alias']] = $companiesLang . ': ' . $field['label'];
+        //        }
 
         return $options;
     }

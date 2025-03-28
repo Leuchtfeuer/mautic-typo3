@@ -1,18 +1,17 @@
 <?php
 
 declare(strict_types=1);
-namespace Bitmotion\Mautic\Domain\Repository;
 
-/***
- *
+/*
  * This file is part of the "Mautic" extension for TYPO3 CMS.
  *
  * For the full copyright and license information, please read the
  * LICENSE.txt file that was distributed with this source code.
  *
- *  (c) 2023 Leuchtfeuer Digital Marketing <dev@leuchtfeuer.com>
- *
- ***/
+ * (c) Leuchtfeuer Digital Marketing <dev@leuchtfeuer.com>
+ */
+
+namespace Bitmotion\Mautic\Domain\Repository;
 
 use Mautic\Api\Tags;
 use Mautic\Exception\ContextNotFoundException;
@@ -84,12 +83,12 @@ class TagRepository extends AbstractRepository
         $queryBuilder = $this->getQueryBuilder();
         $queryBuilder
             ->insert('tx_mautic_domain_model_tag')->values([
-             'uid' => (int)$tag['id'],
-             'crdate' => $time,
-             'tstamp' => $time,
-             'title' => $tag['tag'],
-             'deleted' => 0,
-         ])->executeStatement();
+                'uid' => (int)$tag['id'],
+                'crdate' => $time,
+                'tstamp' => $time,
+                'title' => $tag['tag'],
+                'deleted' => 0,
+            ])->executeStatement();
     }
 
     protected function getQueryBuilder(): QueryBuilder

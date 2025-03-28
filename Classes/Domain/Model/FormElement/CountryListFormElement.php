@@ -1,18 +1,17 @@
 <?php
 
 declare(strict_types=1);
-namespace Bitmotion\Mautic\Domain\Model\FormElement;
 
-/***
- *
+/*
  * This file is part of the "Mautic" extension for TYPO3 CMS.
  *
  * For the full copyright and license information, please read the
  * LICENSE.txt file that was distributed with this source code.
  *
- *  (c) 2023 Leuchtfeuer Digital Marketing <dev@leuchtfeuer.com>
- *
- ***/
+ * (c) Leuchtfeuer Digital Marketing <dev@leuchtfeuer.com>
+ */
+
+namespace Bitmotion\Mautic\Domain\Model\FormElement;
 
 use Bitmotion\Mautic\Mautic\AuthorizationFactory;
 use Doctrine\DBAL\Connection;
@@ -95,9 +94,9 @@ class CountryListFormElement extends GenericFormElement implements LoggerAwareIn
             $countryNames = $queryBuilder
                 ->select('*')
                 ->from('static_countries')->where($queryBuilder->expr()->in(
-                'cn_short_en',
-                $queryBuilder->createNamedParameter(array_keys($countries), Connection::PARAM_STR_ARRAY)
-            ))->executeQuery()->fetchAllAssociative();
+                    'cn_short_en',
+                    $queryBuilder->createNamedParameter(array_keys($countries), Connection::PARAM_STR_ARRAY)
+                ))->executeQuery()->fetchAllAssociative();
 
             foreach ($countryNames as $countryName) {
                 if (!empty($countryName['cn_short_' . $this->locale])) {

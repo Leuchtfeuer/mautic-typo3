@@ -1,18 +1,17 @@
 <?php
 
 declare(strict_types=1);
-namespace Bitmotion\Mautic\Service;
 
-/***
- *
+/*
  * This file is part of the "Mautic" extension for TYPO3 CMS.
  *
  * For the full copyright and license information, please read the
  * LICENSE.txt file that was distributed with this source code.
  *
- *  (c) 2023 Leuchtfeuer Digital Marketing <dev@leuchtfeuer.com>
- *
- ***/
+ * (c) Leuchtfeuer Digital Marketing <dev@leuchtfeuer.com>
+ */
+
+namespace Bitmotion\Mautic\Service;
 
 use Bitmotion\Mautic\Domain\Model\Dto\YamlConfiguration;
 use GuzzleHttp\Client;
@@ -103,14 +102,14 @@ class MauticSendFormService implements SingletonInterface, LoggerAwareInterface
         foreach ($ipHolders as $key) {
             if (!empty($_SERVER[$key])) {
                 $ip = $_SERVER[$key];
-                if (str_contains((string) $ip, ',')) {
+                if (str_contains((string)$ip, ',')) {
                     // Multiple IPs are present so use the last IP which should be
                     // the most reliable IP that last connected to the proxy
-                    $ips = explode(',', (string) $ip);
+                    $ips = explode(',', (string)$ip);
                     $ips = array_map('trim', $ips);
                     $ip = end($ips);
                 }
-                $ip = trim((string) $ip);
+                $ip = trim((string)$ip);
                 break;
             }
         }
