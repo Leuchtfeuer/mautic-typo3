@@ -3,7 +3,7 @@
 defined('TYPO3_MODE') || die;
 
 call_user_func(
-    function ($extensionKey) {
+    function ($extensionKey): void {
         // Assign the hooks for pushing newly created and edited forms to Mautic
         $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/form']['beforeFormDuplicate'][1489959059] =
             \Bitmotion\Mautic\Hooks\MauticFormHook::class;
@@ -14,25 +14,13 @@ call_user_func(
         $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/form']['beforeFormSave'][1489959059] =
             \Bitmotion\Mautic\Hooks\MauticFormHook::class;
 
-        \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addStaticFile(
-            $extensionKey,
-            'Configuration/TypoScript',
-            'Mautic'
-        );
-
-        // Backend Module
-        if (version_compare(TYPO3_version, '10.0.0', '<')) {
-            $extensionName = 'Bitmotion.Mautic';
-            $controllerName = 'Backend';
-        }
-
         \TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerModule(
-            $extensionName ?? $extensionKey,
+            $extensionKey,
             'tools',
             'api',
             'bottom',
             [
-                $controllerName ?? \Bitmotion\Mautic\Controller\BackendController::class => 'show, save',
+                \Bitmotion\Mautic\Controller\BackendController::class => 'show, save',
             ],
             [
                 'access' => 'admin',

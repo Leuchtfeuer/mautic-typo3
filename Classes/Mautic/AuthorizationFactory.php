@@ -69,11 +69,9 @@ class AuthorizationFactory implements SingletonInterface
             false
         );
 
-        if ($authorizeService->validateCredentials() === true && !$authorizeService->validateAccessToken()) {
-            if ($authorizeService->accessTokenToBeRefreshed()) {
-                $authorizeService->refreshAccessToken();
-                $extensionConfiguration->reloadConfigurations();
-            }
+        if ($authorizeService->validateCredentials() === true && !$authorizeService->validateAccessToken() && $authorizeService->accessTokenToBeRefreshed()) {
+            $authorizeService->refreshAccessToken();
+            $extensionConfiguration->reloadConfigurations();
         }
 
         return self::$oAuth;
