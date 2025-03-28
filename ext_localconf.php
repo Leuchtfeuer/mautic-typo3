@@ -1,19 +1,19 @@
 <?php
 
-defined('TYPO3_MODE') || die;
+defined('TYPO3') || die;
 
-call_user_func(function () {
+call_user_func(function (): void {
     if (\TYPO3\CMS\Core\Core\Environment::isComposerMode() === false) {
         $filePath = \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('mautic') . 'Libraries/vendor/autoload.php';
         if (@file_exists($filePath)) {
             require_once $filePath;
         } else {
-            throw new \Exception(sprintf('File %s does not exist. Dependencies could not be loaded.', $filePath));
+            throw new \Exception(sprintf('File %s does not exist. Dependencies could not be loaded.', $filePath), 7049493518);
         }
     }
 
     if (\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('marketing_automation') === false) {
-        throw new \Exception('Required extension is not loaded: EXT:marketing_automation.');
+        throw new \Exception('Required extension is not loaded: EXT:marketing_automation.', 7616907311);
     }
 
     $marketingDispatcher = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\Bitmotion\MarketingAutomation\Dispatcher\Dispatcher::class);
@@ -82,13 +82,13 @@ call_user_func(function () {
     //#################
     //   EXTRACTOR    #
     //#################
-    \TYPO3\CMS\Core\Resource\Index\ExtractorRegistry::getInstance()->registerExtractionService(\Bitmotion\Mautic\Index\Extractor::class);
+    \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Core\Resource\Index\ExtractorRegistry::class)->registerExtractionService(\Bitmotion\Mautic\Index\Extractor::class);
 
     //##################
     //      PLUGIN     #
     //##################
     \TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
-        'Bitmotion.mautic',
+        'Mautic',
         'Form',
         [\Bitmotion\Mautic\Controller\FrontendController::class => 'form'],
         [\Bitmotion\Mautic\Controller\FrontendController::class => 'form'],
