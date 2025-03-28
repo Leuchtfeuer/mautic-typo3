@@ -34,6 +34,7 @@ class ListTransformationPrototype extends AbstractFormFieldTransformation
     /**
      * @throws TransformationException
      */
+    #[\Override]
     public function transform()
     {
         parent::transform();

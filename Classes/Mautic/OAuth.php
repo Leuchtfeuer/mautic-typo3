@@ -19,26 +19,11 @@ use Mautic\Auth\AuthInterface;
 
 class OAuth implements AuthInterface
 {
-    /**
-     * @var AuthInterface
-     */
-    protected $authorization;
+    protected string $baseUrl;
 
-    /**
-     * @var string
-     */
-    protected $baseUrl;
-
-    protected $accesToken = '';
-
-    protected $authorizationMode = '';
-
-    public function __construct(AuthInterface $authorization, string $baseUrl, string $accesToken = '', string $authorizationMode = '')
+    public function __construct(protected \Mautic\Auth\AuthInterface $authorization, string $baseUrl, protected string $accesToken = '', protected string $authorizationMode = '')
     {
-        $this->authorization = $authorization;
         $this->baseUrl = rtrim($baseUrl, '/');
-        $this->accesToken = $accesToken;
-        $this->authorizationMode = $authorizationMode;
     }
 
     public function __call($method, $arguments)
@@ -60,6 +45,7 @@ class OAuth implements AuthInterface
      *
      * @return bool
      */
+    #[\Override]
     public function isAuthorized()
     {
         return $this->authorization->isAuthorized();
@@ -73,6 +59,7 @@ class OAuth implements AuthInterface
      *
      * @return array
      */
+    #[\Override]
     public function makeRequest($url, array $parameters = [], $method = 'GET', array $settings = [])
     {
         return $this->authorization->makeRequest($url, $parameters, $method, $settings);

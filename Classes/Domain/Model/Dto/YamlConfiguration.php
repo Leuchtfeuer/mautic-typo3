@@ -59,25 +59,16 @@ class YamlConfiguration implements SingletonInterface
      */
     protected $tracking = false;
 
-    /**
-     * @var array
-     */
-    protected $configurationArray = [];
+    protected array $configurationArray;
 
     /**
      * @var string
      */
     protected $configFileName = 'config.yaml';
 
-    /**
-     * @var string
-     */
-    protected $configPath;
+    protected string $configPath;
 
-    /**
-     * @var string
-     */
-    protected $fileName;
+    protected string $fileName;
 
     /**
      * @var string
@@ -108,7 +99,7 @@ class YamlConfiguration implements SingletonInterface
         $settings = array_replace_recursive($this->configurationArray, $extensionConfiguration);
 
         foreach ($settings as $key => $value) {
-            if (property_exists(__CLASS__, $key)) {
+            if (property_exists(self::class, $key)) {
                 $this->$key = $value;
             }
         }
@@ -120,7 +111,7 @@ class YamlConfiguration implements SingletonInterface
 
         try {
             return $loader->load(GeneralUtility::fixWindowsFilePath($this->fileName), YamlFileLoader::PROCESS_IMPORTS);
-        } catch (\Exception $exception) {
+        } catch (\Exception) {
             return [];
         }
     }
@@ -152,7 +143,7 @@ class YamlConfiguration implements SingletonInterface
         $settings = array_replace_recursive($this->configurationArray, $extensionConfiguration);
 
         foreach ($settings as $key => $value) {
-            if (property_exists(__CLASS__, $key)) {
+            if (property_exists(self::class, $key)) {
                 $this->$key = $value;
             }
         }

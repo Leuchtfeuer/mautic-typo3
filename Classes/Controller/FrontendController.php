@@ -21,13 +21,14 @@ class FrontendController extends ActionController
 {
     const DEFAULT_TEMPLATE_PATH = 'EXT:mautic/Resources/Private/Templates/Form.html';
 
-    public function formAction()
+    public function formAction(): \Psr\Http\Message\ResponseInterface
     {
         $this->view->setTemplatePathAndFilename($this->getTemplatePath());
         $this->view->assignMultiple([
             'mauticBaseUrl' => AuthorizationFactory::createAuthorizationFromExtensionConfiguration()->getBaseUrl(),
-            'data' => $this->configurationManager->getContentObject()->data,
+            'data' => $this->request->getAttribute('currentContentObject')->data,
         ]);
+        return $this->htmlResponse();
     }
 
     protected function getTemplatePath(): string

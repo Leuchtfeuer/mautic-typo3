@@ -33,6 +33,7 @@ class AssetRepository extends AbstractRepository
     /**
      * @throws ContextNotFoundException
      */
+    #[\Override]
     protected function injectApis(): void
     {
         $this->assetsApi = $this->getApi('assets');
@@ -51,7 +52,7 @@ class AssetRepository extends AbstractRepository
         $this->filesApi->setFolder('assets');
         $response = $this->filesApi->create(['file' => $file]);
 
-        if (!empty($file)) {
+        if ($file !== '' && $file !== '0') {
             $response = $this->assetsApi->create([
                 'title' => $title,
                 'storageLocation' => 'local',

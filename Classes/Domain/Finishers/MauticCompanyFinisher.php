@@ -24,18 +24,17 @@ use TYPO3\CMS\Form\Domain\Model\FormElements\GenericFormElement;
  */
 class MauticCompanyFinisher extends AbstractFinisher
 {
-    protected $companyRepository;
+    protected object $companyRepository;
 
-    public function __construct(string $finisherIdentifier = '')
+    public function __construct()
     {
-        parent::__construct($finisherIdentifier);
-
         $this->companyRepository = GeneralUtility::makeInstance(CompanyRepository::class);
     }
 
     /**
      * Creates a company in Mautic if enough data is present from the collected form results
      */
+    #[\Override]
     protected function executeInternal()
     {
         $formDefinition = $this->finisherContext->getFormRuntime()->getFormDefinition();
@@ -53,7 +52,7 @@ class MauticCompanyFinisher extends AbstractFinisher
             }
         }
 
-        if (\count($mauticFields) === 0) {
+        if ($mauticFields === []) {
             return;
         }
 

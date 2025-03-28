@@ -23,12 +23,13 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class Extractor implements ExtractorInterface
 {
+    #[\Override]
     public function extractMetaData(Resource\File $file, array $previousExtractedData = []): array
     {
         $asset = $this->getAsset($file);
         $data = [];
 
-        if (!empty($asset)) {
+        if ($asset !== []) {
             $data['description'] = $asset['description'];
             $data['alternative'] = $asset['description'];
             $data['title'] = $asset['title'];
@@ -47,26 +48,31 @@ class Extractor implements ExtractorInterface
         return $data;
     }
 
+    #[\Override]
     public function getPriority(): int
     {
         return 5;
     }
 
+    #[\Override]
     public function getExecutionPriority(): int
     {
         return 5;
     }
 
+    #[\Override]
     public function getFileTypeRestrictions(): array
     {
         return [];
     }
 
+    #[\Override]
     public function canProcess(Resource\File $file): bool
     {
         return $file->getStorage()->getDriverType() === AssetDriver::DRIVER_TYPE;
     }
 
+    #[\Override]
     public function getDriverRestrictions(): array
     {
         return [AssetDriver::DRIVER_TYPE];
@@ -78,6 +84,6 @@ class Extractor implements ExtractorInterface
         $assetApi = GeneralUtility::makeInstance(AssetRepository::class);
         $assets = $assetApi->list($mauticAlias);
 
-        return !empty($assets) ? array_shift($assets) : [];
+        return empty($assets) ? [] : array_shift($assets);
     }
 }

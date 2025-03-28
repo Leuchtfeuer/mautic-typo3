@@ -27,7 +27,7 @@ class MauticTagHook
 
         if ($page['tx_mautic_tags'] > 0) {
             $tags = $this->getTagsToAssign($page);
-            if (!empty($tags)) {
+            if ($tags !== []) {
                 $contactId = (int)($_COOKIE['mtc_id'] ?? 0);
 
                 if ($contactId > 0) {
@@ -45,9 +45,7 @@ class MauticTagHook
         $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable('tx_mautic_page_tag_mm');
         $result = $queryBuilder
             ->select('uid_foreign')
-            ->from('tx_mautic_page_tag_mm')
-            ->where($queryBuilder->expr()->eq('uid_local', $pageUid))
-            ->execute();
+            ->from('tx_mautic_page_tag_mm')->where($queryBuilder->expr()->eq('uid_local', $pageUid))->executeQuery();
 
         $tags = [];
 
@@ -55,10 +53,7 @@ class MauticTagHook
             $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable('tx_mautic_domain_model_tag');
             $tags[$tag] = $queryBuilder
                 ->select('title')
-                ->from('tx_mautic_domain_model_tag')
-                ->where($queryBuilder->expr()->eq('uid', $tag))
-                ->execute()
-                ->fetchColumn();
+                ->from('tx_mautic_domain_model_tag')->where($queryBuilder->expr()->eq('uid', $tag))->executeQuery()->fetchOne();
         }
 
         return $tags;

@@ -10,6 +10,7 @@ abstract class AbstractControl extends AbstractNode
 
     protected $action;
 
+    #[\Override]
     public function render()
     {
         return [

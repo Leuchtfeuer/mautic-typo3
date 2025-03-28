@@ -56,9 +56,7 @@ class MauticSendFormService implements SingletonInterface, LoggerAwareInterface
             return 500;
         }
 
-        $statusCode = $result->getStatusCode();
-
-        return (int)$statusCode;
+        return $result->getStatusCode();
     }
 
     private function makeHeaders(): array
@@ -105,14 +103,14 @@ class MauticSendFormService implements SingletonInterface, LoggerAwareInterface
         foreach ($ipHolders as $key) {
             if (!empty($_SERVER[$key])) {
                 $ip = $_SERVER[$key];
-                if (strpos($ip, ',') !== false) {
+                if (str_contains((string) $ip, ',')) {
                     // Multiple IPs are present so use the last IP which should be
                     // the most reliable IP that last connected to the proxy
-                    $ips = explode(',', $ip);
+                    $ips = explode(',', (string) $ip);
                     $ips = array_map('trim', $ips);
                     $ip = end($ips);
                 }
-                $ip = trim($ip);
+                $ip = trim((string) $ip);
                 break;
             }
         }

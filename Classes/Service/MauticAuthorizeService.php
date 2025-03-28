@@ -30,14 +30,9 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class MauticAuthorizeService
 {
-    /**
-     * @var OAuth
-     */
-    protected $authorization;
+    protected \Bitmotion\Mautic\Mautic\OAuth $authorization;
 
     protected $extensionConfiguration = [];
-
-    protected $createFlashMessages = true;
 
     protected $minimumMauticVersion = '2.14.2';
 
@@ -45,7 +40,7 @@ class MauticAuthorizeService
 
     protected $languageService;
 
-    public function __construct(OAuth $authorization = null, $createFlashMessages = true)
+    public function __construct(OAuth $authorization = null, protected $createFlashMessages = true)
     {
         if (session_id() === '') {
             session_start();
@@ -53,7 +48,6 @@ class MauticAuthorizeService
 
         $this->extensionConfiguration = GeneralUtility::makeInstance(YamlConfiguration::class)->getConfigurationArray();
         $this->authorization = $authorization ?? AuthorizationFactory::createAuthorizationFromExtensionConfiguration();
-        $this->createFlashMessages = $createFlashMessages;
         $this->languageService = $GLOBALS['LANG'] ?? GeneralUtility::makeInstance(LanguageServiceFactory::class)->create('default');
     }
 
@@ -116,20 +110,17 @@ class MauticAuthorizeService
         }
 
         unset($_SESSION['oauth']);
-        if (empty($_SESSION)) {
+        if ($_SESSION === []) {
             $sessionName = session_name();
             $sessionCookie = session_get_cookie_params();
             setcookie(
                 $sessionName,
                 '',
-                $sessionCookie['lifetime'],
-                $sessionCookie['path'],
-                $sessionCookie['domain'],
-                $sessionCookie['secure']
+                ['expires' => $sessionCookie['lifetime'], 'path' => $sessionCookie['path'], 'domain' => $sessionCookie['domain'], 'secure' => $sessionCookie['secure']]
             );
         }
 
-        if (strpos($this->extensionConfiguration['baseUrl'], 'http:') === 0) {
+        if (str_starts_with((string) $this->extensionConfiguration['baseUrl'], 'http:')) {
             $this->showInsecureConnectionInformation();
 
             return false;
@@ -169,7 +160,7 @@ class MauticAuthorizeService
                 $message ?? ''
             );
 
-            $this->createMessage($message, $title, FlashMessage::ERROR, true);
+            $this->createMessage($message, $title, \TYPO3\CMS\Core\Type\ContextualFeedbackSeverity::ERROR, true);
 
             return true;
         }
@@ -216,7 +207,7 @@ class MauticAuthorizeService
     {
         $title = $title ?: $this->translate('authorization.error.title');
         $message = $this->translate('authorization.error.message.' . $message) ?: $message ?: $this->translate('authorization.error.message');
-        $this->createMessage($message, $title, FlashMessage::ERROR, true);
+        $this->createMessage($message, $title, \TYPO3\CMS\Core\Type\ContextualFeedbackSeverity::ERROR, true);
     }
 
     protected function addFlashMessage(FlashMessage $message): void
@@ -230,14 +221,14 @@ class MauticAuthorizeService
     {
         $title = $title ?: $this->translate('authorization.warning.title');
         $message = $message ?: $this->translate('authorization.warning.message');
-        $this->createMessage($message, $title, FlashMessage::WARNING, true);
+        $this->createMessage($message, $title, \TYPO3\CMS\Core\Type\ContextualFeedbackSeverity::WARNING, true);
     }
 
     protected function showSuccessMessage(?string $title = null, ?string $message = null): void
     {
         $title = $title ?: $this->translate('authorization.success.title');
         $message = $message ?: $this->translate('authorization.success.message');
-        $this->createMessage($message, $title, FlashMessage::OK, true);
+        $this->createMessage($message, $title, \TYPO3\CMS\Core\Type\ContextualFeedbackSeverity::OK, true);
     }
 
     protected function showIncorrectVersionInformation(string $version): void
@@ -312,7 +303,7 @@ class MauticAuthorizeService
                 GeneralUtility::makeInstance(YamlConfiguration::class)->save($this->extensionConfiguration);
             }
         } catch (\Exception $exception) {
-            $this->addErrorMessage((string)$exception->getCode(), (string)$exception->getMessage());
+            $this->addErrorMessage((string)$exception->getCode(), $exception->getMessage());
 
             return false;
         }

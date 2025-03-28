@@ -25,18 +25,17 @@ class MauticContactFinisher extends AbstractFinisher implements LoggerAwareInter
 {
     use LoggerAwareTrait;
 
-    protected $contactRepository;
+    protected object $contactRepository;
 
-    public function __construct(string $finisherIdentifier = '')
+    public function __construct()
     {
-        parent::__construct($finisherIdentifier);
-
         $this->contactRepository = GeneralUtility::makeInstance(ContactRepository::class);
     }
 
     /**
      * Creates a contact in Mautic if enough data is present from the collected form results
      */
+    #[\Override]
     protected function executeInternal()
     {
         $formDefinition = $this->finisherContext->getFormRuntime()->getFormDefinition();
@@ -53,7 +52,7 @@ class MauticContactFinisher extends AbstractFinisher implements LoggerAwareInter
             }
         }
 
-        if (\count($mauticFields) === 0) {
+        if ($mauticFields === []) {
             return;
         }
 

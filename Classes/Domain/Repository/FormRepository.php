@@ -29,6 +29,7 @@ class FormRepository extends AbstractRepository
     /**
      * @throws ContextNotFoundException
      */
+    #[\Override]
     protected function injectApis(): void
     {
         $this->formsApi = $this->getApi('forms');
@@ -75,7 +76,7 @@ class FormRepository extends AbstractRepository
     public function submitForm(int $id, array $data)
     {
         $data['formId'] = $id;
-        $url = rtrim(trim($this->authorization->getBaseUrl()), '/') . '/form/submit?formId=' . $id;
+        $url = rtrim(trim((string) $this->authorization->getBaseUrl()), '/') . '/form/submit?formId=' . $id;
 
         $mauticSendFormService = GeneralUtility::makeInstance(MauticSendFormService::class);
         $code = $mauticSendFormService->submitForm($url, $data);
@@ -93,6 +94,6 @@ class FormRepository extends AbstractRepository
 
     public function formExists(int $id): bool
     {
-        return !empty($this->getForm($id));
+        return $this->getForm($id) !== [];
     }
 }

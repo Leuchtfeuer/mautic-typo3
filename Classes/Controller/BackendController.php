@@ -26,10 +26,13 @@ class BackendController extends ActionController
 {
     const FLASH_MESSAGE_QUEUE = 'marketingautomation.mautic.flashMessages';
 
-    protected $defaultViewObjectName = BackendTemplateView::class;
-
-    public function showAction()
+    public function __construct(private readonly \TYPO3\CMS\Backend\Template\ModuleTemplateFactory $moduleTemplateFactory)
     {
+    }
+
+    public function showAction(): \Psr\Http\Message\ResponseInterface
+    {
+        $moduleTemplate = $this->moduleTemplateFactory->create($this->request);
         $emConfiguration = new YamlConfiguration();
         /** @var MauticAuthorizeService $authorizeService */
         $authorizeService = GeneralUtility::makeInstance(MauticAuthorizeService::class);
@@ -48,6 +51,8 @@ class BackendController extends ActionController
         }
 
         $this->view->assign('configuration', $emConfiguration);
+        $moduleTemplate->setContent($this->view->render());
+        return $this->htmlResponse($moduleTemplate->renderContent());
     }
 
     /**
@@ -58,15 +63,15 @@ class BackendController extends ActionController
     {
         $emConfiguration = new YamlConfiguration();
 
-        if (substr($configuration['baseUrl'], -1) === '/') {
-            $configuration['baseUrl'] = rtrim($configuration['baseUrl'], '/');
+        if (str_ends_with((string) $configuration['baseUrl'], '/')) {
+            $configuration['baseUrl'] = rtrim((string) $configuration['baseUrl'], '/');
         }
 
-        if (!empty($emConfiguration->getAccessToken()) && !$emConfiguration->isSameCredentials($configuration)) {
+        if (!in_array($emConfiguration->getAccessToken(), ['', '0'], true) && !$emConfiguration->isSameCredentials($configuration)) {
             $configuration['accessToken'] = '';
         }
 
         $emConfiguration->save($configuration);
-        $this->redirect('show');
+        return $this->redirect('show');
     }
 }

@@ -38,10 +38,7 @@ class PersonaRepository
                     $queryBuilder->createNamedParameter($segments, Connection::PARAM_INT_ARRAY)
                 )
             )
-            ->orderBy('persona.sorting')
-            ->setMaxResults(1)
-            ->execute()
-            ->fetchAll();
+            ->orderBy('persona.sorting')->setMaxResults(1)->executeQuery()->fetchAllAssociative();
 
         return $persona[0] ?? [];
     }

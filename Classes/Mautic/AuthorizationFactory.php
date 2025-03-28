@@ -70,12 +70,10 @@ class AuthorizationFactory implements SingletonInterface
             false
         );
 
-        if ($authorizeService->validateCredentials() === true) {
-            if (!$authorizeService->validateAccessToken()) {
-                if ($authorizeService->accessTokenToBeRefreshed()) {
-                    $authorizeService->refreshAccessToken();
-                    $extensionConfiguration->reloadConfigurations();
-                }
+        if ($authorizeService->validateCredentials() === true && !$authorizeService->validateAccessToken()) {
+            if ($authorizeService->accessTokenToBeRefreshed()) {
+                $authorizeService->refreshAccessToken();
+                $extensionConfiguration->reloadConfigurations();
             }
         }
 

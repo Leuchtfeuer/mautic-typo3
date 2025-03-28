@@ -16,6 +16,7 @@ namespace Bitmotion\Mautic\Transformation\FormField;
 
 class IgnoreTransformation extends AbstractFormFieldTransformation
 {
+    #[\Override]
     public function transform()
     {
         $this->logger->notice(sprintf(

@@ -50,14 +50,14 @@ class MauticFormPreviewRenderer implements PageLayoutViewDrawItemHookInterface
 
                 if (!empty($contentType)) {
                     $itemContent .= '<thead>';
-                    $itemContent .= '<tr><th colspan="2">' . $parentObject->linkEditContent(htmlspecialchars($contentType), $row) . '</th></tr>';
+                    $itemContent .= '<tr><th colspan="2">' . $parentObject->linkEditContent(htmlspecialchars((string) $contentType), $row) . '</th></tr>';
                     $itemContent .= '</thead>';
                 }
 
                 $itemContent .= '<tbody>';
                 $itemContent .= sprintf('<tr><td>ID</td><td>%s</td></tr>', $mauticForm['id']);
-                $itemContent .= sprintf('<tr><td>Title</td><td>%s</td></tr>', htmlspecialchars($mauticForm['name']));
-                $itemContent .= sprintf('<tr><td>Type</td><td>%s</td></tr>', htmlspecialchars($mauticForm['formType']));
+                $itemContent .= sprintf('<tr><td>Title</td><td>%s</td></tr>', htmlspecialchars((string) $mauticForm['name']));
+                $itemContent .= sprintf('<tr><td>Type</td><td>%s</td></tr>', htmlspecialchars((string) $mauticForm['formType']));
                 $itemContent .= sprintf('<tr><td>Published</td><td>%s</td></tr>', $mauticForm['isPublished'] ? 'yes' : 'no');
                 $itemContent .= sprintf('<tr><td>Field Count</td><td>%s</td></tr>', count($mauticForm['fields']));
                 $itemContent .= sprintf('<tr><td>Kiosk Mode</td><td>%s</td></tr>', $mauticForm['inKioskMode'] ? 'yes' : 'no');

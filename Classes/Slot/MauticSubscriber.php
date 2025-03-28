@@ -26,38 +26,31 @@ use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
 
 class MauticSubscriber implements SubscriberInterface, SingletonInterface
 {
-    protected $mauticId;
-
-    protected $contactRepository;
-
-    protected $personaRepository;
+    protected int $mauticId;
 
     protected $languageNeedsUpdate = false;
 
-    public function __construct(ContactRepository $contactRepository, PersonaRepository $personaRepository)
+    public function __construct(protected \Bitmotion\Mautic\Domain\Repository\ContactRepository $contactRepository, protected \Bitmotion\Mautic\Domain\Repository\PersonaRepository $personaRepository)
     {
-        $this->contactRepository = $contactRepository;
-        $this->personaRepository = $personaRepository;
-
         $this->mauticId = (int)($_COOKIE['mtc_id'] ?? 0);
     }
 
+    #[\Override]
     public function needsUpdate(Persona $currentPersona, Persona $newPersona): bool
     {
         $isValidMauticId = !empty($this->mauticId);
-        $isEmptyPersonaId = empty($currentPersona->getId());
+        $isEmptyPersonaId = $currentPersona->getId() === 0;
         $this->languageNeedsUpdate = $isValidMauticId && $currentPersona->getLanguage() !== $newPersona->getLanguage();
 
         return $isValidMauticId && ($isEmptyPersonaId || $this->languageNeedsUpdate);
     }
 
+    #[\Override]
     public function update(Persona $persona): Persona
     {
         $segments = $this->contactRepository->findContactSegments($this->mauticId);
         $segmentIds = array_map(
-            function ($segment) {
-                return (int)$segment['id'];
-            },
+            fn($segment): int => (int)$segment['id'],
             $segments
         );
         $personaId = $this->personaRepository->findBySegments($segmentIds)['uid'] ?? 0;
@@ -69,7 +62,7 @@ class MauticSubscriber implements SubscriberInterface, SingletonInterface
     {
         if ($this->languageNeedsUpdate) {
             $languageId = GeneralUtility::makeInstance(Context::class)->getPropertyFromAspect('language', 'id');
-            $site = GeneralUtility::makeInstance(SiteFinder::class)->getSiteByPageId((int)$typoScriptFrontendController->id);
+            $site = GeneralUtility::makeInstance(SiteFinder::class)->getSiteByPageId($typoScriptFrontendController->id);
             $isoCode = $site->getLanguageById($languageId)->getTwoLetterIsoCode();
 
             $this->contactRepository->editContact(

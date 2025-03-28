@@ -20,14 +20,12 @@ use TYPO3\CMS\Form\Domain\Finishers\AbstractFinisher;
 
 class MauticPointsFinisher extends AbstractFinisher
 {
-    protected $mauticId;
+    protected int $mauticId;
 
-    protected $contactRepository;
+    protected object $contactRepository;
 
-    public function __construct(string $finisherIdentifier = '')
+    public function __construct()
     {
-        parent::__construct($finisherIdentifier);
-
         $this->contactRepository = GeneralUtility::makeInstance(ContactRepository::class);
         $this->mauticId = (int)($_COOKIE['mtc_id'] ?? 0);
     }
@@ -35,6 +33,7 @@ class MauticPointsFinisher extends AbstractFinisher
     /**
      * Adds or substracts points to a Mautic contact
      */
+    #[\Override]
     protected function executeInternal()
     {
         $pointsModifier = (int)($this->parseOption('mauticPointsModifier') ?? 0);

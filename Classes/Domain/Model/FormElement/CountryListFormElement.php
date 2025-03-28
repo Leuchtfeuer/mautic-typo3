@@ -27,10 +27,7 @@ class CountryListFormElement extends GenericFormElement implements LoggerAwareIn
 {
     use LoggerAwareTrait;
 
-    /**
-     * @var string
-     */
-    protected $baseUrl;
+    protected string $baseUrl;
 
     /**
      * @var string
@@ -54,6 +51,7 @@ class CountryListFormElement extends GenericFormElement implements LoggerAwareIn
         $this->locale = $locale ?: $GLOBALS['TSFE']->lang;
     }
 
+    #[\Override]
     public function setOptions(array $options, bool $reset = false)
     {
         parent::setOptions($options);
@@ -72,7 +70,7 @@ class CountryListFormElement extends GenericFormElement implements LoggerAwareIn
     protected function getCountries(): array
     {
         $report = [];
-        $countryJson = GeneralUtility::getUrl($this->baseUrl . $this->countryFile, 0, null, $report);
+        $countryJson = @file_get_contents($this->baseUrl . $this->countryFile);
 
         // cURL errors return errorCode 0, so we can not check for "if ($report['error'] !== 0) { ... }"
         // TODO: Datei lokal laden
@@ -96,15 +94,10 @@ class CountryListFormElement extends GenericFormElement implements LoggerAwareIn
             $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable('static_countries');
             $countryNames = $queryBuilder
                 ->select('*')
-                ->from('static_countries')
-                ->where(
-                    $queryBuilder->expr()->in(
-                        'cn_short_en',
-                        $queryBuilder->createNamedParameter(array_keys($countries), Connection::PARAM_STR_ARRAY)
-                    )
-                )
-                ->execute()
-                ->fetchAll();
+                ->from('static_countries')->where($queryBuilder->expr()->in(
+                'cn_short_en',
+                $queryBuilder->createNamedParameter(array_keys($countries), Connection::PARAM_STR_ARRAY)
+            ))->executeQuery()->fetchAllAssociative();
 
             foreach ($countryNames as $countryName) {
                 if (!empty($countryName['cn_short_' . $this->locale])) {

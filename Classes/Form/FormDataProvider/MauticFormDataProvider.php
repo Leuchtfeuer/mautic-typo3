@@ -20,13 +20,14 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class MauticFormDataProvider implements FormDataProviderInterface
 {
-    protected $formRepository;
+    protected object $formRepository;
 
     public function __construct()
     {
         $this->formRepository = GeneralUtility::makeInstance(FormRepository::class);
     }
 
+    #[\Override]
     public function addData(array $result): array
     {
         if ($result['tableName'] === 'tt_content' && $result['recordTypeValue'] === 'mautic_form') {

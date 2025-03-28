@@ -33,6 +33,7 @@ class FieldRepository extends AbstractRepository
     /**
      * @throws ContextNotFoundException
      */
+    #[\Override]
     protected function injectApis(): void
     {
         $this->contactFieldsApi = $this->getApi('contactFields');

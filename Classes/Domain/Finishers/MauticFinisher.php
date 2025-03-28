@@ -21,18 +21,17 @@ use TYPO3\CMS\Form\Domain\Model\FormElements\GenericFormElement;
 
 class MauticFinisher extends AbstractFinisher
 {
-    protected $formRepository;
+    protected object $formRepository;
 
-    public function __construct(string $finisherIdentifier = '')
+    public function __construct()
     {
-        parent::__construct($finisherIdentifier);
-
         $this->formRepository = GeneralUtility::makeInstance(FormRepository::class);
     }
 
     /**
      * Post the form result to a Mautic form
      */
+    #[\Override]
     protected function executeInternal()
     {
         $formDefinition = $this->finisherContext->getFormRuntime()->getFormDefinition()->getRenderingOptions();

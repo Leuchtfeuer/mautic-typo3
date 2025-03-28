@@ -30,6 +30,7 @@ class TagRepository extends AbstractRepository
     /**
      * @throws ContextNotFoundException
      */
+    #[\Override]
     protected function injectApis(): void
     {
         $this->tagsApi = $this->getApi('tags');
@@ -64,9 +65,7 @@ class TagRepository extends AbstractRepository
     {
         $queryBuilder = $this->getQueryBuilder();
         $result = $queryBuilder->select('*')
-            ->from('tx_mautic_domain_model_tag')
-            ->where($queryBuilder->expr()->eq('title', $queryBuilder->createNamedParameter($title, \PDO::PARAM_STR)))
-            ->execute();
+            ->from('tx_mautic_domain_model_tag')->where($queryBuilder->expr()->eq('title', $queryBuilder->createNamedParameter($title, \TYPO3\CMS\Core\Database\Connection::PARAM_STR)))->executeQuery();
         return $result->fetchAssociative();
     }
 
@@ -75,26 +74,22 @@ class TagRepository extends AbstractRepository
         $queryBuilder = $this->getQueryBuilder();
         $queryBuilder
             ->update('tx_mautic_domain_model_tag')
-            ->where($queryBuilder->expr()->eq('uid', $queryBuilder->createNamedParameter($tag['id'], \PDO::PARAM_INT)))
+            ->where($queryBuilder->expr()->eq('uid', $queryBuilder->createNamedParameter($tag['id'], \TYPO3\CMS\Core\Database\Connection::PARAM_INT)))
             ->set('tstamp', $time)
-            ->set('title', $tag['tag'])
-            ->set('deleted', 0)
-            ->execute();
+            ->set('title', $tag['tag'])->set('deleted', 0)->executeStatement();
     }
 
     protected function insertTag(array $tag, int $time)
     {
         $queryBuilder = $this->getQueryBuilder();
         $queryBuilder
-            ->insert('tx_mautic_domain_model_tag')
-            ->values([
-                 'uid' => (int)$tag['id'],
-                 'crdate' => $time,
-                 'tstamp' => $time,
-                 'title' => $tag['tag'],
-                 'deleted' => 0,
-             ])
-             ->execute();
+            ->insert('tx_mautic_domain_model_tag')->values([
+             'uid' => (int)$tag['id'],
+             'crdate' => $time,
+             'tstamp' => $time,
+             'title' => $tag['tag'],
+             'deleted' => 0,
+         ])->executeStatement();
     }
 
     protected function getQueryBuilder(): QueryBuilder
@@ -105,9 +100,7 @@ class TagRepository extends AbstractRepository
     protected function deleteAllTags()
     {
         $this->getQueryBuilder()
-            ->update('tx_mautic_domain_model_tag')
-            ->set('deleted', 1)
-            ->execute();
+            ->update('tx_mautic_domain_model_tag')->set('deleted', 1)->executeStatement();
     }
 
     protected function getAvailableTags(): array
@@ -116,13 +109,11 @@ class TagRepository extends AbstractRepository
         $queryBuilder->getRestrictions()->removeAll();
 
         $result = $queryBuilder
-            ->select('*')
-            ->from('tx_mautic_domain_model_tag')
-            ->execute();
+            ->select('*')->from('tx_mautic_domain_model_tag')->executeQuery();
 
         $availableTags = [];
 
-        while ($row = $result->fetch()) {
+        while ($row = $result->fetchAssociative()) {
             $availableTags[$row['uid']] = $row;
         }
 

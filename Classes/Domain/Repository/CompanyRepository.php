@@ -27,6 +27,7 @@ class CompanyRepository extends AbstractRepository
     /**
      * @throws ContextNotFoundException
      */
+    #[\Override]
     protected function injectApis(): void
     {
         $this->companiesApi = $this->getApi('companies');

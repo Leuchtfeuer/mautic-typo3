@@ -27,6 +27,7 @@ class ContactRepository extends AbstractRepository
     /**
      * @throws ContextNotFoundException
      */
+    #[\Override]
     protected function injectApis(): void
     {
         $this->contactsApi = $this->getApi('contacts');

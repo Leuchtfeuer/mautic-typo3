@@ -20,18 +20,15 @@ use TYPO3\CMS\Fluid\ViewHelpers\Form\SelectViewHelper;
 
 class MauticPropertiesViewHelper extends SelectViewHelper
 {
-    protected $fieldRepository;
-
-    public function __construct(FieldRepository $fieldRepository)
+    public function __construct(protected \Bitmotion\Mautic\Domain\Repository\FieldRepository $fieldRepository)
     {
         parent::__construct();
-
-        $this->fieldRepository = $fieldRepository;
     }
 
     /**
      * Fills the form engine dropdown with all known Mautic contact and company field types
      */
+    #[\Override]
     protected function getOptions(): array
     {
         $options = parent::getOptions();
@@ -60,6 +57,7 @@ class MauticPropertiesViewHelper extends SelectViewHelper
         return $options;
     }
 
+    #[\Override]
     protected function renderOptionTag($value, $label, $isSelected)
     {
         $output = '<option value="' . htmlspecialchars($value) . '"';

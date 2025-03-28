@@ -1,7 +1,7 @@
 <?php
 
 declare(strict_types=1);
-defined('TYPO3_MODE') || die();
+defined('TYPO3') || die();
 
 /***************
  * Add Content Element
@@ -61,8 +61,8 @@ $GLOBALS['TCA']['tt_content']['columns'] = array_replace_recursive(
                 'renderType' => 'selectSingle',
                 'items' => [
                     [
-                        'LLL:EXT:form/Resources/Private/Language/Database.xlf:tt_content.pi_flexform.formframework.selectPersistenceIdentifier',
-                        0,
+                        'label' => 'LLL:EXT:form/Resources/Private/Language/Database.xlf:tt_content.pi_flexform.formframework.selectPersistenceIdentifier',
+                        'value' => 0,
                     ],
                 ],
                 'minitems' => 1,
@@ -74,7 +74,7 @@ $GLOBALS['TCA']['tt_content']['columns'] = array_replace_recursive(
 
 // Register the plugin
 \TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerPlugin(
-    'Bitmotion.mautic',
+    'Mautic',
     'Form',
     'LLL:EXT:mautic/Resources/Private/Language/locallang_tca.xlf:content_element.mautic_form',
     'tx_mautic-mautic-icon'

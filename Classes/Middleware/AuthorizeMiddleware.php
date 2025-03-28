@@ -44,19 +44,19 @@ class AuthorizeMiddleware implements MiddlewareInterface, LoggerAwareInterface
 
     protected $state;
 
+    #[\Override]
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
         $path = $request->getUri()->getPath();
 
-        if (strpos($path, self::PATH) !== 0) {
+        if (!str_starts_with($path, self::PATH)) {
             return $handler->handle($request);
         }
 
-        /** @var UserAspect $context */
         $userAspect = GeneralUtility::makeInstance(Context::class)->getAspect('backend.user');
         $this->state = substr($path, strlen(self::PATH) + 1);
 
-        if (empty($this->state) && !$userAspect->isLoggedIn()) {
+        if (($this->state === null || ($this->state === '' || $this->state === '0')) && !$userAspect->isLoggedIn()) {
             return new Response('php://temp', 403);
         }
 
@@ -126,7 +126,7 @@ class AuthorizeMiddleware implements MiddlewareInterface, LoggerAwareInterface
 
                 $title = sprintf('Error %d', $error['code']);
                 $message = $error['message'];
-            } catch (InvalidArgumentException $exception) {
+            } catch (InvalidArgumentException) {
                 $title = $this->translate('authorization.error.title.invalid_response');
                 $message = $this->translate('authorization.error.message.invalid_response');
             }
@@ -217,7 +217,7 @@ class AuthorizeMiddleware implements MiddlewareInterface, LoggerAwareInterface
     {
         try {
             $random_bytes = random_bytes($length);
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             $random_bytes = openssl_random_pseudo_bytes($length);
         }
 

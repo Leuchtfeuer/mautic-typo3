@@ -21,13 +21,10 @@ abstract class AbstractFormFieldTransformation extends AbstractTransformation im
 {
     protected $type = '';
 
-    protected $fieldDefinition = [];
-
     protected $fieldData = [];
 
-    public function __construct(array $fieldDefinition = [])
+    public function __construct(protected array $fieldDefinition = [])
     {
-        $this->fieldDefinition = $fieldDefinition;
     }
 
     public function getFieldDefinition(): array
@@ -40,6 +37,7 @@ abstract class AbstractFormFieldTransformation extends AbstractTransformation im
         $this->fieldDefinition = $fieldDefinition;
     }
 
+    #[\Override]
     public function getFieldData(): array
     {
         return $this->fieldData;
@@ -48,6 +46,7 @@ abstract class AbstractFormFieldTransformation extends AbstractTransformation im
     /**
      * @throws TransformationException
      */
+    #[\Override]
     public function transform()
     {
         if ($this->type === '') {
@@ -61,7 +60,7 @@ abstract class AbstractFormFieldTransformation extends AbstractTransformation im
         }
 
         $fieldData = [
-            'label' => (!empty($this->fieldDefinition['label']) ? $this->fieldDefinition['label'] : $this->fieldDefinition['identifier']),
+            'label' => (empty($this->fieldDefinition['label']) ? $this->fieldDefinition['identifier'] : $this->fieldDefinition['label']),
             'alias' => str_replace('-', '_', $this->fieldDefinition['identifier']),
             'type' => $this->type,
         ];

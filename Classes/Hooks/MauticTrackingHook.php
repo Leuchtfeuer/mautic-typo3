@@ -23,7 +23,7 @@ class MauticTrackingHook
     /**
      * @var MauticTrackingService
      */
-    protected $mauticTrackingService;
+    protected object $mauticTrackingService;
 
     public function __construct(MauticTrackingService $mauticTrackingService = null)
     {

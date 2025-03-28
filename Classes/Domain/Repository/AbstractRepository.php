@@ -28,11 +28,11 @@ abstract class AbstractRepository implements LoggerAwareInterface, SingletonInte
 
     protected $authorization;
 
-    protected $mauticApi;
+    protected \Mautic\MauticApi $mauticApi;
 
     public function __construct(AuthorizationFactory $authorizationFactory)
     {
-        $this->authorization = $this->authorization ?? $authorizationFactory::createAuthorizationFromExtensionConfiguration();
+        $this->authorization ??= $authorizationFactory::createAuthorizationFromExtensionConfiguration();
         $this->mauticApi = new MauticApi();
         $this->injectApis();
     }

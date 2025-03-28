@@ -35,14 +35,9 @@ class MauticFormHook implements LoggerAwareInterface
     const FORM_PROTOTYPE_NAME = 'mautic';
 
     /**
-     * @var FormPersistenceManagerInterface
-     */
-    protected $formPersistenceManager;
-
-    /**
      * @var FormRepository
      */
-    protected $formRepository;
+    protected object $formRepository;
 
     /**
      * @var array
@@ -60,9 +55,8 @@ class MauticFormHook implements LoggerAwareInterface
      */
     protected $formTransformation;
 
-    public function __construct(FormPersistenceManagerInterface $formPersistenceManager)
+    public function __construct(protected \TYPO3\CMS\Form\Mvc\Persistence\FormPersistenceManagerInterface $formPersistenceManager)
     {
-        $this->formPersistenceManager = $formPersistenceManager;
         $this->formRepository = GeneralUtility::makeInstance(FormRepository::class);
         $this->extConf = $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['mautic'];
     }
@@ -214,7 +208,7 @@ class MauticFormHook implements LoggerAwareInterface
             throw new InvalidTransformationClassException(
                 sprintf(
                     '%s has to extend %s',
-                    get_class($transformationClass),
+                    $transformationClass::class,
                     AbstractFormTransformation::class
                 ),
                 1539064754
@@ -281,7 +275,7 @@ class MauticFormHook implements LoggerAwareInterface
             throw new InvalidTransformationClassException(
                 sprintf(
                     '%s does not extend %s',
-                    get_class($transformationClass),
+                    $transformationClass::class,
                     AbstractFormFieldTransformation::class
                 ),
                 1539064897

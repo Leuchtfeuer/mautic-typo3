@@ -23,7 +23,7 @@ class MauticTrackingService implements SingletonInterface
     /**
      * @var YamlConfiguration
      */
-    protected $extensionConfiguration;
+    protected object $extensionConfiguration;
 
     public function __construct()
     {
