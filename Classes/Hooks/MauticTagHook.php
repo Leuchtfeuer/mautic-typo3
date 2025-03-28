@@ -48,7 +48,7 @@ class MauticTagHook
 
         $tags = [];
 
-        while ($tag = $result->fetchColumn()) {
+        while ($tag = $result->fetchOne()) {
             $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable('tx_mautic_domain_model_tag');
             $tags[$tag] = $queryBuilder
                 ->select('title')
