@@ -8,7 +8,7 @@ return [
         'labels' => 'LLL:EXT:mautic/Resources/Private/Language/locallang_mod.xlf',
         'extensionName' => 'Mautic',
         'controllerActions' => [
-            'Bitmotion\Mautic\Controller\BackendController' => [
+            \Bitmotion\Mautic\Controller\BackendController::class => [
                 'show',
                 'save',
             ],
