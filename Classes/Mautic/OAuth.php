@@ -33,6 +33,7 @@ class OAuth implements AuthInterface
         return call_user_func_array([$this->authorization, $method], $arguments);
     }
 
+    // @extensionScannerIgnoreLine
     public function getBaseUrl(): string
     {
         return $this->baseUrl;

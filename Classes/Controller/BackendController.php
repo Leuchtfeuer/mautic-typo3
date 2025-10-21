@@ -17,16 +17,16 @@ use Leuchtfeuer\Mautic\Domain\Model\Dto\YamlConfiguration;
 use Leuchtfeuer\Mautic\Service\MauticAuthorizeService;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
-use TYPO3\CMS\Extbase\Mvc\Exception\StopActionException;
-use TYPO3\CMS\Extbase\Mvc\Exception\UnsupportedRequestTypeException;
+use Psr\Http\Message\ResponseInterface;
+use TYPO3\CMS\Backend\Template\ModuleTemplateFactory;
 
 class BackendController extends ActionController
 {
     public const FLASH_MESSAGE_QUEUE = 'marketingautomation.mautic.flashMessages';
 
-    public function __construct(private readonly \TYPO3\CMS\Backend\Template\ModuleTemplateFactory $moduleTemplateFactory) {}
+    public function __construct(private readonly ModuleTemplateFactory $moduleTemplateFactory) {}
 
-    public function showAction(): \Psr\Http\Message\ResponseInterface
+    public function showAction(): ResponseInterface
     {
         $moduleTemplate = $this->moduleTemplateFactory->create($this->request);
         $emConfiguration = new YamlConfiguration();
@@ -39,23 +39,18 @@ class BackendController extends ActionController
                     $authorizeService->refreshAccessToken();
                     $emConfiguration->reloadConfigurations();
                 } else {
-                    $this->view->assign('authorizeButton', $authorizeService->getAuthorizeButton());
+                    $moduleTemplate->assign('authorizeButton', $authorizeService->getAuthorizeButton());
                 }
             } else {
                 $authorizeService->checkConnection();
             }
         }
 
-        $this->view->assign('configuration', $emConfiguration);
-        $moduleTemplate->setContent($this->view->render());
-        return $this->htmlResponse($moduleTemplate->renderContent());
+        $moduleTemplate->assign('configuration', $emConfiguration);
+        return $moduleTemplate->renderResponse('Backend/Show');
     }
 
-    /**
-     * @throws StopActionException
-     * @throws UnsupportedRequestTypeException
-     */
-    public function saveAction(array $configuration)
+    public function saveAction(array $configuration): ResponseInterface
     {
         $emConfiguration = new YamlConfiguration();
 

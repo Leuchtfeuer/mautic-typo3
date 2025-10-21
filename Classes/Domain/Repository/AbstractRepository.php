@@ -43,6 +43,7 @@ abstract class AbstractRepository implements LoggerAwareInterface, SingletonInte
      */
     protected function getApi(string $apiContext): Api
     {
+        // @extensionScannerIgnoreLine
         return $this->mauticApi->newApi($apiContext, $this->authorization, $this->authorization->getBaseUrl());
     }
 }

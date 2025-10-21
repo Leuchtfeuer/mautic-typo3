@@ -155,6 +155,7 @@ class YamlConfiguration implements SingletonInterface
 
     public function getBaseUrl(): string
     {
+        // @extensionScannerIgnoreLine
         return (string)$this->baseUrl;
     }
 

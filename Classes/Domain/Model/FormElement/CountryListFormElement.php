@@ -46,6 +46,7 @@ class CountryListFormElement extends GenericFormElement implements LoggerAwareIn
         parent::__construct($identifier, $type);
 
         $authorization = AuthorizationFactory::createAuthorizationFromExtensionConfiguration();
+        // @extensionScannerIgnoreLine
         $this->baseUrl = $authorization->getBaseUrl();
         $this->locale = $locale ?: $GLOBALS['TSFE']->lang;
     }

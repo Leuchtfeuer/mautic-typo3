@@ -75,6 +75,7 @@ class FormRepository extends AbstractRepository
     public function submitForm(int $id, array $data)
     {
         $data['formId'] = $id;
+        // @extensionScannerIgnoreLine
         $url = rtrim(trim((string)$this->authorization->getBaseUrl()), '/') . '/form/submit?formId=' . $id;
 
         $mauticSendFormService = GeneralUtility::makeInstance(MauticSendFormService::class);
