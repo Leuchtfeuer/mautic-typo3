@@ -11,10 +11,10 @@ declare(strict_types=1);
  * (c) Leuchtfeuer Digital Marketing <dev@leuchtfeuer.com>
  */
 
-namespace Bitmotion\Mautic\Index;
+namespace Leuchtfeuer\Mautic\Index;
 
-use Bitmotion\Mautic\Domain\Repository\AssetRepository;
-use Bitmotion\Mautic\Driver\AssetDriver;
+use Leuchtfeuer\Mautic\Domain\Repository\AssetRepository;
+use Leuchtfeuer\Mautic\Driver\AssetDriver;
 use TYPO3\CMS\Core\Resource;
 use TYPO3\CMS\Core\Resource\Index\ExtractorInterface;
 use TYPO3\CMS\Core\Type\File\ImageInfo;

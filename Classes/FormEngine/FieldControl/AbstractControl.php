@@ -9,7 +9,7 @@
  * (c) Leuchtfeuer Digital Marketing <dev@leuchtfeuer.com>
  */
 
-namespace Bitmotion\Mautic\FormEngine\FieldControl;
+namespace Leuchtfeuer\Mautic\FormEngine\FieldControl;
 
 use TYPO3\CMS\Backend\Form\AbstractNode;
 

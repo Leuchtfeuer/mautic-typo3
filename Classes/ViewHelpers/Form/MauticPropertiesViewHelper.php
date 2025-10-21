@@ -11,7 +11,7 @@ declare(strict_types=1);
  * (c) Leuchtfeuer Digital Marketing <dev@leuchtfeuer.com>
  */
 
-namespace Bitmotion\Mautic\ViewHelpers\Form;
+namespace Leuchtfeuer\Mautic\ViewHelpers\Form;
 
 use TYPO3\CMS\Core\Localization\LanguageService;
 use TYPO3\CMS\Extbase\Reflection\ObjectAccess;
@@ -20,7 +20,7 @@ use TYPO3Fluid\Fluid\Core\ViewHelper\Exception;
 
 class MauticPropertiesViewHelper extends AbstractFormFieldViewHelper
 {
-    public function __construct(protected \Bitmotion\Mautic\Domain\Repository\FieldRepository $fieldRepository)
+    public function __construct(protected \Leuchtfeuer\Mautic\Domain\Repository\FieldRepository $fieldRepository)
     {
         parent::__construct();
     }

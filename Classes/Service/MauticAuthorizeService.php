@@ -11,13 +11,13 @@ declare(strict_types=1);
  * (c) Leuchtfeuer Digital Marketing <dev@leuchtfeuer.com>
  */
 
-namespace Bitmotion\Mautic\Service;
+namespace Leuchtfeuer\Mautic\Service;
 
-use Bitmotion\Mautic\Controller\BackendController;
-use Bitmotion\Mautic\Domain\Model\Dto\YamlConfiguration;
-use Bitmotion\Mautic\Mautic\AuthorizationFactory;
-use Bitmotion\Mautic\Mautic\OAuth;
-use Bitmotion\Mautic\Middleware\AuthorizeMiddleware;
+use Leuchtfeuer\Mautic\Controller\BackendController;
+use Leuchtfeuer\Mautic\Domain\Model\Dto\YamlConfiguration;
+use Leuchtfeuer\Mautic\Mautic\AuthorizationFactory;
+use Leuchtfeuer\Mautic\Mautic\OAuth;
+use Leuchtfeuer\Mautic\Middleware\AuthorizeMiddleware;
 use Mautic\MauticApi;
 use TYPO3\CMS\Core\Imaging\Icon;
 use TYPO3\CMS\Core\Imaging\IconFactory;
@@ -30,7 +30,7 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class MauticAuthorizeService
 {
-    protected \Bitmotion\Mautic\Mautic\OAuth $authorization;
+    protected \Leuchtfeuer\Mautic\Mautic\OAuth $authorization;
 
     protected $extensionConfiguration = [];
 

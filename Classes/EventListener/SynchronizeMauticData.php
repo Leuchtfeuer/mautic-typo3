@@ -9,10 +9,10 @@
  * (c) Leuchtfeuer Digital Marketing <dev@leuchtfeuer.com>
  */
 
-namespace Bitmotion\Mautic\EventListener;
+namespace Leuchtfeuer\Mautic\EventListener;
 
-use Bitmotion\Mautic\Domain\Repository\SegmentRepository;
-use Bitmotion\Mautic\Domain\Repository\TagRepository;
+use Leuchtfeuer\Mautic\Domain\Repository\SegmentRepository;
+use Leuchtfeuer\Mautic\Domain\Repository\TagRepository;
 use TYPO3\CMS\Backend\Controller\Event\AfterFormEnginePageInitializedEvent;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 

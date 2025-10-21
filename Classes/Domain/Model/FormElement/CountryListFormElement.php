@@ -11,9 +11,9 @@ declare(strict_types=1);
  * (c) Leuchtfeuer Digital Marketing <dev@leuchtfeuer.com>
  */
 
-namespace Bitmotion\Mautic\Domain\Model\FormElement;
+namespace Leuchtfeuer\Mautic\Domain\Model\FormElement;
 
-use Bitmotion\Mautic\Mautic\AuthorizationFactory;
+use Leuchtfeuer\Mautic\Mautic\AuthorizationFactory;
 use Doctrine\DBAL\Connection;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerAwareTrait;

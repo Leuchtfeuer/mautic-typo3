@@ -11,10 +11,10 @@ declare(strict_types=1);
  * (c) Leuchtfeuer Digital Marketing <dev@leuchtfeuer.com>
  */
 
-namespace Bitmotion\Mautic\Transformation\FormField;
+namespace Leuchtfeuer\Mautic\Transformation\FormField;
 
-use Bitmotion\Mautic\Exception\TransformationException;
-use Bitmotion\Mautic\Transformation\AbstractTransformation;
+use Leuchtfeuer\Mautic\Exception\TransformationException;
+use Leuchtfeuer\Mautic\Transformation\AbstractTransformation;
 
 abstract class AbstractFormFieldTransformation extends AbstractTransformation implements FormFieldTransformationInterface
 {

@@ -11,9 +11,9 @@ declare(strict_types=1);
  * (c) Leuchtfeuer Digital Marketing <dev@leuchtfeuer.com>
  */
 
-namespace Bitmotion\Mautic\Form\FormDataProvider;
+namespace Leuchtfeuer\Mautic\Form\FormDataProvider;
 
-use Bitmotion\Mautic\Domain\Repository\FormRepository;
+use Leuchtfeuer\Mautic\Domain\Repository\FormRepository;
 use TYPO3\CMS\Backend\Form\FormDataProviderInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 

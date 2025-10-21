@@ -11,9 +11,9 @@ declare(strict_types=1);
  * (c) Leuchtfeuer Digital Marketing <dev@leuchtfeuer.com>
  */
 
-namespace Bitmotion\Mautic\Domain\Repository;
+namespace Leuchtfeuer\Mautic\Domain\Repository;
 
-use Bitmotion\Mautic\Service\MauticSendFormService;
+use Leuchtfeuer\Mautic\Service\MauticSendFormService;
 use Mautic\Api\Forms;
 use Mautic\Exception\ContextNotFoundException;
 use TYPO3\CMS\Core\Utility\GeneralUtility;

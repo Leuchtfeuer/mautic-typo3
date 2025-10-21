@@ -11,9 +11,9 @@ declare(strict_types=1);
  * (c) Leuchtfeuer Digital Marketing <dev@leuchtfeuer.com>
  */
 
-namespace Bitmotion\Mautic\Controller;
+namespace Leuchtfeuer\Mautic\Controller;
 
-use Bitmotion\Mautic\Mautic\AuthorizationFactory;
+use Leuchtfeuer\Mautic\Mautic\AuthorizationFactory;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 
 class FrontendController extends ActionController

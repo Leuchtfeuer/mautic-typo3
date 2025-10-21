@@ -11,11 +11,11 @@ declare(strict_types=1);
  * (c) Leuchtfeuer Digital Marketing <dev@leuchtfeuer.com>
  */
 
-namespace Bitmotion\Mautic\Transformation\Form;
+namespace Leuchtfeuer\Mautic\Transformation\Form;
 
-use Bitmotion\Mautic\Domain\Repository\FieldRepository;
-use Bitmotion\Mautic\Domain\Repository\FormRepository;
-use Bitmotion\Mautic\Transformation\AbstractTransformation;
+use Leuchtfeuer\Mautic\Domain\Repository\FieldRepository;
+use Leuchtfeuer\Mautic\Domain\Repository\FormRepository;
+use Leuchtfeuer\Mautic\Transformation\AbstractTransformation;
 use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 

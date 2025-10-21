@@ -28,7 +28,7 @@ With the Mautic extension for TYPO3 you can create your forms in the TYPO3 backe
  In this case you can do the following:
 
 
-    $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['mautic']['transformation']['formField']['LinkedCheckbox'] = \Bitmotion\Mautic\Transformation\FormField\IgnoreTransformation::class;
+    $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['mautic']['transformation']['formField']['LinkedCheckbox'] = \Leuchtfeuer\Mautic\Transformation\FormField\IgnoreTransformation::class;
 
 
  If you actually want to transfer the data into mautic you need to choose a fitting Transformation class along with extending the inheritance of the custom element to use the mautic mixin. This provides the possibility to choose a property for the element in the form module.

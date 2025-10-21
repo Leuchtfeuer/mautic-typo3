@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 return [
     'frontend' => [
-        'bitmotion/mautic/authorize' => [
-            'target' => \Bitmotion\Mautic\Middleware\AuthorizeMiddleware::class,
+        'Leuchtfeuer/mautic/authorize' => [
+            'target' => \Leuchtfeuer\Mautic\Middleware\AuthorizeMiddleware::class,
             'after' => [
                 'typo3/cms-frontend/backend-user-authentication',
             ],

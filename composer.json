@@ -33,7 +33,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Bitmotion\\Mautic\\": "Classes/"
+            "Leuchtfeuer\\Mautic\\": "Classes/"
         }
     },
     "replace": {

@@ -27,7 +27,7 @@ tt_content {
     mautic_form {
         20 = USER
         20 {
-            vendorName = Bitmotion
+            vendorName = Leuchtfeuer
             extensionName = Mautic
             pluginName = Form
             userFunc = TYPO3\CMS\Extbase\Core\Bootstrap->run

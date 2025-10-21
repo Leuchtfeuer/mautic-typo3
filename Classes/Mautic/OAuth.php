@@ -11,7 +11,7 @@ declare(strict_types=1);
  * (c) Leuchtfeuer Digital Marketing <dev@leuchtfeuer.com>
  */
 
-namespace Bitmotion\Mautic\Mautic;
+namespace Leuchtfeuer\Mautic\Mautic;
 
 use Mautic\Auth\AuthInterface;
 

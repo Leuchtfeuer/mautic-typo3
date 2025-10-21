@@ -11,14 +11,14 @@ declare(strict_types=1);
  * (c) Leuchtfeuer Digital Marketing <dev@leuchtfeuer.com>
  */
 
-namespace Bitmotion\Mautic\Middleware;
+namespace Leuchtfeuer\Mautic\Middleware;
 
-use Bitmotion\Mautic\Domain\Model\Dto\YamlConfiguration;
-use Bitmotion\Mautic\Domain\Repository\SegmentRepository;
-use Bitmotion\Mautic\Domain\Repository\TagRepository;
-use Bitmotion\Mautic\Mautic\AuthorizationFactory;
-use Bitmotion\Mautic\Mautic\OAuth;
-use Bitmotion\Mautic\Service\MauticAuthorizeService;
+use Leuchtfeuer\Mautic\Domain\Model\Dto\YamlConfiguration;
+use Leuchtfeuer\Mautic\Domain\Repository\SegmentRepository;
+use Leuchtfeuer\Mautic\Domain\Repository\TagRepository;
+use Leuchtfeuer\Mautic\Mautic\AuthorizationFactory;
+use Leuchtfeuer\Mautic\Mautic\OAuth;
+use Leuchtfeuer\Mautic\Service\MauticAuthorizeService;
 use Mautic\Exception\UnexpectedResponseFormatException;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;

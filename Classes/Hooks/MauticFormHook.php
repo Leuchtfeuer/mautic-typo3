@@ -11,16 +11,16 @@ declare(strict_types=1);
  * (c) Leuchtfeuer Digital Marketing <dev@leuchtfeuer.com>
  */
 
-namespace Bitmotion\Mautic\Hooks;
+namespace Leuchtfeuer\Mautic\Hooks;
 
-use Bitmotion\Mautic\Domain\Repository\FormRepository;
-use Bitmotion\Mautic\Exception\InvalidTransformationClassException;
-use Bitmotion\Mautic\Exception\NoTransformationFoundException;
-use Bitmotion\Mautic\Exception\TransformationException;
-use Bitmotion\Mautic\Exception\UnknownTransformationClassException;
-use Bitmotion\Mautic\Transformation\Form\AbstractFormTransformation;
-use Bitmotion\Mautic\Transformation\FormField\AbstractFormFieldTransformation;
-use Bitmotion\Mautic\Transformation\FormField\Prototype\ListTransformationPrototype;
+use Leuchtfeuer\Mautic\Domain\Repository\FormRepository;
+use Leuchtfeuer\Mautic\Exception\InvalidTransformationClassException;
+use Leuchtfeuer\Mautic\Exception\NoTransformationFoundException;
+use Leuchtfeuer\Mautic\Exception\TransformationException;
+use Leuchtfeuer\Mautic\Exception\UnknownTransformationClassException;
+use Leuchtfeuer\Mautic\Transformation\Form\AbstractFormTransformation;
+use Leuchtfeuer\Mautic\Transformation\FormField\AbstractFormFieldTransformation;
+use Leuchtfeuer\Mautic\Transformation\FormField\Prototype\ListTransformationPrototype;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerAwareTrait;
 use TYPO3\CMS\Core\Utility\GeneralUtility;

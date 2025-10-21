@@ -11,10 +11,10 @@ declare(strict_types=1);
  * (c) Leuchtfeuer Digital Marketing <dev@leuchtfeuer.com>
  */
 
-namespace Bitmotion\Mautic\Slot;
+namespace Leuchtfeuer\Mautic\Slot;
 
-use Bitmotion\MarketingAutomation\Dispatcher\SubscriberInterface;
-use Bitmotion\MarketingAutomation\Persona\Persona;
+use Leuchtfeuer\MarketingAutomation\Dispatcher\SubscriberInterface;
+use Leuchtfeuer\MarketingAutomation\Persona\Persona;
 use TYPO3\CMS\Core\Context\Context;
 use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Site\SiteFinder;
@@ -27,7 +27,7 @@ class MauticSubscriber implements SubscriberInterface, SingletonInterface
 
     protected $languageNeedsUpdate = false;
 
-    public function __construct(protected \Bitmotion\Mautic\Domain\Repository\ContactRepository $contactRepository, protected \Bitmotion\Mautic\Domain\Repository\PersonaRepository $personaRepository)
+    public function __construct(protected \Leuchtfeuer\Mautic\Domain\Repository\ContactRepository $contactRepository, protected \Leuchtfeuer\Mautic\Domain\Repository\PersonaRepository $personaRepository)
     {
         $this->mauticId = (int)($_COOKIE['mtc_id'] ?? 0);
     }
