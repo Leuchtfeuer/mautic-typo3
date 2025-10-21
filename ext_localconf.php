@@ -23,22 +23,6 @@ call_user_func(function (): void {
         '<INCLUDE_TYPOSCRIPT: source="FILE:EXT:mautic/Configuration/PageTS/Mod/Wizards/NewContentElement.tsconfig">'
     );
 
-    //##################
-    //      HOOKS      #
-    //##################
-    $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['tslib/class.tslib_fe.php']['settingLanguage_postProcess']['mautic'] =
-        \Leuchtfeuer\Mautic\Slot\MauticSubscriber::class . '->setPreferredLocale';
-
-    $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['tslib/class.tslib_fe.php']['configArrayPostProc']['mautic'] =
-        \Leuchtfeuer\Mautic\Hooks\MauticTrackingHook::class . '->addTrackingCode';
-
-    // Register for hook to show preview of tt_content element of CType="mautic_form" in page module
-    $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['cms/layout/class.tx_cms_layout.php']['tt_content_drawItem']['mautic_form'] =
-        \Leuchtfeuer\Mautic\Hooks\PageLayoutView\MauticFormPreviewRenderer::class;
-
-    $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_tcemain.php']['processDatamapClass']['mautic'] =
-        \Leuchtfeuer\Mautic\Hooks\TCEmainHook::class;
-
     // TODO
     //if (TYPO3_MODE === 'FE') {
         $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_pagerenderer.php']['render-postTransform']['mautic_tag'] =
