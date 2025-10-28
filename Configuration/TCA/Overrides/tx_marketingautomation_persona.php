@@ -1,6 +1,8 @@
 <?php
 
 declare(strict_types=1);
+
+use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 defined('TYPO3') || die();
 
 $tempColumns = [
@@ -37,8 +39,8 @@ $tempColumns = [
     ],
 ];
 
-\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTCAcolumns('tx_marketingautomation_persona', $tempColumns);
-\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addToAllTCAtypes(
+ExtensionManagementUtility::addTCAcolumns('tx_marketingautomation_persona', $tempColumns);
+ExtensionManagementUtility::addToAllTCAtypes(
     'tx_marketingautomation_persona',
     '--div--;LLL:EXT:mautic/Resources/Private/Language/locallang_tca.xlf:mautic,tx_marketingautomation_segments',
     '',
