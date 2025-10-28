@@ -33,17 +33,18 @@ class MauticPointsFinisher extends AbstractFinisher
      * Adds or substracts points to a Mautic contact
      */
     #[\Override]
-    protected function executeInternal()
+    protected function executeInternal(): ?string
     {
         $pointsModifier = (int)($this->parseOption('mauticPointsModifier') ?? 0);
 
         if ($this->mauticId === 0 || $pointsModifier === 0) {
-            return;
+            return null;
         }
 
         $data = [];
         $data['eventName'] = $this->parseOption('mauticEventName') ?? '';
 
         $this->contactRepository->modifyContactPoints($this->mauticId, $pointsModifier, $data);
+        return null;
     }
 }

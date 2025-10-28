@@ -15,7 +15,7 @@ namespace Leuchtfeuer\Mautic\FormEngine\FieldControl;
 
 class UpdateSegmentsControl extends AbstractControl
 {
-    protected $tableName = 'tx_marketingautomation_segments';
+    protected string $tableName = 'tx_marketingautomation_segments';
 
-    protected $action = 'updateSegments';
+    protected string $action = 'updateSegments';
 }

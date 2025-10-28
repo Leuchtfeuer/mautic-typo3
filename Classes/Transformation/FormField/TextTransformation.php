@@ -38,5 +38,5 @@ namespace Leuchtfeuer\Mautic\Transformation\FormField;
  */
 class TextTransformation extends AbstractFormFieldTransformation
 {
-    protected $type = 'text';
+    protected string $type = 'text';
 }

@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Leuchtfeuer\Mautic\Hooks;
 
+use TYPO3\CMS\Form\Mvc\Persistence\FormPersistenceManagerInterface;
 use Leuchtfeuer\Mautic\Domain\Repository\FormRepository;
 use Leuchtfeuer\Mautic\Exception\InvalidTransformationClassException;
 use Leuchtfeuer\Mautic\Exception\NoTransformationFoundException;
@@ -40,20 +41,20 @@ class MauticFormHook implements LoggerAwareInterface
     /**
      * @var array
      */
-    protected $extConf = [];
+    protected array $extConf = [];
 
     /**
      * @var string
      * @deprecated Use self::FORM_PROTOTYPE_NAME instead
      */
-    protected $formPrototypeName = 'mautic';
+    protected string $formPrototypeName = 'mautic';
 
     /**
      * @var AbstractFormTransformation
      */
     protected $formTransformation;
 
-    public function __construct(protected \TYPO3\CMS\Form\Mvc\Persistence\FormPersistenceManagerInterface $formPersistenceManager)
+    public function __construct(protected FormPersistenceManagerInterface $formPersistenceManager)
     {
         $this->formRepository = GeneralUtility::makeInstance(FormRepository::class);
         $this->extConf = $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['mautic'];
@@ -160,7 +161,7 @@ class MauticFormHook implements LoggerAwareInterface
      * @throws ParseErrorException
      * @throws UnknownTransformationClassException
      */
-    protected function transformForm(array $formDefinition)
+    protected function transformForm(array $formDefinition): void
     {
         $this->injectFormTransformation($formDefinition);
         $this->formTransformation->transform();
@@ -174,7 +175,7 @@ class MauticFormHook implements LoggerAwareInterface
      * @throws ParseErrorException
      * @throws UnknownTransformationClassException
      */
-    protected function injectFormTransformation(array $formDefinition)
+    protected function injectFormTransformation(array $formDefinition): void
     {
         if (!isset($formDefinition['renderingOptions'])) {
             throw new ParseErrorException('Form has no rendering options.', 1539064345);
@@ -227,7 +228,7 @@ class MauticFormHook implements LoggerAwareInterface
      * @throws TransformationException
      * @throws UnknownTransformationClassException
      */
-    protected function transformFormElements()
+    protected function transformFormElements(): void
     {
         foreach ($this->formTransformation->getFormElements() as $formElement) {
             $fieldTransformation = $this->getFieldTransformation($formElement);

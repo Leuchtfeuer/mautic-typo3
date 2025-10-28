@@ -30,17 +30,17 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class MauticAuthorizeService
 {
-    protected \Leuchtfeuer\Mautic\Mautic\OAuth $authorization;
+    protected OAuth $authorization;
 
-    protected $extensionConfiguration = [];
+    protected array $extensionConfiguration = [];
 
-    protected $minimumMauticVersion = '2.14.2';
+    protected string $minimumMauticVersion = '2.14.2';
 
-    protected $messages = [];
+    protected array $messages = [];
 
-    protected $languageService;
+    protected LanguageService $languageService;
 
-    public function __construct(OAuth $authorization = null, protected $createFlashMessages = true)
+    public function __construct(OAuth $authorization = null, protected bool $createFlashMessages = true)
     {
         if (session_id() === '') {
             session_start();
@@ -162,7 +162,7 @@ class MauticAuthorizeService
                 $message ?? ''
             );
 
-            $this->createMessage($message, $title, \TYPO3\CMS\Core\Type\ContextualFeedbackSeverity::ERROR, true);
+            $this->createMessage($message, $title, ContextualFeedbackSeverity::ERROR, true);
 
             return true;
         }
@@ -170,7 +170,7 @@ class MauticAuthorizeService
         return false;
     }
 
-    protected function showCredentialsInformation()
+    protected function showCredentialsInformation(): void
     {
         $missingInformation = [];
         if (empty($this->extensionConfiguration['baseUrl'])) {
@@ -290,7 +290,7 @@ class MauticAuthorizeService
         return $this->extensionConfiguration['expires'] < time();
     }
 
-    public function refreshAccessToken()
+    public function refreshAccessToken(): bool
     {
         try {
             if ($this->authorization->validateAccessToken() && $this->authorization->accessTokenUpdated()) {

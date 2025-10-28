@@ -22,12 +22,12 @@ class FieldRepository extends AbstractRepository
     /**
      * @var ContactFields
      */
-    protected $contactFieldsApi;
+    protected ContactFields $contactFieldsApi;
 
     /**
      * @var CompanyFields
      */
-    protected $companyFieldsApi;
+    protected CompanyFields $companyFieldsApi;
 
     /**
      * @throws ContextNotFoundException
@@ -35,8 +35,12 @@ class FieldRepository extends AbstractRepository
     #[\Override]
     protected function injectApis(): void
     {
-        $this->contactFieldsApi = $this->getApi('contactFields');
-        $this->companyFieldsApi = $this->getApi('companyFields');
+        /** @var ContactFields $contactFieldsApi */
+        $contactFieldsApi = $this->getApi('contactFields');
+        $this->contactFieldsApi = $contactFieldsApi;
+        /** @var CompanyFields $companyFieldsApi */
+        $companyFieldsApi = $this->getApi('companyFields');
+        $this->companyFieldsApi = $companyFieldsApi;
     }
 
     public function editContactField(int $id, array $params): array

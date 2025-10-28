@@ -16,7 +16,7 @@ namespace Leuchtfeuer\Mautic\Transformation\FormField;
 class IgnoreTransformation extends AbstractFormFieldTransformation
 {
     #[\Override]
-    public function transform()
+    public function transform(): void
     {
         $this->logger->notice(sprintf(
             'Skip transformation of "%s". No information synced with Mautic.',

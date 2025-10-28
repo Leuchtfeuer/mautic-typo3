@@ -23,7 +23,7 @@ class FormRepository extends AbstractRepository
     /**
      * @var Forms
      */
-    protected $formsApi;
+    protected Forms $formsApi;
 
     /**
      * @throws ContextNotFoundException
@@ -31,7 +31,9 @@ class FormRepository extends AbstractRepository
     #[\Override]
     protected function injectApis(): void
     {
-        $this->formsApi = $this->getApi('forms');
+        /** @var Forms $formsApi */
+        $formsApi = $this->getApi('forms');
+        $this->formsApi = $formsApi;
     }
 
     public function getForm(int $identifier): array
@@ -72,7 +74,7 @@ class FormRepository extends AbstractRepository
         return $this->formsApi->delete($id) ?: [];
     }
 
-    public function submitForm(int $id, array $data)
+    public function submitForm(int $id, array $data): void
     {
         $data['formId'] = $id;
         // @extensionScannerIgnoreLine

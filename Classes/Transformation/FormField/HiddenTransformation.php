@@ -36,5 +36,5 @@ namespace Leuchtfeuer\Mautic\Transformation\FormField;
  */
 class HiddenTransformation extends AbstractFormFieldTransformation
 {
-    protected $type = 'hidden';
+    protected string $type = 'hidden';
 }

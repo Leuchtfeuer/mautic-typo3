@@ -36,5 +36,5 @@ namespace Leuchtfeuer\Mautic\Transformation\FormField;
  */
 class UrlTransformation extends AbstractFormFieldTransformation
 {
-    protected $type = 'url';
+    protected string $type = 'url';
 }

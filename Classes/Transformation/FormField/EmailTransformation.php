@@ -38,5 +38,5 @@ namespace Leuchtfeuer\Mautic\Transformation\FormField;
  */
 class EmailTransformation extends AbstractFormFieldTransformation
 {
-    protected $type = 'email';
+    protected string $type = 'email';
 }

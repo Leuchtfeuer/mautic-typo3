@@ -49,11 +49,11 @@ use Leuchtfeuer\Mautic\Transformation\FormField\Prototype\ListTransformationProt
  */
 class MultiCheckboxTransformation extends ListTransformationPrototype
 {
-    protected $type = 'checkboxgrp';
+    protected string $type = 'checkboxgrp';
 
-    protected $listIdentifier = 'optionlist';
+    protected string $listIdentifier = 'optionlist';
 
-    protected $multiple = 0;
+    protected int $multiple = 0;
 
-    protected $updateCustomFieldsProperties = true;
+    protected bool $updateCustomFieldsProperties = true;
 }

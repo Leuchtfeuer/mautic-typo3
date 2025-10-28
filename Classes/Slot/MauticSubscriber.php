@@ -27,7 +27,7 @@ class MauticSubscriber implements SubscriberInterface, SingletonInterface
 {
     protected int $mauticId;
 
-    protected $languageNeedsUpdate = false;
+    protected bool $languageNeedsUpdate = false;
 
     public function __construct(protected ContactRepository $contactRepository, protected PersonaRepository $personaRepository)
     {
@@ -57,7 +57,7 @@ class MauticSubscriber implements SubscriberInterface, SingletonInterface
         return $persona->withId($personaId);
     }
 
-    public function setPreferredLocale($_, TypoScriptFrontendController $typoScriptFrontendController)
+    public function setPreferredLocale(mixed $_, TypoScriptFrontendController $typoScriptFrontendController): void
     {
         if ($this->languageNeedsUpdate) {
             $languageId = GeneralUtility::makeInstance(Context::class)->getPropertyFromAspect('language', 'id');

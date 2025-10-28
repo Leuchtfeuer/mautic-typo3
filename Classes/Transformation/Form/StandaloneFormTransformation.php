@@ -15,5 +15,5 @@ namespace Leuchtfeuer\Mautic\Transformation\Form;
 
 class StandaloneFormTransformation extends AbstractFormTransformation
 {
-    protected $formType = 'standalone';
+    protected string $formType = 'standalone';
 }

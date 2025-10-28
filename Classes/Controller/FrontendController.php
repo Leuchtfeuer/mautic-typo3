@@ -15,14 +15,18 @@ namespace Leuchtfeuer\Mautic\Controller;
 
 use Leuchtfeuer\Mautic\Mautic\AuthorizationFactory;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
+use Psr\Http\Message\ResponseInterface;
+use TYPO3\CMS\Fluid\View\TemplateView;
 
 class FrontendController extends ActionController
 {
     public const DEFAULT_TEMPLATE_PATH = 'EXT:mautic/Resources/Private/Templates/Form.html';
 
-    public function formAction(): \Psr\Http\Message\ResponseInterface
+    public function formAction(): ResponseInterface
     {
-        $this->view->setTemplatePathAndFilename($this->getTemplatePath());
+        if ($this->view instanceof TemplateView) {
+            $this->view->setTemplatePathAndFilename($this->getTemplatePath());
+        }
         $this->view->assignMultiple([
             // @extensionScannerIgnoreLine
             'mauticBaseUrl' => AuthorizationFactory::createAuthorizationFromExtensionConfiguration()->getBaseUrl(),

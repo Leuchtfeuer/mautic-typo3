@@ -20,5 +20,5 @@ abstract class AbstractTransformation implements LoggerAwareInterface
 {
     use LoggerAwareTrait;
 
-    abstract public function transform();
+    abstract public function transform(): void;
 }

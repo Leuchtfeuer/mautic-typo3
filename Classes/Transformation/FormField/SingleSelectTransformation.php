@@ -50,9 +50,9 @@ use Leuchtfeuer\Mautic\Transformation\FormField\Prototype\ListTransformationProt
  */
 class SingleSelectTransformation extends ListTransformationPrototype
 {
-    protected $type = 'select';
+    protected string $type = 'select';
 
-    protected $listIdentifier = 'list';
+    protected string $listIdentifier = 'list';
 
-    protected $multiple = 0;
+    protected int $multiple = 0;
 }

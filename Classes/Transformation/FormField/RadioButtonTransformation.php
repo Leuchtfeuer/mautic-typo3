@@ -49,11 +49,11 @@ use Leuchtfeuer\Mautic\Transformation\FormField\Prototype\ListTransformationProt
  */
 class RadioButtonTransformation extends ListTransformationPrototype
 {
-    protected $type = 'radiogrp';
+    protected string $type = 'radiogrp';
 
-    protected $listIdentifier = 'optionlist';
+    protected string $listIdentifier = 'optionlist';
 
-    protected $multiple = 0;
+    protected int $multiple = 0;
 
-    protected $updateCustomFieldsProperties = true;
+    protected bool $updateCustomFieldsProperties = true;
 }

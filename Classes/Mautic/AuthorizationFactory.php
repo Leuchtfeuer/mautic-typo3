@@ -24,7 +24,7 @@ class AuthorizationFactory implements SingletonInterface
 {
     public const VERSION = 'OAuth1a';
 
-    protected static $oAuth;
+    protected static ?OAuth $oAuth = null;
 
     public static function createAuthorizationFromExtensionConfiguration(?string $state = null): OAuth
     {

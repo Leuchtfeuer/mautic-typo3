@@ -39,5 +39,5 @@ namespace Leuchtfeuer\Mautic\Transformation\FormField;
  */
 class CountryListTransformation extends AbstractFormFieldTransformation
 {
-    protected $type = 'country';
+    protected string $type = 'country';
 }

@@ -128,7 +128,7 @@ class MauticSendFormService implements SingletonInterface, LoggerAwareInterface
         return $cookies;
     }
 
-    private function addCookies(CookieJar $cookies, string $cookieName)
+    private function addCookies(CookieJar $cookies, string $cookieName): void
     {
         if (\array_key_exists($cookieName, $_COOKIE)) {
             $cookies->setCookie(new SetCookie([
@@ -139,7 +139,7 @@ class MauticSendFormService implements SingletonInterface, LoggerAwareInterface
         }
     }
 
-    private function makeMultipart(array &$multipart, string $path, array $data)
+    private function makeMultipart(array &$multipart, string $path, array $data): void
     {
         foreach ($data as $key => $value) {
             $tempPath = $path . '[' . $key . ']';

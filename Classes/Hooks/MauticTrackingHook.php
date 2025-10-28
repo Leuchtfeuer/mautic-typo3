@@ -29,7 +29,7 @@ class MauticTrackingHook
         $this->mauticTrackingService = $mauticTrackingService ?: GeneralUtility::makeInstance(MauticTrackingService::class);
     }
 
-    public function addTrackingCode()
+    public function addTrackingCode(): void
     {
         if ($this->mauticTrackingService->isTrackingEnabled()) {
             $pageRenderer = GeneralUtility::makeInstance(PageRenderer::class);

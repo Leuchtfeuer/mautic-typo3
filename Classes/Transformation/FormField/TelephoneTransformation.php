@@ -36,5 +36,5 @@ namespace Leuchtfeuer\Mautic\Transformation\FormField;
  */
 class TelephoneTransformation extends AbstractFormFieldTransformation
 {
-    protected $type = 'tel';
+    protected string $type = 'tel';
 }

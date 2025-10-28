@@ -21,22 +21,22 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 abstract class AbstractFormTransformation extends AbstractTransformation implements SingletonInterface
 {
-    protected $formType = '';
+    protected string $formType = '';
 
-    protected $formData = [];
+    protected array $formData = [];
 
-    protected $formElements = [];
+    protected array $formElements = [];
 
-    protected $isFormDefinitionUpdated = false;
+    protected bool $isFormDefinitionUpdated = false;
 
-    protected $shouldUpdateCustomFields = false;
+    protected bool $shouldUpdateCustomFields = false;
 
-    protected $customFieldValues = [];
+    protected array $customFieldValues = [];
 
     public function __construct(protected array $formDefinition = []) {}
 
     #[\Override]
-    public function transform()
+    public function transform(): void
     {
         $this->formData = [
             'alias' => $this->formDefinition['identifier'],
@@ -59,7 +59,7 @@ abstract class AbstractFormTransformation extends AbstractTransformation impleme
         return $this->formDefinition;
     }
 
-    public function setFormDefinition(array $formDefinition)
+    public function setFormDefinition(array $formDefinition): void
     {
         $this->formDefinition = $formDefinition;
     }
@@ -69,12 +69,12 @@ abstract class AbstractFormTransformation extends AbstractTransformation impleme
         return $this->shouldUpdateCustomFields;
     }
 
-    public function removeMauticFormId()
+    public function removeMauticFormId(): void
     {
         unset($this->formDefinition['renderingOptions']['mauticId']);
     }
 
-    public function addField(array $fieldDefinition)
+    public function addField(array $fieldDefinition): void
     {
         if ($fieldDefinition !== []) {
             if (!isset($this->formData['fields'])) {
@@ -102,7 +102,7 @@ abstract class AbstractFormTransformation extends AbstractTransformation impleme
         return $this->formDefinition;
     }
 
-    protected function enrichFormData()
+    protected function enrichFormData(): void
     {
         if (isset($this->formDefinition['renderingOptions']['mauticId']) && !empty($this->formDefinition['renderingOptions']['mauticId'])) {
             $mauticId = (int)$this->formDefinition['renderingOptions']['mauticId'];
@@ -118,13 +118,13 @@ abstract class AbstractFormTransformation extends AbstractTransformation impleme
         }
     }
 
-    public function addCustomFieldValues(array $values)
+    public function addCustomFieldValues(array $values): void
     {
         $this->shouldUpdateCustomFields = true;
         $this->customFieldValues = array_merge($this->customFieldValues, $values);
     }
 
-    protected function updateFormDefinition(array $response)
+    protected function updateFormDefinition(array $response): void
     {
         // In case Mautic is not reachable, prevent warnings
         if (!\is_array($response['form']['fields'])) {
@@ -186,7 +186,7 @@ abstract class AbstractFormTransformation extends AbstractTransformation impleme
         return $this->formElements;
     }
 
-    protected function updateCustomFields()
+    protected function updateCustomFields(): void
     {
         $formElements = $this->resolveFormElements($this->formDefinition['renderables']);
         $fieldRepository = GeneralUtility::makeInstance(FieldRepository::class);

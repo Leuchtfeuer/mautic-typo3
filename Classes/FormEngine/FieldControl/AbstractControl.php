@@ -15,12 +15,12 @@ use TYPO3\CMS\Backend\Form\AbstractNode;
 
 abstract class AbstractControl extends AbstractNode
 {
-    protected $tableName;
+    protected string $tableName;
 
-    protected $action;
+    protected string $action;
 
     #[\Override]
-    public function render()
+    public function render(): array
     {
         return [
             'iconIdentifier' => 'actions-refresh',

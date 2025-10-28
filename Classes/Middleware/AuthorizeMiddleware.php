@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Leuchtfeuer\Mautic\Middleware;
 
+use function GuzzleHttp\json_decode;
 use Leuchtfeuer\Mautic\Domain\Model\Dto\YamlConfiguration;
 use Leuchtfeuer\Mautic\Domain\Repository\SegmentRepository;
 use Leuchtfeuer\Mautic\Domain\Repository\TagRepository;
@@ -27,7 +28,6 @@ use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerAwareTrait;
-use Symfony\Component\Serializer\Exception\InvalidArgumentException;
 use TYPO3\CMS\Core\Context\Context;
 use TYPO3\CMS\Core\Http\Response;
 use TYPO3\CMS\Core\Http\Stream;
@@ -39,13 +39,12 @@ class AuthorizeMiddleware implements MiddlewareInterface, LoggerAwareInterface
 
     public const PATH = '/mautic/authorize';
 
-    protected $state;
+    protected string $state;
 
     public function __construct(
         private readonly SegmentRepository $segmentRepository,
         private readonly TagRepository $tagRepository
-    ) {
-    }
+    ) {}
 
     #[\Override]
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
@@ -59,7 +58,7 @@ class AuthorizeMiddleware implements MiddlewareInterface, LoggerAwareInterface
         $userAspect = GeneralUtility::makeInstance(Context::class)->getAspect('backend.user');
         $this->state = substr($path, strlen(self::PATH) + 1);
 
-        if (($this->state === null || ($this->state === '' || $this->state === '0')) && !$userAspect->isLoggedIn()) {
+        if (($this->state === '' || $this->state === '0') && !$userAspect->isLoggedIn()) {
             return new Response('php://temp', 403);
         }
 
@@ -122,12 +121,12 @@ class AuthorizeMiddleware implements MiddlewareInterface, LoggerAwareInterface
             }
         } catch (UnexpectedResponseFormatException $exception) {
             try {
-                $errors = \GuzzleHttp\json_decode($exception->getResponse()->getBody(), true)['errors'];
+                $errors = json_decode($exception->getResponse()->getBody(), true)['errors'];
                 $error = array_shift($errors);
 
                 $title = sprintf('Error %d', $error['code']);
                 $message = $error['message'];
-            } catch (InvalidArgumentException) {
+            } catch (\Throwable) {
                 $title = $this->translate('authorization.error.title.invalid_response');
                 $message = $this->translate('authorization.error.message.invalid_response');
             }

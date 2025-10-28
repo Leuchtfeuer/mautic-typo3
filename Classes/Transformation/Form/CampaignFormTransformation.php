@@ -42,5 +42,5 @@ namespace Leuchtfeuer\Mautic\Transformation\Form;
  */
 class CampaignFormTransformation extends AbstractFormTransformation
 {
-    protected $formType = 'campaign';
+    protected string $formType = 'campaign';
 }

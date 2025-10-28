@@ -34,7 +34,7 @@ class MauticCompanyFinisher extends AbstractFinisher
      * Creates a company in Mautic if enough data is present from the collected form results
      */
     #[\Override]
-    protected function executeInternal()
+    protected function executeInternal(): ?string
     {
         $formDefinition = $this->finisherContext->getFormRuntime()->getFormDefinition();
 
@@ -52,9 +52,11 @@ class MauticCompanyFinisher extends AbstractFinisher
         }
 
         if ($mauticFields === []) {
-            return;
+            return null;
         }
 
         $this->companyRepository->createCompany($mauticFields);
+
+        return null;
     }
 }

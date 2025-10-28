@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Leuchtfeuer\Mautic\Domain\Repository;
 
 use Leuchtfeuer\Mautic\Mautic\AuthorizationFactory;
+use Leuchtfeuer\Mautic\Mautic\OAuth;
 use Mautic\Api\Api;
 use Mautic\Exception\ContextNotFoundException;
 use Mautic\MauticApi;
@@ -25,9 +26,9 @@ abstract class AbstractRepository implements LoggerAwareInterface, SingletonInte
 {
     use LoggerAwareTrait;
 
-    protected $authorization;
+    protected OAuth $authorization;
 
-    protected \Mautic\MauticApi $mauticApi;
+    protected MauticApi $mauticApi;
 
     public function __construct(AuthorizationFactory $authorizationFactory)
     {

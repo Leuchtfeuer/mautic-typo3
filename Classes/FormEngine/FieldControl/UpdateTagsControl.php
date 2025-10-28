@@ -15,7 +15,7 @@ namespace Leuchtfeuer\Mautic\FormEngine\FieldControl;
 
 class UpdateTagsControl extends AbstractControl
 {
-    protected $tableName = 'tx_mautic_domain_model_tag';
+    protected string $tableName = 'tx_mautic_domain_model_tag';
 
-    protected $action = 'updateTags';
+    protected string $action = 'updateTags';
 }

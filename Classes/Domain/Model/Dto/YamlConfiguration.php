@@ -125,7 +125,7 @@ class YamlConfiguration implements SingletonInterface
         return $this->getYamlConfiguration();
     }
 
-    public function save(array $configuration = [])
+    public function save(array $configuration = []): void
     {
         if (!file_exists($this->fileName)) {
             GeneralUtility::mkdir_deep($this->configPath);
@@ -135,7 +135,7 @@ class YamlConfiguration implements SingletonInterface
         GeneralUtility::writeFile($this->fileName, $yamlFileContents);
     }
 
-    public function reloadConfigurations()
+    public function reloadConfigurations(): void
     {
         $this->configurationArray = $this->getYamlConfiguration();
         $extensionConfiguration = $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['mautic'];
@@ -218,6 +218,6 @@ class YamlConfiguration implements SingletonInterface
 
     public function isOAuth1(): bool
     {
-        return $this->getAuthorizeMode() === YamlConfiguration::OAUTH1_AUTHORIZATION_MODE;
+        return $this->getAuthorizeMode() === self::OAUTH1_AUTHORIZATION_MODE;
     }
 }

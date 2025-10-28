@@ -54,9 +54,9 @@ use Leuchtfeuer\Mautic\Transformation\FormField\Prototype\ListTransformationProt
  */
 class MultiSelectTransformation extends ListTransformationPrototype
 {
-    protected $type = 'select';
+    protected string $type = 'select';
 
-    protected $listIdentifier = 'list';
+    protected string $listIdentifier = 'list';
 
-    protected $multiple = 1;
+    protected int $multiple = 1;
 }

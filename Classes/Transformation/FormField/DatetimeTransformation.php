@@ -36,5 +36,5 @@ namespace Leuchtfeuer\Mautic\Transformation\FormField;
  */
 class DatetimeTransformation extends AbstractFormFieldTransformation
 {
-    protected $type = 'datetime';
+    protected string $type = 'datetime';
 }

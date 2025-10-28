@@ -40,24 +40,24 @@ class AssetDriver extends AbstractHierarchicalFilesystemDriver implements Logger
 
     protected $capabilities;
 
-    protected $baseUrl;
+    protected string $baseUrl;
 
-    protected $assets = [];
+    protected array $assets = [];
 
-    protected $assetsToDelete = [];
+    protected array $assetsToDelete = [];
 
-    protected $cleanUp = true;
+    protected bool $cleanUp = true;
 
-    protected $assetsLoaded = false;
+    protected bool $assetsLoaded = false;
 
-    protected $temporaryPaths = [];
+    protected array $temporaryPaths = [];
 
-    protected $publicUrls = [];
+    protected array $publicUrls = [];
 
     /**
      * @var AssetRepository
      */
-    protected $assetRepository;
+    protected AssetRepository $assetRepository;
 
     public function __construct(array $configuration = [])
     {
@@ -130,7 +130,7 @@ class AssetDriver extends AbstractHierarchicalFilesystemDriver implements Logger
     {
         $fileInfo = $this->getAssetData($fileIdentifier);
 
-        if ($fileInfo === null) {
+        if (empty($fileInfo)) {
             throw new FileDoesNotExistException('File does not exist', 1555571365);
         }
 
@@ -443,7 +443,7 @@ class AssetDriver extends AbstractHierarchicalFilesystemDriver implements Logger
         $read = true;
         $write = false;
 
-        if ($this->objectExists($identifier) && $identifier || self::ROOT_LEVEL_FOLDER) {
+        if (($this->objectExists($identifier) && $identifier ) || $identifier === self::ROOT_LEVEL_FOLDER) {
             // TODO: Support editing files later
             $write = false;
         }
@@ -458,13 +458,13 @@ class AssetDriver extends AbstractHierarchicalFilesystemDriver implements Logger
         ];
     }
 
-    protected function rebuildAssetCache(array $assets)
+    protected function rebuildAssetCache(array $assets): void
     {
         $this->assets = [];
         $this->buildAssetCache($assets);
     }
 
-    protected function buildAssetCache(array $assets)
+    protected function buildAssetCache(array $assets): void
     {
         foreach ($assets as $asset) {
             $data = $this->getAssetDataFromResponse($asset);
@@ -528,7 +528,7 @@ class AssetDriver extends AbstractHierarchicalFilesystemDriver implements Logger
     {
         try {
             $dateAdded = new \DateTime((string)$asset['dateAdded']);
-            $dateModified = ((string)$asset['dateModified'] !== null) ? new \DateTime((string)$asset['dateModified']) : $dateAdded;
+            $dateModified = ($asset['dateModified'] !== null) ? new \DateTime((string)$asset['dateModified']) : $dateAdded;
         } catch (\Exception) {
             $dateAdded = new \DateTime();
             $dateModified = new \DateTime();
@@ -550,7 +550,7 @@ class AssetDriver extends AbstractHierarchicalFilesystemDriver implements Logger
         return $item;
     }
 
-    protected function normalizeIdentifier(string &$identifier)
+    protected function normalizeIdentifier(string &$identifier): void
     {
         $identifier = str_replace('//', '/', $identifier);
         if ($identifier !== '/') {
@@ -569,7 +569,7 @@ class AssetDriver extends AbstractHierarchicalFilesystemDriver implements Logger
         };
     }
 
-    protected function removeObsoleteFiles()
+    protected function removeObsoleteFiles(): void
     {
         $files = $this->getFilesFromDatabase();
 
@@ -604,7 +604,7 @@ class AssetDriver extends AbstractHierarchicalFilesystemDriver implements Logger
         return ($file === false) ? [] : $file;
     }
 
-    protected function removeFileByIdentifier(string $identifier)
+    protected function removeFileByIdentifier(string $identifier): bool
     {
         $this->normalizeIdentifier($identifier);
         $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable('sys_file');
@@ -614,7 +614,7 @@ class AssetDriver extends AbstractHierarchicalFilesystemDriver implements Logger
             ->where($queryBuilder->expr()->eq('storage', $this->storageUid))->andWhere($queryBuilder->expr()->eq('identifier', $queryBuilder->createNamedParameter('/' . $identifier)))->executeStatement();
     }
 
-    protected function removeFileFromDatabase(int $uid)
+    protected function removeFileFromDatabase(int $uid): void
     {
         $fileRepository = GeneralUtility::makeInstance(FileRepository::class);
         $file = $fileRepository->findByIdentifier($uid);
