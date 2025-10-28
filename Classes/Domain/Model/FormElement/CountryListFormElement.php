@@ -48,7 +48,21 @@ class CountryListFormElement extends GenericFormElement implements LoggerAwareIn
         $authorization = AuthorizationFactory::createAuthorizationFromExtensionConfiguration();
         // @extensionScannerIgnoreLine
         $this->baseUrl = $authorization->getBaseUrl();
-        $this->locale = $locale ?: $GLOBALS['TSFE']->lang;
+
+        if ($locale === '') {
+            // Try to get locale from the request (TYPO3 v12 way)
+            $locale = 'en'; // Default fallback
+
+            if (isset($GLOBALS['TYPO3_REQUEST'])) {
+                $siteLanguage = $GLOBALS['TYPO3_REQUEST']->getAttribute('language');
+                if ($siteLanguage) {
+                    // Get locale string (e.g., 'en_US.UTF-8') and extract language code
+                    $localeString = (string)$siteLanguage->getLocale();
+                    $locale = explode('_', explode('.', $localeString)[0])[0];
+                }
+            }
+        }
+        $this->locale = $locale;
     }
 
     #[\Override]
@@ -70,6 +84,7 @@ class CountryListFormElement extends GenericFormElement implements LoggerAwareIn
     protected function getCountries(): array
     {
         $report = [];
+        // @extensionScannerIgnoreLine
         $countryJson = @file_get_contents($this->baseUrl . $this->countryFile);
 
         // cURL errors return errorCode 0, so we can not check for "if ($report['error'] !== 0) { ... }"

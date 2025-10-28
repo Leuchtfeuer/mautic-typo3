@@ -16,7 +16,7 @@ namespace Leuchtfeuer\Mautic\EventListener;
 use Leuchtfeuer\Mautic\Domain\Repository\ContactRepository;
 use TYPO3\CMS\Core\Context\Context;
 use TYPO3\CMS\Core\Site\SiteFinder;
-use TYPO3\CMS\Frontend\Event\AfterPageLanguageResolvedEvent;
+use TYPO3\CMS\Frontend\Event\AfterPageAndLanguageIsResolvedEvent;
 
 /**
  * Event listener to set the preferred locale in Mautic based on TYPO3 language.
@@ -35,7 +35,7 @@ final class SetPreferredLocaleListener
         $this->mauticId = (int)($_COOKIE['mtc_id'] ?? 0);
     }
 
-    public function __invoke(AfterPageLanguageResolvedEvent $event): void
+    public function __invoke(AfterPageAndLanguageIsResolvedEvent $event): void
     {
         if (!$this->languageNeedsUpdate || $this->mauticId === 0) {
             return;
@@ -43,8 +43,9 @@ final class SetPreferredLocaleListener
 
         $controller = $event->getController();
         $languageId = $this->context->getPropertyFromAspect('language', 'id');
+        // @extensionScannerIgnoreLine
         $site = $this->siteFinder->getSiteByPageId($controller->id);
-        $isoCode = $site->getLanguageById($languageId)->getTwoLetterIsoCode();
+        $isoCode = $site->getLanguageById($languageId)->getLocale()->getLanguageCode();
 
         $this->contactRepository->editContact(
             $this->mauticId,

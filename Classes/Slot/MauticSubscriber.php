@@ -20,6 +20,8 @@ use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Site\SiteFinder;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
+use Leuchtfeuer\Mautic\Domain\Repository\ContactRepository;
+use Leuchtfeuer\Mautic\Domain\Repository\PersonaRepository;
 
 class MauticSubscriber implements SubscriberInterface, SingletonInterface
 {
@@ -27,7 +29,7 @@ class MauticSubscriber implements SubscriberInterface, SingletonInterface
 
     protected $languageNeedsUpdate = false;
 
-    public function __construct(protected \Leuchtfeuer\Mautic\Domain\Repository\ContactRepository $contactRepository, protected \Leuchtfeuer\Mautic\Domain\Repository\PersonaRepository $personaRepository)
+    public function __construct(protected ContactRepository $contactRepository, protected PersonaRepository $personaRepository)
     {
         $this->mauticId = (int)($_COOKIE['mtc_id'] ?? 0);
     }
@@ -59,8 +61,9 @@ class MauticSubscriber implements SubscriberInterface, SingletonInterface
     {
         if ($this->languageNeedsUpdate) {
             $languageId = GeneralUtility::makeInstance(Context::class)->getPropertyFromAspect('language', 'id');
+            // @extensionScannerIgnoreLine
             $site = GeneralUtility::makeInstance(SiteFinder::class)->getSiteByPageId($typoScriptFrontendController->id);
-            $isoCode = $site->getLanguageById($languageId)->getTwoLetterIsoCode();
+            $isoCode = $site->getLanguageById($languageId)->getLocale()->getLanguageCode();
 
             $this->contactRepository->editContact(
                 $this->mauticId,

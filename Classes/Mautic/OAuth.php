@@ -21,6 +21,7 @@ class OAuth implements AuthInterface
 
     public function __construct(protected \Mautic\Auth\AuthInterface $authorization, string $baseUrl, protected string $accesToken = '', protected string $authorizationMode = '')
     {
+        // @extensionScannerIgnoreLine
         $this->baseUrl = rtrim($baseUrl, '/');
     }
 
@@ -33,9 +34,9 @@ class OAuth implements AuthInterface
         return call_user_func_array([$this->authorization, $method], $arguments);
     }
 
-    // @extensionScannerIgnoreLine
     public function getBaseUrl(): string
     {
+        // @extensionScannerIgnoreLine
         return $this->baseUrl;
     }
 

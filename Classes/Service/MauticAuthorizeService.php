@@ -88,6 +88,8 @@ class MauticAuthorizeService
     public function checkConnection(): bool
     {
         // Perform a dummy request for retrieving HTTP headers and getting Mautic Version
+
+        // @extensionScannerIgnoreLine
         $contactsApi = (new MauticApi())->newApi('contacts', $this->authorization, $this->authorization->getBaseUrl());
         $contacts = $contactsApi->getList('', 0, 1);
 
@@ -214,6 +216,7 @@ class MauticAuthorizeService
     {
         $messageService = GeneralUtility::makeInstance(FlashMessageService::class);
         $messageQueue = $messageService->getMessageQueueByIdentifier(BackendController::FLASH_MESSAGE_QUEUE);
+        // @extensionScannerIgnoreLine
         $messageQueue->addMessage($message);
     }
 
@@ -253,7 +256,7 @@ class MauticAuthorizeService
     protected function translate(string $key): string
     {
         if (!$this->languageService instanceof LanguageService) {
-            $this->languageService = LanguageService::createFromUserPreferences($GLOBALS['BE_USER']);
+            $this->languageService = GeneralUtility::makeInstance(LanguageServiceFactory::class)->createFromUserPreferences($GLOBALS['BE_USER']);
         }
         return $this->languageService->sL('LLL:EXT:mautic/Resources/Private/Language/locallang_mod.xlf:' . $key);
     }

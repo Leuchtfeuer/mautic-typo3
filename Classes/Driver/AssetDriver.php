@@ -87,6 +87,7 @@ class AssetDriver extends AbstractHierarchicalFilesystemDriver implements Logger
     #[\Override]
     public function initialize(): void
     {
+        // @extensionScannerIgnoreLine
         $this->baseUrl = GeneralUtility::makeInstance(YamlConfiguration::class)->getBaseUrl();
     }
 
@@ -96,6 +97,7 @@ class AssetDriver extends AbstractHierarchicalFilesystemDriver implements Logger
         if (!isset($this->publicUrls[$identifier])) {
             $uriParts = GeneralUtility::trimExplode('/', ltrim($identifier, '/'), true);
             $uriParts = array_map('rawurlencode', $uriParts);
+            // @extensionScannerIgnoreLine
             $this->publicUrls[$identifier] = $this->baseUrl . '/' . implode('/', $uriParts);
         }
 

@@ -34,6 +34,7 @@ class AuthorizationFactory implements SingletonInterface
 
         /** @var YamlConfiguration $extensionConfiguration */
         $extensionConfiguration = GeneralUtility::makeInstance(YamlConfiguration::class);
+        // @extensionScannerIgnoreLine
         $baseUrl = $extensionConfiguration->getBaseUrl();
 
         $settings = [

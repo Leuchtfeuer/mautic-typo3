@@ -111,38 +111,68 @@ call_user_func(function (): void {
     //######################
     // FORM TRANSFORMATION #
     //######################
+    // @extensionScannerIgnoreLine
     $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['mautic']['transformation']['form']['mautic_finisher_campaign_prototype'] = \Leuchtfeuer\Mautic\Transformation\Form\CampaignFormTransformation::class;
+    // @extensionScannerIgnoreLine
     $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['mautic']['transformation']['form']['mautic_finisher_standalone_prototype'] = \Leuchtfeuer\Mautic\Transformation\Form\StandaloneFormTransformation::class;
 
     //#######################
     // FIELD TRANSFORMATION #
     //#######################
+    /**
+     * // @extensionScannerIgnoreLine if for the ['transformation']
+     */
+    // @extensionScannerIgnoreLine
     $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['mautic']['transformation']['formField']['AdvancedPassword'] = \Leuchtfeuer\Mautic\Transformation\FormField\IgnoreTransformation::class;
+    // @extensionScannerIgnoreLine
     $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['mautic']['transformation']['formField']['Checkbox'] = \Leuchtfeuer\Mautic\Transformation\FormField\CheckboxTransformation::class;
+    // @extensionScannerIgnoreLine
     $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['mautic']['transformation']['formField']['ContentElement'] = \Leuchtfeuer\Mautic\Transformation\FormField\IgnoreTransformation::class;
+    // @extensionScannerIgnoreLine
     $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['mautic']['transformation']['formField']['Date'] = \Leuchtfeuer\Mautic\Transformation\FormField\DatetimeTransformation::class;
+    // @extensionScannerIgnoreLine
     $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['mautic']['transformation']['formField']['DatePicker'] = \Leuchtfeuer\Mautic\Transformation\FormField\DatetimeTransformation::class;
+    // @extensionScannerIgnoreLine
     $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['mautic']['transformation']['formField']['Email'] = \Leuchtfeuer\Mautic\Transformation\FormField\EmailTransformation::class;
+    // @extensionScannerIgnoreLine
     $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['mautic']['transformation']['formField']['GridRow'] = \Leuchtfeuer\Mautic\Transformation\FormField\IgnoreTransformation::class;
+    // @extensionScannerIgnoreLine
     $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['mautic']['transformation']['formField']['Fieldset'] = \Leuchtfeuer\Mautic\Transformation\FormField\IgnoreTransformation::class;
+    // @extensionScannerIgnoreLine
     $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['mautic']['transformation']['formField']['FileUpload'] = \Leuchtfeuer\Mautic\Transformation\FormField\IgnoreTransformation::class;
+    // @extensionScannerIgnoreLine
     $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['mautic']['transformation']['formField']['Hidden'] = \Leuchtfeuer\Mautic\Transformation\FormField\HiddenTransformation::class;
+    // @extensionScannerIgnoreLine
     $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['mautic']['transformation']['formField']['ImageUpload'] = \Leuchtfeuer\Mautic\Transformation\FormField\IgnoreTransformation::class;
+    // @extensionScannerIgnoreLine
     $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['mautic']['transformation']['formField']['MultiCheckbox'] = \Leuchtfeuer\Mautic\Transformation\FormField\MultiCheckboxTransformation::class;
+    // @extensionScannerIgnoreLine
     $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['mautic']['transformation']['formField']['MultiSelect'] = \Leuchtfeuer\Mautic\Transformation\FormField\MultiSelectTransformation::class;
+    // @extensionScannerIgnoreLine
     $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['mautic']['transformation']['formField']['Number'] = \Leuchtfeuer\Mautic\Transformation\FormField\NumberTransformation::class;
+    // @extensionScannerIgnoreLine
     $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['mautic']['transformation']['formField']['Page'] = \Leuchtfeuer\Mautic\Transformation\FormField\IgnoreTransformation::class;
+    // @extensionScannerIgnoreLine
     $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['mautic']['transformation']['formField']['Password'] = \Leuchtfeuer\Mautic\Transformation\FormField\IgnoreTransformation::class;
+    // @extensionScannerIgnoreLine
     $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['mautic']['transformation']['formField']['RadioButton'] = \Leuchtfeuer\Mautic\Transformation\FormField\RadioButtonTransformation::class;
+    // @extensionScannerIgnoreLine
     $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['mautic']['transformation']['formField']['SingleSelect'] = \Leuchtfeuer\Mautic\Transformation\FormField\SingleSelectTransformation::class;
+    // @extensionScannerIgnoreLine
     $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['mautic']['transformation']['formField']['StaticText'] = \Leuchtfeuer\Mautic\Transformation\FormField\IgnoreTransformation::class;
+    // @extensionScannerIgnoreLine
     $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['mautic']['transformation']['formField']['SummaryPage'] = \Leuchtfeuer\Mautic\Transformation\FormField\IgnoreTransformation::class;
+    // @extensionScannerIgnoreLine
     $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['mautic']['transformation']['formField']['Telephone'] = \Leuchtfeuer\Mautic\Transformation\FormField\TelephoneTransformation::class;
+    // @extensionScannerIgnoreLine
     $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['mautic']['transformation']['formField']['Text'] = \Leuchtfeuer\Mautic\Transformation\FormField\TextTransformation::class;
+    // @extensionScannerIgnoreLine
     $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['mautic']['transformation']['formField']['Textarea'] = \Leuchtfeuer\Mautic\Transformation\FormField\TextareaTransformation::class;
+    // @extensionScannerIgnoreLine
     $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['mautic']['transformation']['formField']['Url'] = \Leuchtfeuer\Mautic\Transformation\FormField\UrlTransformation::class;
 
     // Register custom field transformation classes
+    // @extensionScannerIgnoreLine
     $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['mautic']['transformation']['formField']['CountryList'] = \Leuchtfeuer\Mautic\Transformation\FormField\CountryListTransformation::class;
 
     //##################

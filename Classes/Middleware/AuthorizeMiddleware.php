@@ -32,7 +32,6 @@ use TYPO3\CMS\Core\Context\Context;
 use TYPO3\CMS\Core\Http\Response;
 use TYPO3\CMS\Core\Http\Stream;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Extbase\Object\ObjectManager;
 
 class AuthorizeMiddleware implements MiddlewareInterface, LoggerAwareInterface
 {
@@ -41,6 +40,12 @@ class AuthorizeMiddleware implements MiddlewareInterface, LoggerAwareInterface
     public const PATH = '/mautic/authorize';
 
     protected $state;
+
+    public function __construct(
+        private readonly SegmentRepository $segmentRepository,
+        private readonly TagRepository $tagRepository
+    ) {
+    }
 
     #[\Override]
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
@@ -110,10 +115,8 @@ class AuthorizeMiddleware implements MiddlewareInterface, LoggerAwareInterface
                     $this->updateExtensionConfiguration($accessTokenData);
                 }
 
-                /** @var ObjectManager $objectManager */
-                $objectManager = GeneralUtility::makeInstance(ObjectManager::class);
-                $objectManager->get(SegmentRepository::class)->initializeSegments();
-                $objectManager->get(TagRepository::class)->synchronizeTags();
+                $this->segmentRepository->initializeSegments();
+                $this->tagRepository->synchronizeTags();
 
                 return null;
             }

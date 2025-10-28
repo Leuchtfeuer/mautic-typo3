@@ -28,6 +28,7 @@ class TCEmainHook
         if ($status === 'new' && $table === 'tx_mautic_domain_model_tag' && !empty($fields['title'])) {
             // Dirty way to create tags in Mautic
             $config = new YamlConfiguration();
+            // @extensionScannerIgnoreLine
             $url = sprintf('%s/mtracking.gif?tags=%s', $config->getBaseUrl(), $fields['title']);
             GeneralUtility::getUrl($url);
 
