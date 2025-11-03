@@ -56,7 +56,7 @@ class AuthorizeMiddleware implements MiddlewareInterface, LoggerAwareInterface
         }
 
         $userAspect = GeneralUtility::makeInstance(Context::class)->getAspect('backend.user');
-        $this->state = substr($path, strlen(self::PATH) + 1);
+        $this->state = $request->getQueryParams()['state'] ?? '';
 
         if (($this->state === '' || $this->state === '0') && !$userAspect->isLoggedIn()) {
             return new Response('php://temp', 403);
@@ -108,7 +108,7 @@ class AuthorizeMiddleware implements MiddlewareInterface, LoggerAwareInterface
         $statusCode = 400;
 
         try {
-            if ($authorization->validateAccessToken() && ($this->validateState() || $refreshToken)) {
+            if (($this->validateState() || $refreshToken) && $authorization->validateAccessToken()) {
                 if ($authorization->accessTokenUpdated()) {
                     $accessTokenData = $authorization->getAccessTokenData();
                     $this->updateExtensionConfiguration($accessTokenData);
@@ -153,7 +153,7 @@ class AuthorizeMiddleware implements MiddlewareInterface, LoggerAwareInterface
         }
 
         $state = $this->getNonce();
-        $_SESSION['mautic']['oauth']['state'] = $state;
+        $_SESSION['oauth']['state'] = $state;
     }
 
     protected function getState(): string
@@ -162,11 +162,13 @@ class AuthorizeMiddleware implements MiddlewareInterface, LoggerAwareInterface
             session_start();
         }
 
-        if (!isset($_SESSION['mautic']['oauth']['state'])) {
+        if (!isset($_SESSION['oauth']['state'])) {
             $this->setState();
+        } else {
+            $_SESSION['oauth']['state'] = $this->state;
         }
 
-        return $_SESSION['mautic']['oauth']['state'] ?? '';
+        return $_SESSION['oauth']['state'] ?? '';
     }
 
     protected function updateExtensionConfiguration(array $accessTokenData): void
