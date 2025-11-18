@@ -44,7 +44,6 @@ class AssetRepository extends AbstractRepository
         $this->filesApi = $filesApi;
     }
 
-
     public function list(string $search = '', int $start = 0, int $limit = 0, string $orderBy = '', string $orderByDir = 'ASC', bool $publishedOnly = false, bool $minimal = false): array
     {
         $assets = $this->assetsApi->getList($search, $start, $limit, $orderBy, $orderByDir, $publishedOnly, $minimal);

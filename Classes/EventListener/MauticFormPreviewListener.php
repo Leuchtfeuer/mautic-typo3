@@ -24,8 +24,7 @@ final class MauticFormPreviewListener
 {
     public function __construct(
         private readonly FormRepository $formRepository
-    ) {
-    }
+    ) {}
 
     public function __invoke(PageContentPreviewRenderingEvent $event): void
     {

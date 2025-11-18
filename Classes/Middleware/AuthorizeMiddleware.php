@@ -13,7 +13,6 @@ declare(strict_types=1);
 
 namespace Leuchtfeuer\Mautic\Middleware;
 
-use function GuzzleHttp\json_decode;
 use Leuchtfeuer\Mautic\Domain\Model\Dto\YamlConfiguration;
 use Leuchtfeuer\Mautic\Domain\Repository\SegmentRepository;
 use Leuchtfeuer\Mautic\Domain\Repository\TagRepository;
@@ -32,6 +31,8 @@ use TYPO3\CMS\Core\Context\Context;
 use TYPO3\CMS\Core\Http\Response;
 use TYPO3\CMS\Core\Http\Stream;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+
+use function GuzzleHttp\json_decode;
 
 class AuthorizeMiddleware implements MiddlewareInterface, LoggerAwareInterface
 {

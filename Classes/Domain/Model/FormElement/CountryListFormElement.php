@@ -13,8 +13,8 @@ declare(strict_types=1);
 
 namespace Leuchtfeuer\Mautic\Domain\Model\FormElement;
 
-use Leuchtfeuer\Mautic\Mautic\AuthorizationFactory;
 use Doctrine\DBAL\Connection;
+use Leuchtfeuer\Mautic\Mautic\AuthorizationFactory;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerAwareTrait;
 use TYPO3\CMS\Core\Database\ConnectionPool;
@@ -96,7 +96,6 @@ class CountryListFormElement extends GenericFormElement implements LoggerAwareIn
             return [];
         }
          */
-
         $countries = json_decode($countryJson, true);
 
         return array_combine($countries, $countries);
@@ -128,7 +127,7 @@ class CountryListFormElement extends GenericFormElement implements LoggerAwareIn
     {
         asort($countries);
         if (class_exists(\Collator::class)) {
-            $collator = new \Collator(setlocale(LC_COLLATE, "0") ?: null);
+            $collator = new \Collator(setlocale(LC_COLLATE, '0') ?: null);
             $collator->asort($countries);
         }
     }

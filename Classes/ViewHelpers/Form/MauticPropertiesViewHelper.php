@@ -13,11 +13,11 @@ declare(strict_types=1);
 
 namespace Leuchtfeuer\Mautic\ViewHelpers\Form;
 
+use Leuchtfeuer\Mautic\Domain\Repository\FieldRepository;
 use TYPO3\CMS\Core\Localization\LanguageService;
 use TYPO3\CMS\Extbase\Reflection\ObjectAccess;
 use TYPO3\CMS\Fluid\ViewHelpers\Form\AbstractFormFieldViewHelper;
 use TYPO3Fluid\Fluid\Core\ViewHelper\Exception;
-use Leuchtfeuer\Mautic\Domain\Repository\FieldRepository;
 
 class MauticPropertiesViewHelper extends AbstractFormFieldViewHelper
 {

@@ -13,9 +13,9 @@ declare(strict_types=1);
 
 namespace Leuchtfeuer\Mautic\Index;
 
-use TYPO3\CMS\Core\Resource\File;
 use Leuchtfeuer\Mautic\Domain\Repository\AssetRepository;
 use Leuchtfeuer\Mautic\Driver\AssetDriver;
+use TYPO3\CMS\Core\Resource\File;
 use TYPO3\CMS\Core\Resource\Index\ExtractorInterface;
 use TYPO3\CMS\Core\Type\File\ImageInfo;
 use TYPO3\CMS\Core\Utility\GeneralUtility;

@@ -24,6 +24,7 @@ $tempColumns = [
             'fieldControl' => [
                 'updateSegmentsControl' => [
                     'renderType' => 'updateSegmentsControl',
+                    'title' => 'Synchronize Segments',
                 ],
                 'editPopup' => [
                     'disabled' => true,

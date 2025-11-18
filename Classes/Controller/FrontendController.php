@@ -14,8 +14,8 @@ declare(strict_types=1);
 namespace Leuchtfeuer\Mautic\Controller;
 
 use Leuchtfeuer\Mautic\Mautic\AuthorizationFactory;
-use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 use Psr\Http\Message\ResponseInterface;
+use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 use TYPO3\CMS\Fluid\View\TemplateView;
 
 class FrontendController extends ActionController

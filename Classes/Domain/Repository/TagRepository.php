@@ -14,9 +14,9 @@ declare(strict_types=1);
 namespace Leuchtfeuer\Mautic\Domain\Repository;
 
 use Doctrine\DBAL\Exception;
-use TYPO3\CMS\Core\Database\Connection;
 use Mautic\Api\Tags;
 use Mautic\Exception\ContextNotFoundException;
+use TYPO3\CMS\Core\Database\Connection;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Database\Query\QueryBuilder;
 use TYPO3\CMS\Core\Utility\GeneralUtility;

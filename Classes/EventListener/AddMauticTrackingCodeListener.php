@@ -26,8 +26,7 @@ final class AddMauticTrackingCodeListener
     public function __construct(
         private readonly MauticTrackingService $mauticTrackingService,
         private readonly PageRenderer $pageRenderer
-    ) {
-    }
+    ) {}
 
     public function __invoke(AfterCacheableContentIsGeneratedEvent $event): void
     {

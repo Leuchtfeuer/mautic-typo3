@@ -18,4 +18,6 @@ class UpdateSegmentsControl extends AbstractControl
     protected string $tableName = 'tx_marketingautomation_segments';
 
     protected string $action = 'updateSegments';
+
+    protected string $title = 'Synchronize Segments';
 }

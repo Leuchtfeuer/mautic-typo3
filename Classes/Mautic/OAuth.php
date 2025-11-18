@@ -30,7 +30,7 @@ class OAuth implements AuthInterface
         $this->baseUrl = rtrim($baseUrl, '/');
     }
 
-    public function __call(mixed $method,array $arguments): mixed
+    public function __call(mixed $method, array $arguments): mixed
     {
         if (!is_callable([$this->authorization, $method])) {
             throw new \BadMethodCallException(sprintf('Method "%s" does not exist!', $method), 1530044605);

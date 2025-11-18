@@ -18,4 +18,6 @@ class UpdateTagsControl extends AbstractControl
     protected string $tableName = 'tx_mautic_domain_model_tag';
 
     protected string $action = 'updateTags';
+
+    protected string $title = 'Synchronize Tags';
 }

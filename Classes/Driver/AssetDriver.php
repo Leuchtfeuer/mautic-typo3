@@ -443,7 +443,7 @@ class AssetDriver extends AbstractHierarchicalFilesystemDriver implements Logger
         $read = true;
         $write = false;
 
-        if (($this->objectExists($identifier) && $identifier ) || $identifier === self::ROOT_LEVEL_FOLDER) {
+        if (($this->objectExists($identifier) && $identifier) || $identifier === self::ROOT_LEVEL_FOLDER) {
             // TODO: Support editing files later
             $write = false;
         }

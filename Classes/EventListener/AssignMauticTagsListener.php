@@ -26,8 +26,7 @@ final class AssignMauticTagsListener
     public function __construct(
         private readonly ContactRepository $contactRepository,
         private readonly ConnectionPool $connectionPool
-    ) {
-    }
+    ) {}
 
     public function __invoke(AfterCacheableContentIsGeneratedEvent $event): void
     {

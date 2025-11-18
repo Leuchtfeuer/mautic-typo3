@@ -13,11 +13,11 @@ declare(strict_types=1);
 
 namespace Leuchtfeuer\Mautic\Domain\Repository;
 
-use TYPO3\CMS\Core\Context\Context;
-use TYPO3\CMS\Core\Database\Connection;
 use Doctrine\DBAL\Exception;
 use Mautic\Api\Segments;
 use Mautic\Exception\ContextNotFoundException;
+use TYPO3\CMS\Core\Context\Context;
+use TYPO3\CMS\Core\Database\Connection;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 

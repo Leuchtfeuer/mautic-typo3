@@ -12,6 +12,7 @@
 namespace Leuchtfeuer\Mautic\FormEngine\FieldControl;
 
 use TYPO3\CMS\Backend\Form\AbstractNode;
+use TYPO3\CMS\Core\Page\JavaScriptModuleInstruction;
 
 abstract class AbstractControl extends AbstractNode
 {
@@ -19,38 +20,23 @@ abstract class AbstractControl extends AbstractNode
 
     protected string $action;
 
+    protected string $title;
+
     #[\Override]
     public function render(): array
     {
         return [
             'iconIdentifier' => 'actions-refresh',
-            'title' => 'updateTagsControl',
+            'title' => $this->title,
             'linkAttributes' => [
-                'onClick' => $this->getOnClickJS(),
+                'class' => 'mautic-refresh-control',
+                'data-table-name' => $this->tableName,
+                'data-action' => $this->action,
                 'href' => '#',
             ],
+            'javaScriptModules' => [
+                JavaScriptModuleInstruction::create('@leuchtfeuer/mautic/FormEditor/refresh.js'),
+            ],
         ];
-    }
-
-    protected function getOnClickJS(): string
-    {
-        return <<<JS
-require(['TYPO3/CMS/Backend/FormEngine', 'TYPO3/CMS/Backend/Modal'], function (FormEngine, Modal) {
-    Modal.confirm(
-        TYPO3.lang["FormEngine.refreshRequiredTitle"],
-        TYPO3.lang["FormEngine.refreshRequiredContent"]
-    ).on("button.clicked", function(event) {
-        if (event.target.name === "ok") {
-            let input = document.createElement("input");
-            input.type = "hidden";
-            input.name = "{$this->tableName}[{$this->action}]";
-            input.value = '1';
-            document.getElementsByName(FormEngine.formName).item(0).appendChild(input);
-            FormEngine.saveDocument();
-        }
-        Modal.dismiss();
-    });
-return false;});
-JS;
     }
 }

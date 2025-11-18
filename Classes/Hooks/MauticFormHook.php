@@ -13,7 +13,6 @@ declare(strict_types=1);
 
 namespace Leuchtfeuer\Mautic\Hooks;
 
-use TYPO3\CMS\Form\Mvc\Persistence\FormPersistenceManagerInterface;
 use Leuchtfeuer\Mautic\Domain\Repository\FormRepository;
 use Leuchtfeuer\Mautic\Exception\InvalidTransformationClassException;
 use Leuchtfeuer\Mautic\Exception\NoTransformationFoundException;
@@ -26,6 +25,7 @@ use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerAwareTrait;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Form\Mvc\Configuration\Exception\ParseErrorException;
+use TYPO3\CMS\Form\Mvc\Persistence\FormPersistenceManagerInterface;
 
 class MauticFormHook implements LoggerAwareInterface
 {

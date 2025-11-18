@@ -13,10 +13,10 @@ declare(strict_types=1);
 
 namespace Leuchtfeuer\Mautic\Service;
 
-use Leuchtfeuer\Mautic\Domain\Model\Dto\YamlConfiguration;
 use GuzzleHttp\Client;
 use GuzzleHttp\Cookie\CookieJar;
 use GuzzleHttp\Cookie\SetCookie;
+use Leuchtfeuer\Mautic\Domain\Model\Dto\YamlConfiguration;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerAwareTrait;
 use TYPO3\CMS\Core\SingletonInterface;
