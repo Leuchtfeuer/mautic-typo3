@@ -140,6 +140,23 @@ call_user_func(function (): void {
         );
     }
 
+    //######################
+    //##    TYPOSCRIPT    ##
+    //######################
+
+    ExtensionManagementUtility::addTypoScript(
+        'mautic',
+        'constants',
+        "@import 'EXT:mautic/Configuration/TypoScript/constants.typoscript'",
+    );
+
+    ExtensionManagementUtility::addTypoScript(
+        'mautic',
+        'setup',
+        "@import 'EXT:mautic/Configuration/TypoScript/setup.typoscript'",
+    );
+
+
     //##################
     //     EXTCONF     #
     //##################
