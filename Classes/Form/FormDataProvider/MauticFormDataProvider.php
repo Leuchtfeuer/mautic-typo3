@@ -32,9 +32,8 @@ class MauticFormDataProvider implements FormDataProviderInterface
         if ($result['tableName'] === 'tt_content' && $result['recordTypeValue'] === 'mautic_form') {
             foreach ($this->formRepository->getAllForms() as $mauticForm) {
                 $result['processedTca']['columns']['mautic_form_id']['config']['items'][] = [
-                    $mauticForm['name'],
-                    $mauticForm['id'],
-                    'content-form',
+                    'label' => $mauticForm['name'],
+                    'value' => $mauticForm['id'],
                 ];
             }
         }
