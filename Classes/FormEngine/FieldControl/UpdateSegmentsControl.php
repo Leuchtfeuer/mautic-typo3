@@ -11,11 +11,13 @@ declare(strict_types=1);
  * (c) Leuchtfeuer Digital Marketing <dev@leuchtfeuer.com>
  */
 
-namespace Bitmotion\Mautic\FormEngine\FieldControl;
+namespace Leuchtfeuer\Mautic\FormEngine\FieldControl;
 
 class UpdateSegmentsControl extends AbstractControl
 {
-    protected $tableName = 'tx_marketingautomation_segments';
+    protected string $tableName = 'tx_marketingautomation_segments';
 
-    protected $action = 'updateSegments';
+    protected string $action = 'updateSegments';
+
+    protected string $title = 'Synchronize Segments';
 }

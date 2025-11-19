@@ -11,7 +11,7 @@ declare(strict_types=1);
  * (c) Leuchtfeuer Digital Marketing <dev@leuchtfeuer.com>
  */
 
-namespace Bitmotion\Mautic\Transformation\FormField;
+namespace Leuchtfeuer\Mautic\Transformation\FormField;
 
 /**
  * {
@@ -39,5 +39,5 @@ namespace Bitmotion\Mautic\Transformation\FormField;
  */
 class CountryListTransformation extends AbstractFormFieldTransformation
 {
-    protected $type = 'country';
+    protected string $type = 'country';
 }

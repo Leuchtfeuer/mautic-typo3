@@ -11,10 +11,10 @@ declare(strict_types=1);
  * (c) Leuchtfeuer Digital Marketing <dev@leuchtfeuer.com>
  */
 
-namespace Bitmotion\Mautic\Hooks;
+namespace Leuchtfeuer\Mautic\Hooks;
 
-use Bitmotion\Mautic\Domain\Model\Dto\YamlConfiguration;
-use Bitmotion\Mautic\Domain\Repository\TagRepository;
+use Leuchtfeuer\Mautic\Domain\Model\Dto\YamlConfiguration;
+use Leuchtfeuer\Mautic\Domain\Repository\TagRepository;
 use TYPO3\CMS\Core\DataHandling\DataHandler;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
@@ -28,6 +28,7 @@ class TCEmainHook
         if ($status === 'new' && $table === 'tx_mautic_domain_model_tag' && !empty($fields['title'])) {
             // Dirty way to create tags in Mautic
             $config = new YamlConfiguration();
+            // @extensionScannerIgnoreLine
             $url = sprintf('%s/mtracking.gif?tags=%s', $config->getBaseUrl(), $fields['title']);
             GeneralUtility::getUrl($url);
 

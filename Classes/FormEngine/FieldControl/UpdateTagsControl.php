@@ -11,11 +11,13 @@ declare(strict_types=1);
  * (c) Leuchtfeuer Digital Marketing <dev@leuchtfeuer.com>
  */
 
-namespace Bitmotion\Mautic\FormEngine\FieldControl;
+namespace Leuchtfeuer\Mautic\FormEngine\FieldControl;
 
 class UpdateTagsControl extends AbstractControl
 {
-    protected $tableName = 'tx_mautic_domain_model_tag';
+    protected string $tableName = 'tx_mautic_domain_model_tag';
 
-    protected $action = 'updateTags';
+    protected string $action = 'updateTags';
+
+    protected string $title = 'Synchronize Tags';
 }

@@ -11,7 +11,7 @@ declare(strict_types=1);
  * (c) Leuchtfeuer Digital Marketing <dev@leuchtfeuer.com>
  */
 
-namespace Bitmotion\Mautic\Transformation\FormField;
+namespace Leuchtfeuer\Mautic\Transformation\FormField;
 
 /**
  * {
@@ -36,5 +36,5 @@ namespace Bitmotion\Mautic\Transformation\FormField;
  */
 class NumberTransformation extends AbstractFormFieldTransformation
 {
-    protected $type = 'number';
+    protected string $type = 'number';
 }

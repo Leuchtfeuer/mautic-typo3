@@ -11,13 +11,13 @@ declare(strict_types=1);
  * (c) Leuchtfeuer Digital Marketing <dev@leuchtfeuer.com>
  */
 
-namespace Bitmotion\Mautic\Service;
+namespace Leuchtfeuer\Mautic\Service;
 
-use Bitmotion\Mautic\Controller\BackendController;
-use Bitmotion\Mautic\Domain\Model\Dto\YamlConfiguration;
-use Bitmotion\Mautic\Mautic\AuthorizationFactory;
-use Bitmotion\Mautic\Mautic\OAuth;
-use Bitmotion\Mautic\Middleware\AuthorizeMiddleware;
+use Leuchtfeuer\Mautic\Controller\BackendController;
+use Leuchtfeuer\Mautic\Domain\Model\Dto\YamlConfiguration;
+use Leuchtfeuer\Mautic\Mautic\AuthorizationFactory;
+use Leuchtfeuer\Mautic\Mautic\OAuth;
+use Leuchtfeuer\Mautic\Middleware\AuthorizeMiddleware;
 use Mautic\MauticApi;
 use TYPO3\CMS\Core\Imaging\Icon;
 use TYPO3\CMS\Core\Imaging\IconFactory;
@@ -30,17 +30,17 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class MauticAuthorizeService
 {
-    protected \Bitmotion\Mautic\Mautic\OAuth $authorization;
+    protected OAuth $authorization;
 
-    protected $extensionConfiguration = [];
+    protected array $extensionConfiguration = [];
 
-    protected $minimumMauticVersion = '2.14.2';
+    protected string $minimumMauticVersion = '2.14.2';
 
-    protected $messages = [];
+    protected array $messages = [];
 
-    protected $languageService;
+    protected LanguageService $languageService;
 
-    public function __construct(OAuth $authorization = null, protected $createFlashMessages = true)
+    public function __construct(OAuth $authorization = null, protected bool $createFlashMessages = true)
     {
         if (session_id() === '') {
             session_start();
@@ -88,6 +88,8 @@ class MauticAuthorizeService
     public function checkConnection(): bool
     {
         // Perform a dummy request for retrieving HTTP headers and getting Mautic Version
+
+        // @extensionScannerIgnoreLine
         $contactsApi = (new MauticApi())->newApi('contacts', $this->authorization, $this->authorization->getBaseUrl());
         $contacts = $contactsApi->getList('', 0, 1);
 
@@ -160,7 +162,7 @@ class MauticAuthorizeService
                 $message ?? ''
             );
 
-            $this->createMessage($message, $title, \TYPO3\CMS\Core\Type\ContextualFeedbackSeverity::ERROR, true);
+            $this->createMessage($message, $title, ContextualFeedbackSeverity::ERROR, true);
 
             return true;
         }
@@ -168,7 +170,7 @@ class MauticAuthorizeService
         return false;
     }
 
-    protected function showCredentialsInformation()
+    protected function showCredentialsInformation(): void
     {
         $missingInformation = [];
         if (empty($this->extensionConfiguration['baseUrl'])) {
@@ -214,6 +216,7 @@ class MauticAuthorizeService
     {
         $messageService = GeneralUtility::makeInstance(FlashMessageService::class);
         $messageQueue = $messageService->getMessageQueueByIdentifier(BackendController::FLASH_MESSAGE_QUEUE);
+        // @extensionScannerIgnoreLine
         $messageQueue->addMessage($message);
     }
 
@@ -253,7 +256,7 @@ class MauticAuthorizeService
     protected function translate(string $key): string
     {
         if (!$this->languageService instanceof LanguageService) {
-            $this->languageService = LanguageService::createFromUserPreferences($GLOBALS['BE_USER']);
+            $this->languageService = GeneralUtility::makeInstance(LanguageServiceFactory::class)->createFromUserPreferences($GLOBALS['BE_USER']);
         }
         return $this->languageService->sL('LLL:EXT:mautic/Resources/Private/Language/locallang_mod.xlf:' . $key);
     }
@@ -287,7 +290,7 @@ class MauticAuthorizeService
         return $this->extensionConfiguration['expires'] < time();
     }
 
-    public function refreshAccessToken()
+    public function refreshAccessToken(): bool
     {
         try {
             if ($this->authorization->validateAccessToken() && $this->authorization->accessTokenUpdated()) {

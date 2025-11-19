@@ -11,9 +11,9 @@ declare(strict_types=1);
  * (c) Leuchtfeuer Digital Marketing <dev@leuchtfeuer.com>
  */
 
-namespace Bitmotion\Mautic\Domain\Finishers;
+namespace Leuchtfeuer\Mautic\Domain\Finishers;
 
-use Bitmotion\Mautic\Domain\Repository\FormRepository;
+use Leuchtfeuer\Mautic\Domain\Repository\FormRepository;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Form\Domain\Finishers\AbstractFinisher;
 use TYPO3\CMS\Form\Domain\Model\FormElements\GenericFormElement;
@@ -31,13 +31,14 @@ class MauticFinisher extends AbstractFinisher
      * Post the form result to a Mautic form
      */
     #[\Override]
-    protected function executeInternal()
+    protected function executeInternal(): ?string
     {
         $formDefinition = $this->finisherContext->getFormRuntime()->getFormDefinition()->getRenderingOptions();
         $mauticId = (int)$this->parseOption('mauticId') ?: (int)($formDefinition['mauticId'] ?? 0);
         $formValues = $this->transformFormStructure($this->finisherContext->getFormValues());
 
         $this->formRepository->submitForm((int)$mauticId, $formValues);
+        return null;
     }
 
     /**

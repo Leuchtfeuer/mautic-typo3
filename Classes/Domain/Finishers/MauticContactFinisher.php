@@ -11,9 +11,9 @@ declare(strict_types=1);
  * (c) Leuchtfeuer Digital Marketing <dev@leuchtfeuer.com>
  */
 
-namespace Bitmotion\Mautic\Domain\Finishers;
+namespace Leuchtfeuer\Mautic\Domain\Finishers;
 
-use Bitmotion\Mautic\Domain\Repository\ContactRepository;
+use Leuchtfeuer\Mautic\Domain\Repository\ContactRepository;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerAwareTrait;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -35,7 +35,7 @@ class MauticContactFinisher extends AbstractFinisher implements LoggerAwareInter
      * Creates a contact in Mautic if enough data is present from the collected form results
      */
     #[\Override]
-    protected function executeInternal()
+    protected function executeInternal(): ?string
     {
         $formDefinition = $this->finisherContext->getFormRuntime()->getFormDefinition();
         $mauticFields = [];
@@ -52,7 +52,7 @@ class MauticContactFinisher extends AbstractFinisher implements LoggerAwareInter
         }
 
         if ($mauticFields === []) {
-            return;
+            return null;
         }
 
         $contact = [];
@@ -73,5 +73,6 @@ class MauticContactFinisher extends AbstractFinisher implements LoggerAwareInter
                 $this->logger->critical(sprintf('%s: %s', (string)$error['code'], $error['message']));
             }
         }
+        return null;
     }
 }

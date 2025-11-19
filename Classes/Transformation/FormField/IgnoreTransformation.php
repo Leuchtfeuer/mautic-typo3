@@ -11,12 +11,12 @@ declare(strict_types=1);
  * (c) Leuchtfeuer Digital Marketing <dev@leuchtfeuer.com>
  */
 
-namespace Bitmotion\Mautic\Transformation\FormField;
+namespace Leuchtfeuer\Mautic\Transformation\FormField;
 
 class IgnoreTransformation extends AbstractFormFieldTransformation
 {
     #[\Override]
-    public function transform()
+    public function transform(): void
     {
         $this->logger->notice(sprintf(
             'Skip transformation of "%s". No information synced with Mautic.',

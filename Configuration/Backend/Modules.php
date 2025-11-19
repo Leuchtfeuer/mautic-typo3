@@ -1,5 +1,6 @@
 <?php
 
+use Leuchtfeuer\Mautic\Controller\BackendController;
 return [
     'tools_Api' => [
         'parent' => 'tools',
@@ -8,7 +9,7 @@ return [
         'labels' => 'LLL:EXT:mautic/Resources/Private/Language/locallang_mod.xlf',
         'extensionName' => 'Mautic',
         'controllerActions' => [
-            \Bitmotion\Mautic\Controller\BackendController::class => [
+            BackendController::class => [
                 'show',
                 'save',
             ],

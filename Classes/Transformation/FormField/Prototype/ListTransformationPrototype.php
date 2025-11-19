@@ -11,36 +11,36 @@ declare(strict_types=1);
  * (c) Leuchtfeuer Digital Marketing <dev@leuchtfeuer.com>
  */
 
-namespace Bitmotion\Mautic\Transformation\FormField\Prototype;
+namespace Leuchtfeuer\Mautic\Transformation\FormField\Prototype;
 
-use Bitmotion\Mautic\Exception\TransformationException;
-use Bitmotion\Mautic\Transformation\FormField\AbstractFormFieldTransformation;
+use Leuchtfeuer\Mautic\Exception\TransformationException;
+use Leuchtfeuer\Mautic\Transformation\FormField\AbstractFormFieldTransformation;
 
 class ListTransformationPrototype extends AbstractFormFieldTransformation
 {
-    protected $listIdentifier = 'list';
+    protected string $listIdentifier = 'list';
 
-    protected $multiple = 0;
+    protected int $multiple = 0;
 
-    protected $syncList = 0;
+    protected int $syncList = 0;
 
-    protected $customFieldProperties = [];
+    protected array $customFieldProperties = [];
 
-    protected $customFieldValues = [];
+    protected array $customFieldValues = [];
 
-    protected $updateCustomFieldsProperties = true;
+    protected bool $updateCustomFieldsProperties = true;
 
     /**
      * @throws TransformationException
      */
     #[\Override]
-    public function transform()
+    public function transform(): void
     {
         parent::transform();
 
         $properties = [];
 
-        if (isset($properties['leadField'])) {
+        if (isset($this->fieldData['leadField'])) {
             $this->syncList = 1;
             $properties['syncList'] = $this->syncList;
         }

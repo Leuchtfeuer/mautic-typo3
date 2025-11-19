@@ -11,11 +11,13 @@ declare(strict_types=1);
  * (c) Leuchtfeuer Digital Marketing <dev@leuchtfeuer.com>
  */
 
-namespace Bitmotion\Mautic\Domain\Repository;
+namespace Leuchtfeuer\Mautic\Domain\Repository;
 
-use Doctrine\DBAL\DBALException;
+use Doctrine\DBAL\Exception;
 use Mautic\Api\Segments;
 use Mautic\Exception\ContextNotFoundException;
+use TYPO3\CMS\Core\Context\Context;
+use TYPO3\CMS\Core\Database\Connection;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
@@ -32,7 +34,9 @@ class SegmentRepository extends AbstractRepository
     #[\Override]
     protected function injectApis(): void
     {
-        $this->segmentsApi = $this->getApi('segments');
+        /** @var Segments $segmentsApi */
+        $segmentsApi = $this->getApi('segments');
+        $this->segmentsApi = $segmentsApi;
     }
 
     public function findAll(): array
@@ -43,9 +47,9 @@ class SegmentRepository extends AbstractRepository
     }
 
     /**
-     * @throws DBALException
+     * @throws Exception
      */
-    public function initializeSegments()
+    public function initializeSegments(): void
     {
         $connection = GeneralUtility::makeInstance(ConnectionPool::class)
             ->getConnectionForTable('tx_marketingautomation_segment');
@@ -57,7 +61,7 @@ class SegmentRepository extends AbstractRepository
         $this->synchronizeSegments();
     }
 
-    public function synchronizeSegments()
+    public function synchronizeSegments(): void
     {
         $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)
             ->getQueryBuilderForTable('tx_marketingautomation_segment');
@@ -69,7 +73,7 @@ class SegmentRepository extends AbstractRepository
         while ($row = $result->fetchAssociative()) {
             $availableSegments[$row['uid']] = $row;
         }
-        $result->closeCursor();
+        $result->free();
 
         $queryBuilder->update('tx_marketingautomation_segment')->set('deleted', 1)->executeStatement();
 
@@ -80,7 +84,7 @@ class SegmentRepository extends AbstractRepository
             if (!empty($segment['dateModified'])) {
                 $dateModified = \DateTime::createFromFormat('Y-m-d\TH:i:sP', $segment['dateModified']);
             } else {
-                $dateModified = \DateTime::createFromFormat('U', (string)\TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Core\Context\Context::class)->getPropertyFromAspect('date', 'timestamp'));
+                $dateModified = \DateTime::createFromFormat('U', (string)GeneralUtility::makeInstance(Context::class)->getPropertyFromAspect('date', 'timestamp'));
             }
 
             if (!isset($availableSegments[$segment['id']])) {
@@ -100,7 +104,7 @@ class SegmentRepository extends AbstractRepository
                     ->where(
                         $updateQueryBuilder->expr()->eq(
                             'uid',
-                            $updateQueryBuilder->createNamedParameter($segment['id'], \TYPO3\CMS\Core\Database\Connection::PARAM_INT)
+                            $updateQueryBuilder->createNamedParameter($segment['id'], Connection::PARAM_INT)
                         )
                     )
                     ->set('crdate', $dateAdded->getTimestamp())

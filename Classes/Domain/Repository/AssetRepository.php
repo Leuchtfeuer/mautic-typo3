@@ -11,7 +11,7 @@ declare(strict_types=1);
  * (c) Leuchtfeuer Digital Marketing <dev@leuchtfeuer.com>
  */
 
-namespace Bitmotion\Mautic\Domain\Repository;
+namespace Leuchtfeuer\Mautic\Domain\Repository;
 
 use Mautic\Api\Assets;
 use Mautic\Api\Files;
@@ -35,8 +35,13 @@ class AssetRepository extends AbstractRepository
     #[\Override]
     protected function injectApis(): void
     {
-        $this->assetsApi = $this->getApi('assets');
-        $this->filesApi = $this->getApi('files');
+        /** @var Assets $assetsApi */
+        $assetsApi = $this->getApi('assets');
+        $this->assetsApi = $assetsApi;
+
+        /** @var Files $filesApi */
+        $filesApi = $this->getApi('files');
+        $this->filesApi = $filesApi;
     }
 
     public function list(string $search = '', int $start = 0, int $limit = 0, string $orderBy = '', string $orderByDir = 'ASC', bool $publishedOnly = false, bool $minimal = false): array
@@ -69,14 +74,14 @@ class AssetRepository extends AbstractRepository
         return $asset['asset'] ?? [];
     }
 
-    public function update(int $id, array $data)
+    public function update(int $id, array $data): array
     {
         $asset = $this->assetsApi->edit($id, $data);
 
         return $asset['asset'] ?? [];
     }
 
-    public function count()
+    public function count(): int
     {
         return count($this->list());
     }

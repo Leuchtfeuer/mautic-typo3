@@ -11,9 +11,9 @@ declare(strict_types=1);
  * (c) Leuchtfeuer Digital Marketing <dev@leuchtfeuer.com>
  */
 
-namespace Bitmotion\Mautic\Transformation\Form;
+namespace Leuchtfeuer\Mautic\Transformation\Form;
 
 class StandaloneFormTransformation extends AbstractFormTransformation
 {
-    protected $formType = 'standalone';
+    protected string $formType = 'standalone';
 }

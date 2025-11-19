@@ -11,9 +11,9 @@ declare(strict_types=1);
  * (c) Leuchtfeuer Digital Marketing <dev@leuchtfeuer.com>
  */
 
-namespace Bitmotion\Mautic\Domain\Finishers;
+namespace Leuchtfeuer\Mautic\Domain\Finishers;
 
-use Bitmotion\Mautic\Domain\Repository\ContactRepository;
+use Leuchtfeuer\Mautic\Domain\Repository\ContactRepository;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Form\Domain\Finishers\AbstractFinisher;
 
@@ -33,17 +33,18 @@ class MauticPointsFinisher extends AbstractFinisher
      * Adds or substracts points to a Mautic contact
      */
     #[\Override]
-    protected function executeInternal()
+    protected function executeInternal(): ?string
     {
         $pointsModifier = (int)($this->parseOption('mauticPointsModifier') ?? 0);
 
         if ($this->mauticId === 0 || $pointsModifier === 0) {
-            return;
+            return null;
         }
 
         $data = [];
         $data['eventName'] = $this->parseOption('mauticEventName') ?? '';
 
         $this->contactRepository->modifyContactPoints($this->mauticId, $pointsModifier, $data);
+        return null;
     }
 }

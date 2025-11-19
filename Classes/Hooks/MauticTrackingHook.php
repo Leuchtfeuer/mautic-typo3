@@ -11,9 +11,9 @@ declare(strict_types=1);
  * (c) Leuchtfeuer Digital Marketing <dev@leuchtfeuer.com>
  */
 
-namespace Bitmotion\Mautic\Hooks;
+namespace Leuchtfeuer\Mautic\Hooks;
 
-use Bitmotion\Mautic\Service\MauticTrackingService;
+use Leuchtfeuer\Mautic\Service\MauticTrackingService;
 use TYPO3\CMS\Core\Page\PageRenderer;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
@@ -29,7 +29,7 @@ class MauticTrackingHook
         $this->mauticTrackingService = $mauticTrackingService ?: GeneralUtility::makeInstance(MauticTrackingService::class);
     }
 
-    public function addTrackingCode()
+    public function addTrackingCode(): void
     {
         if ($this->mauticTrackingService->isTrackingEnabled()) {
             $pageRenderer = GeneralUtility::makeInstance(PageRenderer::class);

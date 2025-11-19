@@ -11,7 +11,7 @@ declare(strict_types=1);
  * (c) Leuchtfeuer Digital Marketing <dev@leuchtfeuer.com>
  */
 
-namespace Bitmotion\Mautic\Domain\Model\Dto;
+namespace Leuchtfeuer\Mautic\Domain\Model\Dto;
 
 use Symfony\Component\Yaml\Yaml;
 use TYPO3\CMS\Core\Configuration\Loader\YamlFileLoader;
@@ -125,7 +125,7 @@ class YamlConfiguration implements SingletonInterface
         return $this->getYamlConfiguration();
     }
 
-    public function save(array $configuration = [])
+    public function save(array $configuration = []): void
     {
         if (!file_exists($this->fileName)) {
             GeneralUtility::mkdir_deep($this->configPath);
@@ -135,7 +135,7 @@ class YamlConfiguration implements SingletonInterface
         GeneralUtility::writeFile($this->fileName, $yamlFileContents);
     }
 
-    public function reloadConfigurations()
+    public function reloadConfigurations(): void
     {
         $this->configurationArray = $this->getYamlConfiguration();
         $extensionConfiguration = $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['mautic'];
@@ -155,6 +155,7 @@ class YamlConfiguration implements SingletonInterface
 
     public function getBaseUrl(): string
     {
+        // @extensionScannerIgnoreLine
         return (string)$this->baseUrl;
     }
 
@@ -210,14 +211,13 @@ class YamlConfiguration implements SingletonInterface
 
     public function isSameCredentials(array $configuration): bool
     {
-        return $this->authorizeMode === $configuration['authorizeMode']
-            && $this->secretKey === $configuration['secretKey']
-            && $this->publicKey === $configuration['publicKey']
-            && $this->baseUrl === $configuration['baseUrl'];
+        // extensionScannerIgnoreLine won't work if every && is on its own line
+        // @extensionScannerIgnoreLine
+        return $this->authorizeMode === $configuration['authorizeMode'] && $this->secretKey === $configuration['secretKey'] && $this->publicKey === $configuration['publicKey'] && $this->baseUrl === $configuration['baseUrl'];
     }
 
     public function isOAuth1(): bool
     {
-        return $this->getAuthorizeMode() === YamlConfiguration::OAUTH1_AUTHORIZATION_MODE;
+        return $this->getAuthorizeMode() === self::OAUTH1_AUTHORIZATION_MODE;
     }
 }

@@ -11,10 +11,10 @@ declare(strict_types=1);
  * (c) Leuchtfeuer Digital Marketing <dev@leuchtfeuer.com>
  */
 
-namespace Bitmotion\Mautic\Domain\Model\FormElement;
+namespace Leuchtfeuer\Mautic\Domain\Model\FormElement;
 
-use Bitmotion\Mautic\Mautic\AuthorizationFactory;
 use Doctrine\DBAL\Connection;
+use Leuchtfeuer\Mautic\Mautic\AuthorizationFactory;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerAwareTrait;
 use TYPO3\CMS\Core\Database\ConnectionPool;
@@ -31,12 +31,12 @@ class CountryListFormElement extends GenericFormElement implements LoggerAwareIn
     /**
      * @var string
      */
-    protected $countryFile = '/app/bundles/CoreBundle/Assets/json/countries.json';
+    protected string $countryFile = '/app/bundles/CoreBundle/Assets/json/countries.json';
 
     /**
      * @var string
      */
-    protected $locale;
+    protected string $locale;
 
     public function __construct(
         string $identifier,
@@ -46,12 +46,27 @@ class CountryListFormElement extends GenericFormElement implements LoggerAwareIn
         parent::__construct($identifier, $type);
 
         $authorization = AuthorizationFactory::createAuthorizationFromExtensionConfiguration();
+        // @extensionScannerIgnoreLine
         $this->baseUrl = $authorization->getBaseUrl();
-        $this->locale = $locale ?: $GLOBALS['TSFE']->lang;
+
+        if ($locale === '') {
+            // Try to get locale from the request (TYPO3 v12 way)
+            $locale = 'en'; // Default fallback
+
+            if (isset($GLOBALS['TYPO3_REQUEST'])) {
+                $siteLanguage = $GLOBALS['TYPO3_REQUEST']->getAttribute('language');
+                if ($siteLanguage) {
+                    // Get locale string (e.g., 'en_US.UTF-8') and extract language code
+                    $localeString = (string)$siteLanguage->getLocale();
+                    $locale = explode('_', explode('.', $localeString)[0])[0];
+                }
+            }
+        }
+        $this->locale = $locale;
     }
 
     #[\Override]
-    public function setOptions(array $options, bool $reset = false)
+    public function setOptions(array $options, bool $reset = false): void
     {
         parent::setOptions($options);
 
@@ -69,16 +84,18 @@ class CountryListFormElement extends GenericFormElement implements LoggerAwareIn
     protected function getCountries(): array
     {
         $report = [];
+        // @extensionScannerIgnoreLine
         $countryJson = @file_get_contents($this->baseUrl . $this->countryFile);
 
         // cURL errors return errorCode 0, so we can not check for "if ($report['error'] !== 0) { ... }"
         // TODO: Datei lokal laden
+        //Currently disabled until the $report variable is used
+        /**
         if ($report['message'] !== '') {
             $this->logger->critical($report['message']);
-
             return [];
         }
-
+         */
         $countries = json_decode($countryJson, true);
 
         return array_combine($countries, $countries);
@@ -87,7 +104,7 @@ class CountryListFormElement extends GenericFormElement implements LoggerAwareIn
     /**
      * Mautic does not return localized country names, so we use EXT:static_info_tables for this.
      */
-    protected function localizeCountries(array &$countries)
+    protected function localizeCountries(array &$countries): void
     {
         if (ExtensionManagementUtility::isLoaded('static_info_tables_' . $this->locale)) {
             $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable('static_countries');
@@ -106,11 +123,11 @@ class CountryListFormElement extends GenericFormElement implements LoggerAwareIn
         }
     }
 
-    protected function sortCountries(array &$countries)
+    protected function sortCountries(array &$countries): void
     {
         asort($countries);
         if (class_exists(\Collator::class)) {
-            $collator = new \Collator(setlocale(LC_COLLATE, 0));
+            $collator = new \Collator(setlocale(LC_COLLATE, '0') ?: null);
             $collator->asort($countries);
         }
     }

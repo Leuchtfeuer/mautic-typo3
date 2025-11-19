@@ -11,9 +11,9 @@ declare(strict_types=1);
  * (c) Leuchtfeuer Digital Marketing <dev@leuchtfeuer.com>
  */
 
-namespace Bitmotion\Mautic\Form\FormDataProvider;
+namespace Leuchtfeuer\Mautic\Form\FormDataProvider;
 
-use Bitmotion\Mautic\Domain\Repository\FormRepository;
+use Leuchtfeuer\Mautic\Domain\Repository\FormRepository;
 use TYPO3\CMS\Backend\Form\FormDataProviderInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
@@ -32,9 +32,8 @@ class MauticFormDataProvider implements FormDataProviderInterface
         if ($result['tableName'] === 'tt_content' && $result['recordTypeValue'] === 'mautic_form') {
             foreach ($this->formRepository->getAllForms() as $mauticForm) {
                 $result['processedTca']['columns']['mautic_form_id']['config']['items'][] = [
-                    $mauticForm['name'],
-                    $mauticForm['id'],
-                    'content-form',
+                    'label' => $mauticForm['name'],
+                    'value' => $mauticForm['id'],
                 ];
             }
         }

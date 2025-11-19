@@ -28,12 +28,12 @@
 		"php": ">=8.0",
         "typo3/cms-core": "^12.4",
         "typo3/cms-extbase": "^12.4",
-        "leuchtfeuer/marketing-automation": "dev-typo3-v12",
+        "leuchtfeuer/marketing-automation": "^v2.0.0",
 		"mautic/api-library": "4.0.0-beta"
     },
     "autoload": {
         "psr-4": {
-            "Bitmotion\\Mautic\\": "Classes/"
+            "Leuchtfeuer\\Mautic\\": "Classes/"
         }
     },
     "replace": {
@@ -41,6 +41,7 @@
     },
     "suggest": {
         "sjbr/static-info-tables": "Extended language configuration for preferred locale for Mautic contacts",
+        "typo3/cms-fluid-styled-content": "TYPO3 fluid styled content for own form content element",
         "typo3/cms-form": "TYPO3 form framework for building Mautic forms in TYPO3",
         "ext-intl": "For sorting arrays"
     },

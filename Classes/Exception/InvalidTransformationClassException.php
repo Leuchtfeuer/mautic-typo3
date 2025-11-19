@@ -11,6 +11,6 @@ declare(strict_types=1);
  * (c) Leuchtfeuer Digital Marketing <dev@leuchtfeuer.com>
  */
 
-namespace Bitmotion\Mautic\Exception;
+namespace Leuchtfeuer\Mautic\Exception;
 
 class InvalidTransformationClassException extends \Exception {}

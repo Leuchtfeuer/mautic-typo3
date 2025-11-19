@@ -11,9 +11,10 @@ declare(strict_types=1);
  * (c) Leuchtfeuer Digital Marketing <dev@leuchtfeuer.com>
  */
 
-namespace Bitmotion\Mautic\Domain\Repository;
+namespace Leuchtfeuer\Mautic\Domain\Repository;
 
-use Bitmotion\Mautic\Mautic\AuthorizationFactory;
+use Leuchtfeuer\Mautic\Mautic\AuthorizationFactory;
+use Leuchtfeuer\Mautic\Mautic\OAuth;
 use Mautic\Api\Api;
 use Mautic\Exception\ContextNotFoundException;
 use Mautic\MauticApi;
@@ -25,9 +26,9 @@ abstract class AbstractRepository implements LoggerAwareInterface, SingletonInte
 {
     use LoggerAwareTrait;
 
-    protected $authorization;
+    protected OAuth $authorization;
 
-    protected \Mautic\MauticApi $mauticApi;
+    protected MauticApi $mauticApi;
 
     public function __construct(AuthorizationFactory $authorizationFactory)
     {
@@ -43,6 +44,7 @@ abstract class AbstractRepository implements LoggerAwareInterface, SingletonInte
      */
     protected function getApi(string $apiContext): Api
     {
+        // @extensionScannerIgnoreLine
         return $this->mauticApi->newApi($apiContext, $this->authorization, $this->authorization->getBaseUrl());
     }
 }

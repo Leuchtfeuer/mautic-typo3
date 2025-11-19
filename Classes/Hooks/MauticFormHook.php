@@ -11,20 +11,21 @@ declare(strict_types=1);
  * (c) Leuchtfeuer Digital Marketing <dev@leuchtfeuer.com>
  */
 
-namespace Bitmotion\Mautic\Hooks;
+namespace Leuchtfeuer\Mautic\Hooks;
 
-use Bitmotion\Mautic\Domain\Repository\FormRepository;
-use Bitmotion\Mautic\Exception\InvalidTransformationClassException;
-use Bitmotion\Mautic\Exception\NoTransformationFoundException;
-use Bitmotion\Mautic\Exception\TransformationException;
-use Bitmotion\Mautic\Exception\UnknownTransformationClassException;
-use Bitmotion\Mautic\Transformation\Form\AbstractFormTransformation;
-use Bitmotion\Mautic\Transformation\FormField\AbstractFormFieldTransformation;
-use Bitmotion\Mautic\Transformation\FormField\Prototype\ListTransformationPrototype;
+use Leuchtfeuer\Mautic\Domain\Repository\FormRepository;
+use Leuchtfeuer\Mautic\Exception\InvalidTransformationClassException;
+use Leuchtfeuer\Mautic\Exception\NoTransformationFoundException;
+use Leuchtfeuer\Mautic\Exception\TransformationException;
+use Leuchtfeuer\Mautic\Exception\UnknownTransformationClassException;
+use Leuchtfeuer\Mautic\Transformation\Form\AbstractFormTransformation;
+use Leuchtfeuer\Mautic\Transformation\FormField\AbstractFormFieldTransformation;
+use Leuchtfeuer\Mautic\Transformation\FormField\Prototype\ListTransformationPrototype;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerAwareTrait;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Form\Mvc\Configuration\Exception\ParseErrorException;
+use TYPO3\CMS\Form\Mvc\Persistence\FormPersistenceManagerInterface;
 
 class MauticFormHook implements LoggerAwareInterface
 {
@@ -40,20 +41,20 @@ class MauticFormHook implements LoggerAwareInterface
     /**
      * @var array
      */
-    protected $extConf = [];
+    protected array $extConf = [];
 
     /**
      * @var string
      * @deprecated Use self::FORM_PROTOTYPE_NAME instead
      */
-    protected $formPrototypeName = 'mautic';
+    protected string $formPrototypeName = 'mautic';
 
     /**
      * @var AbstractFormTransformation
      */
     protected $formTransformation;
 
-    public function __construct(protected \TYPO3\CMS\Form\Mvc\Persistence\FormPersistenceManagerInterface $formPersistenceManager)
+    public function __construct(protected FormPersistenceManagerInterface $formPersistenceManager)
     {
         $this->formRepository = GeneralUtility::makeInstance(FormRepository::class);
         $this->extConf = $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['mautic'];
@@ -160,7 +161,7 @@ class MauticFormHook implements LoggerAwareInterface
      * @throws ParseErrorException
      * @throws UnknownTransformationClassException
      */
-    protected function transformForm(array $formDefinition)
+    protected function transformForm(array $formDefinition): void
     {
         $this->injectFormTransformation($formDefinition);
         $this->formTransformation->transform();
@@ -174,7 +175,7 @@ class MauticFormHook implements LoggerAwareInterface
      * @throws ParseErrorException
      * @throws UnknownTransformationClassException
      */
-    protected function injectFormTransformation(array $formDefinition)
+    protected function injectFormTransformation(array $formDefinition): void
     {
         if (!isset($formDefinition['renderingOptions'])) {
             throw new ParseErrorException('Form has no rendering options.', 1539064345);
@@ -185,10 +186,12 @@ class MauticFormHook implements LoggerAwareInterface
 
         $formType = $formDefinition['renderingOptions']['mauticFormType'];
 
+        // @extensionScannerIgnoreLine
         if (!isset($this->extConf['transformation']['form'][$formType])) {
             throw new NoTransformationFoundException('No transformation class found.', 1539064606);
         }
 
+        // @extensionScannerIgnoreLine
         $transformationClassName = $this->extConf['transformation']['form'][$formType];
 
         if (!class_exists($transformationClassName)) {
@@ -225,7 +228,7 @@ class MauticFormHook implements LoggerAwareInterface
      * @throws TransformationException
      * @throws UnknownTransformationClassException
      */
-    protected function transformFormElements()
+    protected function transformFormElements(): void
     {
         foreach ($this->formTransformation->getFormElements() as $formElement) {
             $fieldTransformation = $this->getFieldTransformation($formElement);
@@ -250,13 +253,14 @@ class MauticFormHook implements LoggerAwareInterface
         if (!isset($formElement['type'])) {
             throw new ParseErrorException('Form element has no type definition.', 1539064841);
         }
+        // @extensionScannerIgnoreLine
         if (!isset($this->extConf['transformation']['formField'][$formElement['type']])) {
             throw new NoTransformationFoundException(
                 sprintf('No transformation class for form type "%s" found.', $formElement['type']),
                 1539064875
             );
         }
-
+        // @extensionScannerIgnoreLine
         $transformationClassName = $this->extConf['transformation']['formField'][$formElement['type']];
         if (!class_exists($transformationClassName)) {
             throw new UnknownTransformationClassException(

@@ -11,10 +11,12 @@ declare(strict_types=1);
  * (c) Leuchtfeuer Digital Marketing <dev@leuchtfeuer.com>
  */
 
-namespace Bitmotion\Mautic\Slot;
+namespace Leuchtfeuer\Mautic\Slot;
 
-use Bitmotion\MarketingAutomation\Dispatcher\SubscriberInterface;
-use Bitmotion\MarketingAutomation\Persona\Persona;
+use Leuchtfeuer\MarketingAutomation\Dispatcher\SubscriberInterface;
+use Leuchtfeuer\MarketingAutomation\Persona\Persona;
+use Leuchtfeuer\Mautic\Domain\Repository\ContactRepository;
+use Leuchtfeuer\Mautic\Domain\Repository\PersonaRepository;
 use TYPO3\CMS\Core\Context\Context;
 use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Site\SiteFinder;
@@ -25,9 +27,9 @@ class MauticSubscriber implements SubscriberInterface, SingletonInterface
 {
     protected int $mauticId;
 
-    protected $languageNeedsUpdate = false;
+    protected bool $languageNeedsUpdate = false;
 
-    public function __construct(protected \Bitmotion\Mautic\Domain\Repository\ContactRepository $contactRepository, protected \Bitmotion\Mautic\Domain\Repository\PersonaRepository $personaRepository)
+    public function __construct(protected ContactRepository $contactRepository, protected PersonaRepository $personaRepository)
     {
         $this->mauticId = (int)($_COOKIE['mtc_id'] ?? 0);
     }
@@ -55,12 +57,13 @@ class MauticSubscriber implements SubscriberInterface, SingletonInterface
         return $persona->withId($personaId);
     }
 
-    public function setPreferredLocale($_, TypoScriptFrontendController $typoScriptFrontendController)
+    public function setPreferredLocale(mixed $_, TypoScriptFrontendController $typoScriptFrontendController): void
     {
         if ($this->languageNeedsUpdate) {
             $languageId = GeneralUtility::makeInstance(Context::class)->getPropertyFromAspect('language', 'id');
+            // @extensionScannerIgnoreLine
             $site = GeneralUtility::makeInstance(SiteFinder::class)->getSiteByPageId($typoScriptFrontendController->id);
-            $isoCode = $site->getLanguageById($languageId)->getTwoLetterIsoCode();
+            $isoCode = $site->getLanguageById($languageId)->getLocale()->getLanguageCode();
 
             $this->contactRepository->editContact(
                 $this->mauticId,

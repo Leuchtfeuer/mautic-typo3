@@ -11,16 +11,16 @@ declare(strict_types=1);
  * (c) Leuchtfeuer Digital Marketing <dev@leuchtfeuer.com>
  */
 
-namespace Bitmotion\Mautic\Transformation\FormField;
+namespace Leuchtfeuer\Mautic\Transformation\FormField;
 
-use Bitmotion\Mautic\Exception\TransformationException;
-use Bitmotion\Mautic\Transformation\AbstractTransformation;
+use Leuchtfeuer\Mautic\Exception\TransformationException;
+use Leuchtfeuer\Mautic\Transformation\AbstractTransformation;
 
 abstract class AbstractFormFieldTransformation extends AbstractTransformation implements FormFieldTransformationInterface
 {
-    protected $type = '';
+    protected string $type = '';
 
-    protected $fieldData = [];
+    protected array $fieldData = [];
 
     public function __construct(protected array $fieldDefinition = []) {}
 
@@ -29,7 +29,7 @@ abstract class AbstractFormFieldTransformation extends AbstractTransformation im
         return $this->fieldDefinition;
     }
 
-    public function setFieldDefinition(array $fieldDefinition)
+    public function setFieldDefinition(array $fieldDefinition): void
     {
         $this->fieldDefinition = $fieldDefinition;
     }
@@ -44,7 +44,7 @@ abstract class AbstractFormFieldTransformation extends AbstractTransformation im
      * @throws TransformationException
      */
     #[\Override]
-    public function transform()
+    public function transform(): void
     {
         if ($this->type === '') {
             throw new TransformationException(

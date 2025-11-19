@@ -11,19 +11,32 @@ declare(strict_types=1);
  * (c) Leuchtfeuer Digital Marketing <dev@leuchtfeuer.com>
  */
 
-namespace Bitmotion\Mautic\Hooks;
+namespace Leuchtfeuer\Mautic\Hooks;
 
-use Bitmotion\Mautic\Domain\Repository\ContactRepository;
+use Leuchtfeuer\Mautic\Domain\Repository\ContactRepository;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Page\PageRenderer;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class MauticTagHook
 {
-    public function setTags(array $params, PageRenderer $pageRenderer)
+    public function setTags(array $params, PageRenderer $pageRenderer): void
     {
-        $page = $GLOBALS['TSFE']->page;
+        // Get page record from TYPO3 request or fallback to TSFE
+        $page = null;
 
+        if (isset($GLOBALS['TYPO3_REQUEST'])) {
+            $request = $GLOBALS['TYPO3_REQUEST'];
+            $pageInformation = $request->getAttribute('frontend.page.information');
+            if ($pageInformation !== null) {
+                $page = $pageInformation->getPageRecord();
+            }
+        }
+
+        // Early return if no page found
+        if ($page === null) {
+            return;
+        }
         if ($page['tx_mautic_tags'] > 0) {
             $tags = $this->getTagsToAssign($page);
             if ($tags !== []) {

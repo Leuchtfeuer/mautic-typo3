@@ -11,7 +11,7 @@ declare(strict_types=1);
  * (c) Leuchtfeuer Digital Marketing <dev@leuchtfeuer.com>
  */
 
-namespace Bitmotion\Mautic\Transformation\FormField;
+namespace Leuchtfeuer\Mautic\Transformation\FormField;
 
 /**
  * {
@@ -36,5 +36,5 @@ namespace Bitmotion\Mautic\Transformation\FormField;
  */
 class DatetimeTransformation extends AbstractFormFieldTransformation
 {
-    protected $type = 'datetime';
+    protected string $type = 'datetime';
 }

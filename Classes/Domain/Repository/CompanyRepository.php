@@ -11,7 +11,7 @@ declare(strict_types=1);
  * (c) Leuchtfeuer Digital Marketing <dev@leuchtfeuer.com>
  */
 
-namespace Bitmotion\Mautic\Domain\Repository;
+namespace Leuchtfeuer\Mautic\Domain\Repository;
 
 use Mautic\Api\Companies;
 use Mautic\Exception\ContextNotFoundException;
@@ -29,15 +29,17 @@ class CompanyRepository extends AbstractRepository
     #[\Override]
     protected function injectApis(): void
     {
-        $this->companiesApi = $this->getApi('companies');
+        /** @var Companies $companiesApi */
+        $companiesApi = $this->getApi('companies');
+        $this->companiesApi = $companiesApi;
     }
 
-    public function createCompany(array $parameters)
+    public function createCompany(array $parameters): mixed
     {
         return $this->companiesApi->create($parameters);
     }
 
-    public function editCompany(int $id, array $parameters)
+    public function editCompany(int $id, array $parameters): mixed
     {
         return $this->companiesApi->edit($id, $parameters, false);
     }

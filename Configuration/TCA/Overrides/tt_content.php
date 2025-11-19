@@ -1,13 +1,16 @@
 <?php
 
 declare(strict_types=1);
+
+use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
+use TYPO3\CMS\Extbase\Utility\ExtensionUtility;
 defined('TYPO3') || die();
 
 /***************
  * Add Content Element
  */
 $GLOBALS['TCA']['tt_content']['ctrl']['typeicon_classes']['mautic_form'] = 'tx_mautic-mautic-icon';
-\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTcaSelectItem(
+ExtensionManagementUtility::addTcaSelectItem(
     'tt_content',
     'CType',
     [
@@ -73,7 +76,7 @@ $GLOBALS['TCA']['tt_content']['columns'] = array_replace_recursive(
 );
 
 // Register the plugin
-\TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerPlugin(
+ExtensionUtility::registerPlugin(
     'Mautic',
     'Form',
     'LLL:EXT:mautic/Resources/Private/Language/locallang_tca.xlf:content_element.mautic_form',

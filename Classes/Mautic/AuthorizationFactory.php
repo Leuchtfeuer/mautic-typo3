@@ -11,11 +11,11 @@ declare(strict_types=1);
  * (c) Leuchtfeuer Digital Marketing <dev@leuchtfeuer.com>
  */
 
-namespace Bitmotion\Mautic\Mautic;
+namespace Leuchtfeuer\Mautic\Mautic;
 
-use Bitmotion\Mautic\Domain\Model\Dto\YamlConfiguration;
-use Bitmotion\Mautic\Middleware\AuthorizeMiddleware;
-use Bitmotion\Mautic\Service\MauticAuthorizeService;
+use Leuchtfeuer\Mautic\Domain\Model\Dto\YamlConfiguration;
+use Leuchtfeuer\Mautic\Middleware\AuthorizeMiddleware;
+use Leuchtfeuer\Mautic\Service\MauticAuthorizeService;
 use Mautic\Auth\ApiAuth;
 use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -24,7 +24,7 @@ class AuthorizationFactory implements SingletonInterface
 {
     public const VERSION = 'OAuth1a';
 
-    protected static $oAuth;
+    protected static ?OAuth $oAuth = null;
 
     public static function createAuthorizationFromExtensionConfiguration(?string $state = null): OAuth
     {
@@ -34,6 +34,7 @@ class AuthorizationFactory implements SingletonInterface
 
         /** @var YamlConfiguration $extensionConfiguration */
         $extensionConfiguration = GeneralUtility::makeInstance(YamlConfiguration::class);
+        // @extensionScannerIgnoreLine
         $baseUrl = $extensionConfiguration->getBaseUrl();
 
         $settings = [

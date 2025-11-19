@@ -16,6 +16,7 @@ $EM_CONF['mautic'] = [
         'conflicts' => [],
         'suggests' => [
             'static_info_tables' => '6.7.0',
+            'fluid_styled_content' => '12.4.0-12.4.99',
             'form' => '12.4.0',
         ],
     ],

@@ -11,12 +11,12 @@ declare(strict_types=1);
  * (c) Leuchtfeuer Digital Marketing <dev@leuchtfeuer.com>
  */
 
-namespace Bitmotion\Mautic\Service;
+namespace Leuchtfeuer\Mautic\Service;
 
-use Bitmotion\Mautic\Domain\Model\Dto\YamlConfiguration;
 use GuzzleHttp\Client;
 use GuzzleHttp\Cookie\CookieJar;
 use GuzzleHttp\Cookie\SetCookie;
+use Leuchtfeuer\Mautic\Domain\Model\Dto\YamlConfiguration;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerAwareTrait;
 use TYPO3\CMS\Core\SingletonInterface;
@@ -128,7 +128,7 @@ class MauticSendFormService implements SingletonInterface, LoggerAwareInterface
         return $cookies;
     }
 
-    private function addCookies(CookieJar $cookies, string $cookieName)
+    private function addCookies(CookieJar $cookies, string $cookieName): void
     {
         if (\array_key_exists($cookieName, $_COOKIE)) {
             $cookies->setCookie(new SetCookie([
@@ -139,7 +139,7 @@ class MauticSendFormService implements SingletonInterface, LoggerAwareInterface
         }
     }
 
-    private function makeMultipart(array &$multipart, string $path, array $data)
+    private function makeMultipart(array &$multipart, string $path, array $data): void
     {
         foreach ($data as $key => $value) {
             $tempPath = $path . '[' . $key . ']';

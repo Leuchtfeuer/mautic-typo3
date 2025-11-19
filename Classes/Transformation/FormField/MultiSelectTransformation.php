@@ -11,9 +11,9 @@ declare(strict_types=1);
  * (c) Leuchtfeuer Digital Marketing <dev@leuchtfeuer.com>
  */
 
-namespace Bitmotion\Mautic\Transformation\FormField;
+namespace Leuchtfeuer\Mautic\Transformation\FormField;
 
-use Bitmotion\Mautic\Transformation\FormField\Prototype\ListTransformationPrototype;
+use Leuchtfeuer\Mautic\Transformation\FormField\Prototype\ListTransformationPrototype;
 
 /**
  * {
@@ -54,9 +54,9 @@ use Bitmotion\Mautic\Transformation\FormField\Prototype\ListTransformationProtot
  */
 class MultiSelectTransformation extends ListTransformationPrototype
 {
-    protected $type = 'select';
+    protected string $type = 'select';
 
-    protected $listIdentifier = 'list';
+    protected string $listIdentifier = 'list';
 
-    protected $multiple = 1;
+    protected int $multiple = 1;
 }
