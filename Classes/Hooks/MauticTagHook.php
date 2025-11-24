@@ -15,8 +15,11 @@ namespace Leuchtfeuer\Mautic\Hooks;
 
 use Leuchtfeuer\Mautic\Domain\Repository\ContactRepository;
 use TYPO3\CMS\Core\Database\ConnectionPool;
+use TYPO3\CMS\Core\Domain\Repository\PageRepository;
 use TYPO3\CMS\Core\Page\PageRenderer;
+use TYPO3\CMS\Core\Routing\PageArguments;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
 
 class MauticTagHook
 {
@@ -27,9 +30,12 @@ class MauticTagHook
 
         if (isset($GLOBALS['TYPO3_REQUEST'])) {
             $request = $GLOBALS['TYPO3_REQUEST'];
-            $pageInformation = $request->getAttribute('frontend.page.information');
-            if ($pageInformation !== null) {
-                $page = $pageInformation->getPageRecord();
+            /** @var TypoScriptFrontendController $frontendController */
+            $frontendController = $request->getAttribute('frontend.controller');
+            if ($frontendController !== null) {
+                /** @var PageArguments $pageArguments */
+                $pageArguments = $frontendController->getPageArguments();
+                $page = GeneralUtility::makeInstance(PageRepository::class)->getPage($pageArguments->getPageId());
             }
         }
 
