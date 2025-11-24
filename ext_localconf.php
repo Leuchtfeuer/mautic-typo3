@@ -1,5 +1,6 @@
 <?php
 
+use Leuchtfeuer\Mautic\Hooks\MauticTrackingHook;
 use TYPO3\CMS\Core\Core\Environment;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -68,6 +69,9 @@ call_user_func(function (): void {
         $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_pagerenderer.php']['render-postTransform']['mautic_tag'] =
             MauticTagHook::class . '->setTags';
     //}
+
+    $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['tslib/class.tslib_fe.php']['configArrayPostProc']['mautic'] =
+       MauticTrackingHook::class . '->addTrackingCode';
 
     // Register DataHandler hook for tag creation
     $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_tcemain.php']['processDatamapClass'][] =
