@@ -41,8 +41,10 @@ class MauticTrackingService implements SingletonInterface
             return '';
         }
 
-        if (!empty($this->extensionConfiguration->getTrackingScriptOverride())) {
-            return $this->extensionConfiguration->getTrackingScriptOverride();
+        $overrideScript = trim(strip_tags($this->extensionConfiguration->getTrackingScriptOverride()));
+
+        if (!empty($overrideScript)) {
+            return $overrideScript;
         }
 
         // @extensionScannerIgnoreLine - False positive: getBaseUrl() is custom method, not deprecated TYPO3 core method
