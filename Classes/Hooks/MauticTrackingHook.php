@@ -33,7 +33,10 @@ class MauticTrackingHook
     {
         if ($this->mauticTrackingService->isTrackingEnabled()) {
             $pageRenderer = GeneralUtility::makeInstance(PageRenderer::class);
-            $pageRenderer->addJsFooterInlineCode('Mautic', $this->mauticTrackingService->getTrackingCode());
+            $pageRenderer->addJsFooterInlineCode(
+                name: 'Mautic',
+                block: $this->mauticTrackingService->getTrackingCode(),
+            );
         }
     }
 }
