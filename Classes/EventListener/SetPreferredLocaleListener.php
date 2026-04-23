@@ -25,7 +25,7 @@ use TYPO3\CMS\Frontend\Event\AfterPageAndLanguageIsResolvedEvent;
 final class SetPreferredLocaleListener
 {
     private bool $languageNeedsUpdate = false;
-    private int $mauticId;
+    private readonly int $mauticId;
 
     public function __construct(
         private readonly ContactRepository $contactRepository,

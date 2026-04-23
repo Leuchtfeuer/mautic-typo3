@@ -21,17 +21,17 @@ use TYPO3\CMS\Frontend\Event\AfterCacheableContentIsGeneratedEvent;
  * Event listener to assign Mautic tags to contacts based on page configuration.
  * Replaces the deprecated hook: $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_pagerenderer.php']['render-postTransform']
  */
-final class AssignMauticTagsListener
+final readonly class AssignMauticTagsListener
 {
     public function __construct(
-        private readonly ContactRepository $contactRepository,
-        private readonly ConnectionPool $connectionPool
+        private ContactRepository $contactRepository,
+        private ConnectionPool $connectionPool
     ) {}
 
     public function __invoke(AfterCacheableContentIsGeneratedEvent $event): void
     {
-        $controller = $event->getController();
-        $page = $controller->page;
+        $event->getController();
+        $page = $GLOBALS['TYPO3_REQUEST']->getAttribute('frontend.page.information')->getPageRecord();
 
         if (($page['tx_mautic_tags'] ?? 0) > 0) {
             $tags = $this->getTagsToAssign($page);
@@ -47,7 +47,7 @@ final class AssignMauticTagsListener
 
     protected function getTagsToAssign(array $page): array
     {
-        $pageUid = $page['_PAGES_OVERLAY_UID'] ?? $page['uid'];
+        $pageUid = $page['_LOCALIZED_UID'] ?? $page['uid'];
 
         $queryBuilder = $this->connectionPool->getQueryBuilderForTable('tx_mautic_page_tag_mm');
         $result = $queryBuilder

@@ -19,9 +19,12 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class PersonaRepository
 {
+    public function __construct(private readonly \TYPO3\CMS\Core\Database\ConnectionPool $connectionPool)
+    {
+    }
     public function findBySegments(array $segments): array
     {
-        $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable('tx_marketingautomation_persona');
+        $queryBuilder = $this->connectionPool->getQueryBuilderForTable('tx_marketingautomation_persona');
         $expressionBuilder = $queryBuilder->expr();
         $persona = $queryBuilder->select('*')
             ->from('tx_marketingautomation_persona', 'persona')

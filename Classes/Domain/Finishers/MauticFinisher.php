@@ -37,7 +37,7 @@ class MauticFinisher extends AbstractFinisher
         $mauticId = (int)$this->parseOption('mauticId') ?: (int)($formDefinition['mauticId'] ?? 0);
         $formValues = $this->transformFormStructure($this->finisherContext->getFormValues());
 
-        $this->formRepository->submitForm((int)$mauticId, $formValues);
+        $this->formRepository->submitForm($mauticId, $formValues);
         return null;
     }
 

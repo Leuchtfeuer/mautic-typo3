@@ -38,13 +38,9 @@ class MauticFormHook implements LoggerAwareInterface
      */
     protected object $formRepository;
 
-    /**
-     * @var array
-     */
     protected array $extConf = [];
 
     /**
-     * @var string
      * @deprecated Use self::FORM_PROTOTYPE_NAME instead
      */
     protected string $formPrototypeName = 'mautic';

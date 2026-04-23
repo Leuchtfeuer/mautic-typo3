@@ -24,7 +24,7 @@ class MauticTrackingHook
      */
     protected object $mauticTrackingService;
 
-    public function __construct(MauticTrackingService $mauticTrackingService = null)
+    public function __construct(MauticTrackingService $mauticTrackingService = null, private readonly ?\TYPO3\CMS\Core\Page\PageRenderer $pageRenderer = null)
     {
         $this->mauticTrackingService = $mauticTrackingService ?: GeneralUtility::makeInstance(MauticTrackingService::class);
     }
@@ -32,7 +32,7 @@ class MauticTrackingHook
     public function addTrackingCode(): void
     {
         if ($this->mauticTrackingService->isTrackingEnabled()) {
-            $pageRenderer = GeneralUtility::makeInstance(PageRenderer::class);
+            $pageRenderer = $this->pageRenderer;
             $pageRenderer->addJsFooterInlineCode(
                 name: 'Mautic',
                 block: $this->mauticTrackingService->getTrackingCode(),

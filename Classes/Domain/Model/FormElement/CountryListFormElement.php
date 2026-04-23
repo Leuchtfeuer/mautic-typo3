@@ -28,14 +28,8 @@ class CountryListFormElement extends GenericFormElement implements LoggerAwareIn
 
     protected string $baseUrl;
 
-    /**
-     * @var string
-     */
     protected string $countryFile = '/app/bundles/CoreBundle/Assets/json/countries.json';
 
-    /**
-     * @var string
-     */
     protected string $locale;
 
     public function __construct(
@@ -83,7 +77,6 @@ class CountryListFormElement extends GenericFormElement implements LoggerAwareIn
 
     protected function getCountries(): array
     {
-        $report = [];
         // @extensionScannerIgnoreLine
         $countryJson = @file_get_contents($this->baseUrl . $this->countryFile);
 

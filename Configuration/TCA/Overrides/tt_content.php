@@ -14,9 +14,9 @@ ExtensionManagementUtility::addTcaSelectItem(
     'tt_content',
     'CType',
     [
-        'LLL:EXT:mautic/Resources/Private/Language/locallang_tca.xlf:content_element.mautic_form',
-        'mautic_form',
-        'tx_mautic-mautic-icon',
+        'label' => 'LLL:EXT:mautic/Resources/Private/Language/locallang_tca.xlf:content_element.mautic_form',
+        'value' => 'mautic_form',
+        'icon' => 'tx_mautic-mautic-icon',
     ]
 );
 

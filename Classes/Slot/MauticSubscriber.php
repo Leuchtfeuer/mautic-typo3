@@ -29,7 +29,7 @@ class MauticSubscriber implements SubscriberInterface, SingletonInterface
 
     protected bool $languageNeedsUpdate = false;
 
-    public function __construct(protected ContactRepository $contactRepository, protected PersonaRepository $personaRepository)
+    public function __construct(protected ContactRepository $contactRepository, protected PersonaRepository $personaRepository, private readonly \TYPO3\CMS\Core\Context\Context $context, private readonly \TYPO3\CMS\Core\Site\SiteFinder $siteFinder)
     {
         $this->mauticId = (int)($_COOKIE['mtc_id'] ?? 0);
     }
@@ -60,9 +60,9 @@ class MauticSubscriber implements SubscriberInterface, SingletonInterface
     public function setPreferredLocale(mixed $_, TypoScriptFrontendController $typoScriptFrontendController): void
     {
         if ($this->languageNeedsUpdate) {
-            $languageId = GeneralUtility::makeInstance(Context::class)->getPropertyFromAspect('language', 'id');
+            $languageId = $this->context->getPropertyFromAspect('language', 'id');
             // @extensionScannerIgnoreLine
-            $site = GeneralUtility::makeInstance(SiteFinder::class)->getSiteByPageId($typoScriptFrontendController->id);
+            $site = $this->siteFinder->getSiteByPageId($GLOBALS['TYPO3_REQUEST']->getAttribute('frontend.page.information')->getId());
             $isoCode = $site->getLanguageById($languageId)->getLocale()->getLanguageCode();
 
             $this->contactRepository->editContact(

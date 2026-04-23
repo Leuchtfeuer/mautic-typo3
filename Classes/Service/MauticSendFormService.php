@@ -106,7 +106,7 @@ class MauticSendFormService implements SingletonInterface, LoggerAwareInterface
                     // Multiple IPs are present so use the last IP which should be
                     // the most reliable IP that last connected to the proxy
                     $ips = explode(',', (string)$ip);
-                    $ips = array_map('trim', $ips);
+                    $ips = array_map(trim(...), $ips);
                     $ip = end($ips);
                 }
                 $ip = trim((string)$ip);

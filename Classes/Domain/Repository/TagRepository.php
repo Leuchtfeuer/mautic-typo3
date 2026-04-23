@@ -24,6 +24,10 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 class TagRepository extends AbstractRepository
 {
     protected Tags $tagsApi;
+    public function __construct(\Leuchtfeuer\Mautic\Mautic\AuthorizationFactory $authorizationFactory, private readonly \TYPO3\CMS\Core\Database\ConnectionPool $connectionPool)
+    {
+        parent::__construct($authorizationFactory);
+    }
 
     /**
      * @throws ContextNotFoundException
@@ -93,7 +97,7 @@ class TagRepository extends AbstractRepository
 
     protected function getQueryBuilder(): QueryBuilder
     {
-        return GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable('tx_mautic_domain_model_tag');
+        return $this->connectionPool->getQueryBuilderForTable('tx_mautic_domain_model_tag');
     }
 
     protected function deleteAllTags(): void

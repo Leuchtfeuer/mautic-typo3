@@ -73,7 +73,7 @@ class MauticAuthorizeService
     public function getAuthorizeButton(): string
     {
         $title = htmlspecialchars($this->translate('authorization.withMautic'));
-        $icon = GeneralUtility::makeInstance(IconFactory::class)->getIcon('tx_mautic-mautic-icon', Icon::SIZE_SMALL);
+        $icon = GeneralUtility::makeInstance(IconFactory::class)->getIcon('tx_mautic-mautic-icon', \TYPO3\CMS\Core\Imaging\IconSize::SMALL);
         $url = GeneralUtility::getIndpEnv('TYPO3_REQUEST_HOST') . AuthorizeMiddleware::PATH;
 
         return sprintf(
@@ -255,9 +255,6 @@ class MauticAuthorizeService
 
     protected function translate(string $key): string
     {
-        if (!$this->languageService instanceof LanguageService) {
-            $this->languageService = GeneralUtility::makeInstance(LanguageServiceFactory::class)->createFromUserPreferences($GLOBALS['BE_USER']);
-        }
         return $this->languageService->sL('LLL:EXT:mautic/Resources/Private/Language/locallang_mod.xlf:' . $key);
     }
 

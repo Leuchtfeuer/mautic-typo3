@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use Leuchtfeuer\Mautic\Hooks\MauticFormHook;
 defined('TYPO3') || die;
 

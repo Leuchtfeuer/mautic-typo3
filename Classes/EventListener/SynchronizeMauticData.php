@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the "Mautic" extension for TYPO3 CMS.
  *
@@ -8,7 +10,6 @@
  *
  * (c) Leuchtfeuer Digital Marketing <dev@leuchtfeuer.com>
  */
-
 namespace Leuchtfeuer\Mautic\EventListener;
 
 use Leuchtfeuer\Mautic\Domain\Repository\SegmentRepository;

@@ -179,7 +179,7 @@ abstract class AbstractFormTransformation extends AbstractTransformation impleme
 
     public function getFormElements(): array
     {
-        if (empty($this->formElements)) {
+        if ($this->formElements === []) {
             $this->formElements = $this->resolveFormElements($this->formDefinition['renderables']);
         }
 

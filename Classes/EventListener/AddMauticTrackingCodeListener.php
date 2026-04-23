@@ -21,14 +21,14 @@ use TYPO3\CMS\Frontend\Event\AfterCacheableContentIsGeneratedEvent;
  * Event listener to add Mautic tracking code to frontend pages.
  * Replaces the deprecated hook: $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['tslib/class.tslib_fe.php']['configArrayPostProc']
  */
-final class AddMauticTrackingCodeListener
+final readonly class AddMauticTrackingCodeListener
 {
     public function __construct(
-        private readonly MauticTrackingService $mauticTrackingService,
-        private readonly PageRenderer $pageRenderer
+        private MauticTrackingService $mauticTrackingService,
+        private PageRenderer $pageRenderer
     ) {}
 
-    public function __invoke(AfterCacheableContentIsGeneratedEvent $event): void
+    public function __invoke(): void
     {
         if ($this->mauticTrackingService->isTrackingEnabled()) {
             $this->pageRenderer->addJsFooterInlineCode(

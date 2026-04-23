@@ -47,8 +47,6 @@ class OAuth implements AuthInterface
 
     /**
      * Check if current authorization is still valid
-     *
-     * @return bool
      */
     #[\Override]
     public function isAuthorized(): bool

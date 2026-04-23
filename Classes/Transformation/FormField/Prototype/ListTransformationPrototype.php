@@ -81,7 +81,7 @@ class ListTransformationPrototype extends AbstractFormFieldTransformation
 
     public function hasCustomFieldValues(): bool
     {
-        return !empty($this->customFieldValues);
+        return $this->customFieldValues !== [];
     }
 
     public function getCustomFieldValues(): array

@@ -20,6 +20,9 @@ use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
 
 class MauticTagHook
 {
+    public function __construct(private readonly \TYPO3\CMS\Core\Database\ConnectionPool $connectionPool)
+    {
+    }
     public function setTags(array $params, TypoScriptFrontendController $frontendController): void
     {
         // Get page record from TYPO3 request or fallback to TSFE
@@ -44,9 +47,9 @@ class MauticTagHook
 
     protected function getTagsToAssign(array $page): array
     {
-        $pageUid = $page['_PAGES_OVERLAY_UID'] ?? $page['uid'];
+        $pageUid = $page['_LOCALIZED_UID'] ?? $page['uid'];
 
-        $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable('tx_mautic_domain_model_tag');
+        $queryBuilder = $this->connectionPool->getQueryBuilderForTable('tx_mautic_domain_model_tag');
         $result = $queryBuilder
             ->select('tag.uid', 'tag.title')
             ->from('tx_mautic_domain_model_tag', 'tag')

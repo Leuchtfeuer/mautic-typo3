@@ -44,7 +44,8 @@ class AuthorizeMiddleware implements MiddlewareInterface, LoggerAwareInterface
 
     public function __construct(
         private readonly SegmentRepository $segmentRepository,
-        private readonly TagRepository $tagRepository
+        private readonly TagRepository $tagRepository,
+        private readonly \TYPO3\CMS\Core\Context\Context $context
     ) {}
 
     #[\Override]
@@ -56,7 +57,7 @@ class AuthorizeMiddleware implements MiddlewareInterface, LoggerAwareInterface
             return $handler->handle($request);
         }
 
-        $userAspect = GeneralUtility::makeInstance(Context::class)->getAspect('backend.user');
+        $userAspect = $this->context->getAspect('backend.user');
         $this->state = $request->getQueryParams()['state'] ?? '';
 
         if (($this->state === '' || $this->state === '0') && !$userAspect->isLoggedIn()) {

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use Leuchtfeuer\Mautic\Hooks\MauticTrackingHook;
 use TYPO3\CMS\Core\Core\Environment;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
@@ -59,10 +61,6 @@ call_user_func(function (): void {
 
     $marketingDispatcher = GeneralUtility::makeInstance(Dispatcher::class);
     $marketingDispatcher->addSubscriber(MauticSubscriber::class);
-
-    ExtensionManagementUtility::addPageTSConfig(
-        '<INCLUDE_TYPOSCRIPT: source="FILE:EXT:mautic/Configuration/PageTS/Mod/Wizards/NewContentElement.tsconfig">'
-    );
 
     $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['tslib/class.tslib_fe.php']['configArrayPostProc']['mautic_tag'] =
         MauticTagHook::class . '->setTags';
@@ -132,14 +130,6 @@ call_user_func(function (): void {
     $icons = [
         'tx_mautic-mautic-icon' => 'EXT:mautic/Resources/Public/Icons/Extension.svg',
     ];
-
-    foreach ($icons as $identifier => $source) {
-        $iconRegistry->registerIcon(
-            $identifier,
-            SvgIconProvider::class,
-            ['source' => $source]
-        );
-    }
 
     //######################
     //##    TYPOSCRIPT    ##

@@ -19,14 +19,8 @@ use Mautic\Exception\ContextNotFoundException;
 
 class FieldRepository extends AbstractRepository
 {
-    /**
-     * @var ContactFields
-     */
     protected ContactFields $contactFieldsApi;
 
-    /**
-     * @var CompanyFields
-     */
     protected CompanyFields $companyFieldsApi;
 
     /**

@@ -25,7 +25,7 @@ class FrontendController extends ActionController
     public function formAction(): ResponseInterface
     {
         if ($this->view instanceof TemplateView) {
-            $this->view->setTemplatePathAndFilename($this->getTemplatePath());
+            $this->view->getRenderingContext()->getTemplatePaths()->setTemplatePathAndFilename($this->getTemplatePath());
         }
         $this->view->assignMultiple([
             // @extensionScannerIgnoreLine
