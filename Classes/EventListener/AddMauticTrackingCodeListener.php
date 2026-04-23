@@ -15,7 +15,6 @@ namespace Leuchtfeuer\Mautic\EventListener;
 
 use Leuchtfeuer\Mautic\Service\MauticTrackingService;
 use TYPO3\CMS\Core\Page\PageRenderer;
-use TYPO3\CMS\Frontend\Event\AfterCacheableContentIsGeneratedEvent;
 
 /**
  * Event listener to add Mautic tracking code to frontend pages.

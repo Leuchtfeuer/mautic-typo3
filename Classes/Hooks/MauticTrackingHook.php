@@ -24,7 +24,7 @@ class MauticTrackingHook
      */
     protected object $mauticTrackingService;
 
-    public function __construct(MauticTrackingService $mauticTrackingService = null, private readonly ?\TYPO3\CMS\Core\Page\PageRenderer $pageRenderer = null)
+    public function __construct(MauticTrackingService $mauticTrackingService = null, private readonly ?PageRenderer $pageRenderer = null)
     {
         $this->mauticTrackingService = $mauticTrackingService ?: GeneralUtility::makeInstance(MauticTrackingService::class);
     }

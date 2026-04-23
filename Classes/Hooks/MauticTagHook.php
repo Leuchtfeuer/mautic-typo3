@@ -20,9 +20,7 @@ use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
 
 class MauticTagHook
 {
-    public function __construct(private readonly \TYPO3\CMS\Core\Database\ConnectionPool $connectionPool)
-    {
-    }
+    public function __construct(private readonly ConnectionPool $connectionPool) {}
     public function setTags(array $params, TypoScriptFrontendController $frontendController): void
     {
         // Get page record from TYPO3 request or fallback to TSFE

@@ -10,6 +10,7 @@ declare(strict_types=1);
  *
  * (c) Leuchtfeuer Digital Marketing <dev@leuchtfeuer.com>
  */
+
 namespace Leuchtfeuer\Mautic\FormEngine\FieldControl;
 
 use TYPO3\CMS\Backend\Form\AbstractNode;

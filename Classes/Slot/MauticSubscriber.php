@@ -17,10 +17,7 @@ use Leuchtfeuer\MarketingAutomation\Dispatcher\SubscriberInterface;
 use Leuchtfeuer\MarketingAutomation\Persona\Persona;
 use Leuchtfeuer\Mautic\Domain\Repository\ContactRepository;
 use Leuchtfeuer\Mautic\Domain\Repository\PersonaRepository;
-use TYPO3\CMS\Core\Context\Context;
 use TYPO3\CMS\Core\SingletonInterface;
-use TYPO3\CMS\Core\Site\SiteFinder;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
 
 class MauticSubscriber implements SubscriberInterface, SingletonInterface

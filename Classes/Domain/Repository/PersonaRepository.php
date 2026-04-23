@@ -15,13 +15,10 @@ namespace Leuchtfeuer\Mautic\Domain\Repository;
 
 use Doctrine\DBAL\Connection;
 use TYPO3\CMS\Core\Database\ConnectionPool;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class PersonaRepository
 {
-    public function __construct(private readonly \TYPO3\CMS\Core\Database\ConnectionPool $connectionPool)
-    {
-    }
+    public function __construct(private readonly ConnectionPool $connectionPool) {}
     public function findBySegments(array $segments): array
     {
         $queryBuilder = $this->connectionPool->getQueryBuilderForTable('tx_marketingautomation_persona');

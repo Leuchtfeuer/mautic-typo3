@@ -14,17 +14,17 @@ declare(strict_types=1);
 namespace Leuchtfeuer\Mautic\Domain\Repository;
 
 use Doctrine\DBAL\Exception;
+use Leuchtfeuer\Mautic\Mautic\AuthorizationFactory;
 use Mautic\Api\Tags;
 use Mautic\Exception\ContextNotFoundException;
 use TYPO3\CMS\Core\Database\Connection;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Database\Query\QueryBuilder;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class TagRepository extends AbstractRepository
 {
     protected Tags $tagsApi;
-    public function __construct(\Leuchtfeuer\Mautic\Mautic\AuthorizationFactory $authorizationFactory, private readonly \TYPO3\CMS\Core\Database\ConnectionPool $connectionPool)
+    public function __construct(AuthorizationFactory $authorizationFactory, private readonly ConnectionPool $connectionPool)
     {
         parent::__construct($authorizationFactory);
     }

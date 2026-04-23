@@ -14,12 +14,12 @@ declare(strict_types=1);
 namespace Leuchtfeuer\Mautic\Domain\Repository;
 
 use Doctrine\DBAL\Exception;
+use Leuchtfeuer\Mautic\Mautic\AuthorizationFactory;
 use Mautic\Api\Segments;
 use Mautic\Exception\ContextNotFoundException;
 use TYPO3\CMS\Core\Context\Context;
 use TYPO3\CMS\Core\Database\Connection;
 use TYPO3\CMS\Core\Database\ConnectionPool;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class SegmentRepository extends AbstractRepository
 {
@@ -27,7 +27,7 @@ class SegmentRepository extends AbstractRepository
      * @var Segments
      */
     protected $segmentsApi;
-    public function __construct(\Leuchtfeuer\Mautic\Mautic\AuthorizationFactory $authorizationFactory, private readonly \TYPO3\CMS\Core\Database\ConnectionPool $connectionPool, private readonly \TYPO3\CMS\Core\Context\Context $context)
+    public function __construct(AuthorizationFactory $authorizationFactory, private readonly ConnectionPool $connectionPool, private readonly Context $context)
     {
         parent::__construct($authorizationFactory);
     }

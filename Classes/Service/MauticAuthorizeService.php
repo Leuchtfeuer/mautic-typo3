@@ -19,7 +19,6 @@ use Leuchtfeuer\Mautic\Mautic\AuthorizationFactory;
 use Leuchtfeuer\Mautic\Mautic\OAuth;
 use Leuchtfeuer\Mautic\Middleware\AuthorizeMiddleware;
 use Mautic\MauticApi;
-use TYPO3\CMS\Core\Imaging\Icon;
 use TYPO3\CMS\Core\Imaging\IconFactory;
 use TYPO3\CMS\Core\Localization\LanguageService;
 use TYPO3\CMS\Core\Localization\LanguageServiceFactory;

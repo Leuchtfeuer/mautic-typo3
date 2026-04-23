@@ -19,12 +19,12 @@ use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerAwareTrait;
 use TYPO3\CMS\Core\Core\Environment;
 use TYPO3\CMS\Core\Database\ConnectionPool;
+use TYPO3\CMS\Core\Resource\Capabilities;
 use TYPO3\CMS\Core\Resource\Driver\AbstractHierarchicalFilesystemDriver;
 use TYPO3\CMS\Core\Resource\Driver\LocalDriver;
 use TYPO3\CMS\Core\Resource\Exception\FileDoesNotExistException;
 use TYPO3\CMS\Core\Resource\Exception\InvalidPathException;
 use TYPO3\CMS\Core\Resource\FileRepository;
-use TYPO3\CMS\Core\Resource\ResourceStorage;
 use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\PathUtility;
@@ -60,7 +60,7 @@ class AssetDriver extends AbstractHierarchicalFilesystemDriver implements Logger
     {
         parent::__construct($configuration);
 
-        $this->capabilities = \TYPO3\CMS\Core\Resource\Capabilities::CAPABILITY_BROWSABLE | \TYPO3\CMS\Core\Resource\Capabilities::CAPABILITY_PUBLIC | \TYPO3\CMS\Core\Resource\Capabilities::CAPABILITY_WRITABLE;
+        $this->capabilities = Capabilities::CAPABILITY_BROWSABLE | Capabilities::CAPABILITY_PUBLIC | Capabilities::CAPABILITY_WRITABLE;
     }
 
     public function __destruct()
@@ -71,7 +71,7 @@ class AssetDriver extends AbstractHierarchicalFilesystemDriver implements Logger
     }
 
     #[\Override]
-    public function mergeConfigurationCapabilities(\TYPO3\CMS\Core\Resource\Capabilities $capabilities): \TYPO3\CMS\Core\Resource\Capabilities
+    public function mergeConfigurationCapabilities(Capabilities $capabilities): Capabilities
     {
         $this->capabilities &= $capabilities;
 

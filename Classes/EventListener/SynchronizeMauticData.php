@@ -10,6 +10,7 @@ declare(strict_types=1);
  *
  * (c) Leuchtfeuer Digital Marketing <dev@leuchtfeuer.com>
  */
+
 namespace Leuchtfeuer\Mautic\EventListener;
 
 use Leuchtfeuer\Mautic\Domain\Repository\SegmentRepository;

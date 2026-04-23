@@ -45,7 +45,7 @@ class AuthorizeMiddleware implements MiddlewareInterface, LoggerAwareInterface
     public function __construct(
         private readonly SegmentRepository $segmentRepository,
         private readonly TagRepository $tagRepository,
-        private readonly \TYPO3\CMS\Core\Context\Context $context
+        private readonly Context $context
     ) {}
 
     #[\Override]
