@@ -38,7 +38,7 @@ class AssetDriver extends AbstractHierarchicalFilesystemDriver implements Logger
     public const DRIVER_TYPE = 'mautic';
     public const ROOT_LEVEL_FOLDER = '/';
 
-    protected $capabilities;
+    protected Capabilities $capabilities;
 
     protected string $baseUrl;
 
@@ -60,7 +60,11 @@ class AssetDriver extends AbstractHierarchicalFilesystemDriver implements Logger
     {
         parent::__construct($configuration);
 
-        $this->capabilities = Capabilities::CAPABILITY_BROWSABLE | Capabilities::CAPABILITY_PUBLIC | Capabilities::CAPABILITY_WRITABLE;
+        $this->capabilities = new Capabilities(
+            Capabilities::CAPABILITY_BROWSABLE
+            | Capabilities::CAPABILITY_PUBLIC
+            | Capabilities::CAPABILITY_WRITABLE
+        );
     }
 
     public function __destruct()
@@ -73,13 +77,22 @@ class AssetDriver extends AbstractHierarchicalFilesystemDriver implements Logger
     #[\Override]
     public function mergeConfigurationCapabilities(Capabilities $capabilities): Capabilities
     {
-        $this->capabilities &= $capabilities;
+        $this->capabilities->and($capabilities);
 
         return $this->capabilities;
     }
 
     #[\Override]
     public function processConfiguration(): void {}
+
+    #[\Override]
+    public function sanitizeFileName(string $fileName, string $charset = ''): string
+    {
+        $fileName = ltrim($fileName, '.');
+        $cleanFileName = (string)preg_replace('/[\\x00-\\x1F\\x7F\\/\\\\:*?"<>|]/', '_', trim($fileName));
+
+        return $cleanFileName === '' ? '_' : $cleanFileName;
+    }
 
     #[\Override]
     public function initialize(): void
