@@ -1,1 +1,1 @@
-<INCLUDE_TYPOSCRIPT: source="FILE:EXT:mautic/Configuration/PageTS/Mod/Wizards/NewContentElement.tsconfig">
+@import 'EXT:mautic/Configuration/PageTS/Mod/Wizards/NewContentElement.tsconfig'
