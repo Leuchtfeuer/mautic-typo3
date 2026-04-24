@@ -18,14 +18,17 @@ use Leuchtfeuer\MarketingAutomation\Persona\Persona;
 use Leuchtfeuer\Mautic\Domain\Repository\ContactRepository;
 use Leuchtfeuer\Mautic\Domain\Repository\PersonaRepository;
 use TYPO3\CMS\Core\SingletonInterface;
+
 class MauticSubscriber implements SubscriberInterface, SingletonInterface
 {
     protected int $mauticId;
 
     protected bool $languageNeedsUpdate = false;
 
-    public function __construct(protected ContactRepository $contactRepository, protected PersonaRepository $personaRepository, private readonly \TYPO3\CMS\Core\Context\Context $context, private readonly \TYPO3\CMS\Core\Site\SiteFinder $siteFinder)
-    {
+    public function __construct(
+        protected ContactRepository $contactRepository,
+        protected PersonaRepository $personaRepository,
+    ) {
         $this->mauticId = (int)($_COOKIE['mtc_id'] ?? 0);
     }
 
