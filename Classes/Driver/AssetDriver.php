@@ -629,6 +629,9 @@ class AssetDriver extends AbstractHierarchicalFilesystemDriver implements Logger
     {
         $temporaryPath = $this->getTemporaryPathForFile($fileIdentifier . '.' . $asset['extension']);
         $content = GeneralUtility::getUrl($asset['downloadUrl']);
+        if ($content === false) {
+            throw new \RuntimeException('Downloading file ' . $fileIdentifier . ' failed.', 1555571766);
+        }
         GeneralUtility::writeFile($temporaryPath, $content);
 
         if (!is_file($temporaryPath)) {
