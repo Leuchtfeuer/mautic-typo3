@@ -18,8 +18,6 @@ use Leuchtfeuer\MarketingAutomation\Persona\Persona;
 use Leuchtfeuer\Mautic\Domain\Repository\ContactRepository;
 use Leuchtfeuer\Mautic\Domain\Repository\PersonaRepository;
 use TYPO3\CMS\Core\SingletonInterface;
-use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
-
 class MauticSubscriber implements SubscriberInterface, SingletonInterface
 {
     protected int $mauticId;
@@ -52,22 +50,5 @@ class MauticSubscriber implements SubscriberInterface, SingletonInterface
         $personaId = $this->personaRepository->findBySegments($segmentIds)['uid'] ?? 0;
 
         return $persona->withId($personaId);
-    }
-
-    public function setPreferredLocale(mixed $_, TypoScriptFrontendController $typoScriptFrontendController): void
-    {
-        if ($this->languageNeedsUpdate) {
-            $languageId = $this->context->getPropertyFromAspect('language', 'id');
-            // @extensionScannerIgnoreLine
-            $site = $this->siteFinder->getSiteByPageId($GLOBALS['TYPO3_REQUEST']->getAttribute('frontend.page.information')->getId());
-            $isoCode = $site->getLanguageById($languageId)->getLocale()->getLanguageCode();
-
-            $this->contactRepository->editContact(
-                $this->mauticId,
-                [
-                    'preferred_locale' => $isoCode,
-                ]
-            );
-        }
     }
 }
