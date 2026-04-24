@@ -430,8 +430,6 @@ class AssetDriver extends AbstractHierarchicalFilesystemDriver implements Logger
     public function dumpFileContents(string $identifier): void
     {
         $this->logger->debug('dumpFileContents');
-
-        return '';
     }
 
     #[\Override]
