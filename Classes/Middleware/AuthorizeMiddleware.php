@@ -32,8 +32,6 @@ use TYPO3\CMS\Core\Http\Response;
 use TYPO3\CMS\Core\Http\Stream;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-use function GuzzleHttp\json_decode;
-
 class AuthorizeMiddleware implements MiddlewareInterface, LoggerAwareInterface
 {
     use LoggerAwareTrait;
@@ -123,7 +121,7 @@ class AuthorizeMiddleware implements MiddlewareInterface, LoggerAwareInterface
             }
         } catch (UnexpectedResponseFormatException $exception) {
             try {
-                $errors = json_decode($exception->getResponse()->getBody(), true)['errors'];
+                $errors = json_decode((string)$exception->getResponse()->getBody(), true)['errors'];
                 $error = array_shift($errors);
 
                 $title = sprintf('Error %d', $error['code']);
