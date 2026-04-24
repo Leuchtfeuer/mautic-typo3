@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Leuchtfeuer\Mautic\Domain\Model\FormElement;
 
-use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\ArrayParameterType;
 use Leuchtfeuer\Mautic\Mautic\AuthorizationFactory;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerAwareTrait;
@@ -105,7 +105,7 @@ class CountryListFormElement extends GenericFormElement implements LoggerAwareIn
                 ->select('*')
                 ->from('static_countries')->where($queryBuilder->expr()->in(
                     'cn_short_en',
-                    $queryBuilder->createNamedParameter(array_keys($countries), Connection::PARAM_STR_ARRAY)
+                    $queryBuilder->createNamedParameter(array_keys($countries), ArrayParameterType::STRING)
                 ))->executeQuery()->fetchAllAssociative();
 
             foreach ($countryNames as $countryName) {
