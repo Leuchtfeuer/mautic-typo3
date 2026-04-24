@@ -10,17 +10,14 @@ services:
   Leuchtfeuer\Mautic\Hooks\MauticFormHook:
     public: true
 
+  Leuchtfeuer\Mautic\UserFunctions\Tracking:
+    public: true
+
   Leuchtfeuer\Mautic\EventListener\SynchronizeMauticData:
     tags:
       - name: event.listener
         identifier: synchronizeMauticData
         event: TYPO3\CMS\Backend\Controller\Event\AfterFormEnginePageInitializedEvent
-
-  Leuchtfeuer\Mautic\EventListener\AddMauticTrackingCodeListener:
-    tags:
-      - name: event.listener
-        identifier: mautic.addTrackingCode
-        event: TYPO3\CMS\Frontend\Event\AfterCacheableContentIsGeneratedEvent
 
   Leuchtfeuer\Mautic\EventListener\AssignMauticTagsListener:
     tags:

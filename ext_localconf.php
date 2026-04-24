@@ -60,7 +60,6 @@ call_user_func(function (): void {
     $marketingDispatcher->addSubscriber(MauticSubscriber::class);
 
     // Hooks for configArrayPostProc removed in TYPO3 13 (Breaking #102932)
-    // - MauticTrackingHook -> AddMauticTrackingCodeListener (PSR-14)
     // - MauticTagHook -> AssignMauticTagsListener (PSR-14)
 
     // Register DataHandler hook for tag creation
