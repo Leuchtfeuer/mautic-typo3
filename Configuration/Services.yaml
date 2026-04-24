@@ -15,3 +15,27 @@ services:
       - name: event.listener
         identifier: synchronizeMauticData
         event: TYPO3\CMS\Backend\Controller\Event\AfterFormEnginePageInitializedEvent
+
+  Leuchtfeuer\Mautic\EventListener\AddMauticTrackingCodeListener:
+    tags:
+      - name: event.listener
+        identifier: mautic.addTrackingCode
+        event: TYPO3\CMS\Frontend\Event\AfterCacheableContentIsGeneratedEvent
+
+  Leuchtfeuer\Mautic\EventListener\AssignMauticTagsListener:
+    tags:
+      - name: event.listener
+        identifier: mautic.assignTags
+        event: TYPO3\CMS\Frontend\Event\AfterCacheableContentIsGeneratedEvent
+
+  Leuchtfeuer\Mautic\EventListener\MauticFormPreviewListener:
+    tags:
+      - name: event.listener
+        identifier: mautic.formPreview
+        event: TYPO3\CMS\Backend\View\Event\PageContentPreviewRenderingEvent
+
+  Leuchtfeuer\Mautic\EventListener\SetPreferredLocaleListener:
+    tags:
+      - name: event.listener
+        identifier: mautic.setLocale
+        event: TYPO3\CMS\Frontend\Event\AfterPageAndLanguageIsResolvedEvent

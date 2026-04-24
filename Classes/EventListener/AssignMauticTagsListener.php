@@ -30,8 +30,7 @@ final readonly class AssignMauticTagsListener
 
     public function __invoke(AfterCacheableContentIsGeneratedEvent $event): void
     {
-        $event->getController();
-        $page = $GLOBALS['TYPO3_REQUEST']->getAttribute('frontend.page.information')->getPageRecord();
+        $page = $event->getRequest()->getAttribute('frontend.page.information')->getPageRecord();
 
         if (($page['tx_mautic_tags'] ?? 0) > 0) {
             $tags = $this->getTagsToAssign($page);

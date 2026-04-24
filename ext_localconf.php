@@ -2,14 +2,12 @@
 
 declare(strict_types=1);
 
-use Leuchtfeuer\Mautic\Hooks\MauticTrackingHook;
+use Leuchtfeuer\Mautic\Hooks\TCEmainHook;
 use TYPO3\CMS\Core\Core\Environment;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use Leuchtfeuer\MarketingAutomation\Dispatcher\Dispatcher;
 use Leuchtfeuer\Mautic\Slot\MauticSubscriber;
-use Leuchtfeuer\Mautic\Hooks\MauticTagHook;
-use Leuchtfeuer\Mautic\Hooks\TCEmainHook;
 use Leuchtfeuer\Mautic\Form\FormDataProvider\MauticFormDataProvider;
 use TYPO3\CMS\Backend\Form\FormDataProvider\DatabaseRowDefaultValues;
 use TYPO3\CMS\Backend\Form\FormDataProvider\TcaSelectItems;
@@ -62,11 +60,9 @@ call_user_func(function (): void {
     $marketingDispatcher = GeneralUtility::makeInstance(Dispatcher::class);
     $marketingDispatcher->addSubscriber(MauticSubscriber::class);
 
-    $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['tslib/class.tslib_fe.php']['configArrayPostProc']['mautic_tag'] =
-        MauticTagHook::class . '->setTags';
-
-    $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['tslib/class.tslib_fe.php']['configArrayPostProc']['mautic'] =
-       MauticTrackingHook::class . '->addTrackingCode';
+    // Hooks for configArrayPostProc removed in TYPO3 13 (Breaking #102932)
+    // - MauticTrackingHook -> AddMauticTrackingCodeListener (PSR-14)
+    // - MauticTagHook -> AssignMauticTagsListener (PSR-14)
 
     // Register DataHandler hook for tag creation
     $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_tcemain.php']['processDatamapClass'][] =
