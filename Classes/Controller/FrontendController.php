@@ -35,6 +35,7 @@ class FrontendController extends ActionController
         $view->assignMultiple([
             // @extensionScannerIgnoreLine
             'mauticBaseUrl' => AuthorizationFactory::createAuthorizationFromExtensionConfiguration()->getBaseUrl(),
+            // @extensionScannerIgnoreLine
             'data' => $this->request->getAttribute('currentContentObject')->data,
         ]);
         return $this->htmlResponse($view->render());

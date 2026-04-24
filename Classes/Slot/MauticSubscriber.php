@@ -37,6 +37,7 @@ class MauticSubscriber implements SubscriberInterface, SingletonInterface
     {
         $isValidMauticId = $this->mauticId !== 0;
         $isEmptyPersonaId = $currentPersona->getId() === 0;
+        // @extensionScannerIgnoreLine
         $this->languageNeedsUpdate = $isValidMauticId && $currentPersona->getLanguage() !== $newPersona->getLanguage();
 
         return $isValidMauticId && ($isEmptyPersonaId || $this->languageNeedsUpdate);
