@@ -19,8 +19,6 @@ use TYPO3\CMS\Core\Resource\Index\ExtractorRegistry;
 use Leuchtfeuer\Mautic\Index\Extractor;
 use TYPO3\CMS\Extbase\Utility\ExtensionUtility;
 use Leuchtfeuer\Mautic\Controller\FrontendController;
-use TYPO3\CMS\Core\Imaging\IconRegistry;
-use TYPO3\CMS\Core\Imaging\IconProvider\SvgIconProvider;
 use Leuchtfeuer\Mautic\Transformation\Form\CampaignFormTransformation;
 use Leuchtfeuer\Mautic\Transformation\Form\StandaloneFormTransformation;
 use Leuchtfeuer\Mautic\Transformation\FormField\IgnoreTransformation;
@@ -119,13 +117,7 @@ call_user_func(function (): void {
         ExtensionUtility::PLUGIN_TYPE_CONTENT_ELEMENT
     );
 
-    //##################
-    //      ICONS      #
-    //##################
-    $iconRegistry = GeneralUtility::makeInstance(IconRegistry::class);
-    $icons = [
-        'tx_mautic-mautic-icon' => 'EXT:mautic/Resources/Public/Icons/Extension.svg',
-    ];
+    // Icons are registered via Configuration/Icons.php
 
     //######################
     //##    TYPOSCRIPT    ##
