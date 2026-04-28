@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Leuchtfeuer\Mautic\Domain\Repository;
 
-use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\ArrayParameterType;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 
 class PersonaRepository
@@ -34,7 +34,7 @@ class PersonaRepository
             ->where(
                 $expressionBuilder->in(
                     'segment.uid_local',
-                    $queryBuilder->createNamedParameter($segments, Connection::PARAM_INT_ARRAY)
+                    $queryBuilder->createNamedParameter($segments, ArrayParameterType::INTEGER)
                 )
             )
             ->orderBy('persona.sorting')->setMaxResults(1)->executeQuery()->fetchAllAssociative();
