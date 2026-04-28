@@ -114,7 +114,7 @@ class AuthorizeMiddleware implements MiddlewareInterface, LoggerAwareInterface
                     $this->updateExtensionConfiguration($accessTokenData);
                 }
 
-                $this->segmentRepository->initializeSegments();
+                $this->segmentRepository->synchronizeSegments();
                 $this->tagRepository->synchronizeTags();
 
                 return null;

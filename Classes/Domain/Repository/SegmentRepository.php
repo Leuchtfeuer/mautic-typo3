@@ -50,21 +50,6 @@ class SegmentRepository extends AbstractRepository
         return $segments['lists'] ?? [];
     }
 
-    /**
-     * @throws Exception
-     */
-    public function initializeSegments(): void
-    {
-        $connection = $this->connectionPool
-            ->getConnectionForTable('tx_marketingautomation_segment');
-        $query = $connection->getDatabasePlatform()->getTruncateTableSQL('tx_marketingautomation_segment');
-        $connection->executeQuery($query);
-        $query = $connection->getDatabasePlatform()->getTruncateTableSQL('tx_marketingautomation_segment_mm');
-        $connection->executeQuery($query);
-
-        $this->synchronizeSegments();
-    }
-
     public function synchronizeSegments(): void
     {
         $queryBuilder = $this->connectionPool
