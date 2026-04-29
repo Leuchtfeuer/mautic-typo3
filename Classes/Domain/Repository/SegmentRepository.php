@@ -13,7 +13,6 @@ declare(strict_types=1);
 
 namespace Leuchtfeuer\Mautic\Domain\Repository;
 
-use Doctrine\DBAL\Exception;
 use Leuchtfeuer\Mautic\Mautic\AuthorizationFactory;
 use Mautic\Api\Segments;
 use Mautic\Exception\ContextNotFoundException;

@@ -18,9 +18,7 @@ use Psr\Http\Message\ServerRequestInterface;
 
 final class Tracking
 {
-    public function __construct(private readonly MauticTrackingService $mauticTrackingService)
-    {
-    }
+    public function __construct(private readonly MauticTrackingService $mauticTrackingService) {}
 
     /**
      * @param string $content

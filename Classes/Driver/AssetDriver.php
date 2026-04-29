@@ -46,7 +46,7 @@ class AssetDriver extends AbstractHierarchicalFilesystemDriver implements Logger
 
     protected array $assetsToDelete = [];
 
-    protected bool $cleanUp = true;
+    protected bool $cleanUp = false;
 
     protected bool $assetsLoaded = false;
 
@@ -63,8 +63,9 @@ class AssetDriver extends AbstractHierarchicalFilesystemDriver implements Logger
         $this->capabilities = new Capabilities(
             Capabilities::CAPABILITY_BROWSABLE
             | Capabilities::CAPABILITY_PUBLIC
-            | Capabilities::CAPABILITY_WRITABLE
         );
+
+        $this->assetRepository = GeneralUtility::makeInstance(AssetRepository::class);
     }
 
     public function __destruct()
@@ -154,7 +155,7 @@ class AssetDriver extends AbstractHierarchicalFilesystemDriver implements Logger
     #[\Override]
     public function fileExists(string $identifier): bool
     {
-        if (str_ends_with($identifier, '/') || $identifier === '') {
+        if (str_ends_with($identifier, '/')) {
             return false;
         }
 
@@ -230,39 +231,35 @@ class AssetDriver extends AbstractHierarchicalFilesystemDriver implements Logger
     #[\Override]
     public function moveFileWithinStorage(string $fileIdentifier, string $targetFolderIdentifier, string $newFileName): string
     {
-        // TODO: Implement later
-        $this->logger->debug('moveFileWithinStorage');
-
-        return '';
+        // Dummy implementation: The driver is supposed to be read-only.
+        return $fileIdentifier;
     }
 
     #[\Override]
     public function copyFileWithinStorage(string $fileIdentifier, string $targetFolderIdentifier, string $fileName): string
     {
-        // TODO: Implement later
-        $this->logger->debug('copyFileWithinStorage');
-
-        return '';
+        // Dummy implementation: The driver is supposed to be read-only.
+        return $fileIdentifier;
     }
 
     #[\Override]
     public function replaceFile(string $fileIdentifier, string $localFilePath): bool
     {
-        // TODO: Implement later
-        $this->logger->debug('replaceFile');
-
+        // Dummy implementation: The driver is supposed to be read-only.
         return true;
     }
 
     #[\Override]
     public function deleteFile(string $fileIdentifier): bool
     {
+        // Dummy implementation: The driver is supposed to be read-only.
         return $this->removeFileByIdentifier($fileIdentifier);
     }
 
     #[\Override]
     public function deleteFolder(string $folderIdentifier, bool $deleteRecursively = false): bool
     {
+        // Dummy implementation: The driver is supposed to be read-only.
         return true;
     }
 
@@ -287,69 +284,56 @@ class AssetDriver extends AbstractHierarchicalFilesystemDriver implements Logger
     #[\Override]
     public function createFile(string $fileName, string $parentFolderIdentifier): string
     {
-        // TODO: Implement later
-        $this->logger->debug('createFile');
-
-        return '';
+        // Dummy implementation: The driver is supposed to be read-only.
+        return $parentFolderIdentifier . $fileName;
     }
 
     #[\Override]
     public function createFolder(string $newFolderName, string $parentFolderIdentifier = '', bool $recursive = false): string
     {
-        return '';
+        // Dummy implementation: The driver is supposed to be read-only.
+        return $parentFolderIdentifier . $newFolderName . '/';
     }
 
     #[\Override]
     public function getFileContents(string $fileIdentifier): string
     {
-        // TODO: Implement later
-        $this->logger->debug('getFileContents');
-
+        // Dummy implementation: The driver is supposed to be read-only.
         return '';
     }
 
     #[\Override]
     public function setFileContents(string $fileIdentifier, string $contents): int
     {
-        // TODO: Implement later
-        $this->logger->debug('setFileContents');
-
+        // Dummy implementation: The driver is supposed to be read-only.
         return 0;
     }
 
     #[\Override]
     public function renameFile(string $fileIdentifier, string $newName): string
     {
-        // TODO: Implement later
-        $this->logger->debug('renameFile');
-
-        return '';
+        // Dummy implementation: The driver is supposed to be read-only.
+        return $newName;
     }
 
     #[\Override]
     public function renameFolder(string $folderIdentifier, string $newName): array
     {
-        // TODO: Implement later
-        $this->logger->debug('renameFolder');
-
+        // Dummy implementation: The driver is supposed to be read-only.
         return [];
     }
 
     #[\Override]
     public function moveFolderWithinStorage(string $sourceFolderIdentifier, string $targetFolderIdentifier, string $newFolderName): array
     {
-        // TODO: Implement later
-        $this->logger->debug('moveFolderWithinStorage');
-
+        // Dummy implementation: The driver is supposed to be read-only.
         return [];
     }
 
     #[\Override]
     public function copyFolderWithinStorage(string $sourceFolderIdentifier, string $targetFolderIdentifier, string $newFolderName): bool
     {
-        // TODO: Implement later
-        $this->logger->debug('copyFolderWithinStorage');
-
+        // Dummy implementation: The driver is supposed to be read-only.
         return true;
     }
 
@@ -388,9 +372,11 @@ class AssetDriver extends AbstractHierarchicalFilesystemDriver implements Logger
         $this->normalizeIdentifier($folderIdentifier);
 
         return [
-            'identifier' => $folderIdentifier,
+            'identifier' => $folderIdentifier ?: '/',
             'name' => basename(rtrim($folderIdentifier, '/')),
-            'storage' => $this->storageUid,
+            'mtime' => 0,
+            'ctime' => 0,
+            'storage' => $this->storageUid ?? 0,
         ];
     }
 
@@ -452,7 +438,7 @@ class AssetDriver extends AbstractHierarchicalFilesystemDriver implements Logger
         $write = false;
 
         if (($this->objectExists($identifier) && $identifier) || $identifier === self::ROOT_LEVEL_FOLDER) {
-            // TODO: Support editing files later
+            // Dummy implementation: The driver is supposed to be read-only.
             $write = false;
         }
 
@@ -555,6 +541,8 @@ class AssetDriver extends AbstractHierarchicalFilesystemDriver implements Logger
         $item['storage'] = $this->storageUid;
         $item['folder_hash'] = $this->hashIdentifier(PathUtility::dirname($identifier));
 
+        $item['downloadUrl'] = $asset['downloadUrl'] ?? '';
+
         return $item;
     }
 
@@ -625,16 +613,12 @@ class AssetDriver extends AbstractHierarchicalFilesystemDriver implements Logger
     protected function removeFileFromDatabase(int $uid): void
     {
         $fileRepository = GeneralUtility::makeInstance(FileRepository::class);
-        $file = $fileRepository->findByIdentifier($uid);
+        $file = $fileRepository->findByUid($uid);
         $file->getStorage()->deleteFile($file);
     }
 
     protected function getAssetRepository(): AssetRepository
     {
-        if (!$this->assetRepository instanceof AssetRepository) {
-            $this->assetRepository = GeneralUtility::makeInstance(AssetRepository::class);
-        }
-
         return $this->assetRepository;
     }
 

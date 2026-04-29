@@ -132,7 +132,7 @@ class MauticFormHook implements LoggerAwareInterface
      */
     public function beforeFormDelete(string $formPersistenceIdentifier): string
     {
-        $formDefinition = $this->formPersistenceManager->load($formPersistenceIdentifier);
+        $formDefinition = $this->formPersistenceManager->load($formPersistenceIdentifier, [], []);
 
         if ($this->isResponsible($formDefinition) && isset($formDefinition['renderingOptions']['mauticId'])) {
             $response = $this->formRepository->deleteForm((int)$formDefinition['renderingOptions']['mauticId']);

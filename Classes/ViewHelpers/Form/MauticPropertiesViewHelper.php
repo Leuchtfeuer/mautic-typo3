@@ -186,9 +186,9 @@ class MauticPropertiesViewHelper extends AbstractFormFieldViewHelper
             } elseif ($this->persistenceManager->getIdentifierByObject($value) !== null) {
                 // @todo use $this->persistenceManager->isNewObject() once it is implemented
                 $key = $this->persistenceManager->getIdentifierByObject($value);
-            } elseif (is_object($value) && method_exists($value, '__toString')) {
+            } elseif (method_exists($value, '__toString')) {
                 $key = (string)$value;
-            } elseif (is_object($value)) {
+            } else {
                 throw new Exception('No identifying value for object of class "' . $value::class . '" found.', 1247826696);
             }
             if ($this->hasArgument('optionLabelField')) {
@@ -200,7 +200,7 @@ class MauticPropertiesViewHelper extends AbstractFormFieldViewHelper
                         throw new Exception('Label value for object of class "' . $value::class . '" was an object without a __toString() method.', 1247827553);
                     }
                 }
-            } elseif (is_object($value) && method_exists($value, '__toString')) {
+            } elseif (method_exists($value, '__toString')) {
                 $value = (string)$value;
             } elseif ($this->persistenceManager->getIdentifierByObject($value) !== null) {
                 // @todo use $this->persistenceManager->isNewObject() once it is implemented
