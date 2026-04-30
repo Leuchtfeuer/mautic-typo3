@@ -23,7 +23,7 @@ services:
     tags:
       - name: event.listener
         identifier: mautic.assignTags
-        event: TYPO3\CMS\Frontend\Event\AfterCacheableContentIsGeneratedEvent
+        event: TYPO3\CMS\Frontend\Event\AfterPageWithRootLineIsResolvedEvent
 
   Leuchtfeuer\Mautic\EventListener\MauticFormPreviewListener:
     tags:

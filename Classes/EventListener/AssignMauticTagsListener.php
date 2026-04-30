@@ -15,7 +15,7 @@ namespace Leuchtfeuer\Mautic\EventListener;
 
 use Leuchtfeuer\Mautic\Domain\Repository\ContactRepository;
 use TYPO3\CMS\Core\Database\ConnectionPool;
-use TYPO3\CMS\Frontend\Event\AfterCacheableContentIsGeneratedEvent;
+use TYPO3\CMS\Frontend\Event\AfterPageWithRootLineIsResolvedEvent;
 
 /**
  * Event listener to assign Mautic tags to contacts based on page configuration.
@@ -28,9 +28,9 @@ final readonly class AssignMauticTagsListener
         private ConnectionPool $connectionPool
     ) {}
 
-    public function __invoke(AfterCacheableContentIsGeneratedEvent $event): void
+    public function __invoke(AfterPageWithRootLineIsResolvedEvent $event): void
     {
-        $page = $event->getRequest()->getAttribute('frontend.page.information')->getPageRecord();
+        $page = $event->getPageInformation()->getPageRecord();
 
         if (($page['tx_mautic_tags'] ?? 0) > 0) {
             $tags = $this->getTagsToAssign($page);
