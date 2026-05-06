@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Leuchtfeuer\Mautic\Domain\Model\Dto;
 
+use Leuchtfeuer\Mautic\Service\TokenStorage;
 use Symfony\Component\Yaml\Yaml;
 use TYPO3\CMS\Core\Configuration\Loader\YamlFileLoader;
 use TYPO3\CMS\Core\Core\Environment;
@@ -89,19 +90,18 @@ class YamlConfiguration implements SingletonInterface
      */
     protected $expires = 0;
 
+    /**
+     * @var list<string>
+     */
+    private const TOKEN_KEYS = ['accessToken', 'accessTokenSecret', 'refreshToken', 'expires'];
+
     public function __construct()
     {
         $this->configPath = Environment::getConfigPath() . '/mautic';
         $this->fileName = $this->configPath . '/' . $this->configFileName;
-        $this->configurationArray = $this->getYamlConfiguration();
-        $extensionConfiguration = $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['mautic'];
-        $settings = array_replace_recursive($this->configurationArray, $extensionConfiguration);
-
-        foreach ($settings as $key => $value) {
-            if (property_exists(self::class, $key)) {
-                $this->$key = $value;
-            }
-        }
+        $this->configurationArray = $this->getMergedConfiguration();
+        $this->applyConfigurationToProperties();
+        $this->migrateLegacyTokensIfNeeded();
     }
 
     protected function getYamlConfiguration(): array
@@ -131,19 +131,67 @@ class YamlConfiguration implements SingletonInterface
             GeneralUtility::mkdir_deep($this->configPath);
         }
 
-        $yamlFileContents = Yaml::dump($configuration, 99, 2);
+        $tokens = [];
+        $yamlData = $configuration;
+        foreach (self::TOKEN_KEYS as $key) {
+            if (array_key_exists($key, $yamlData)) {
+                $tokens[$key] = $yamlData[$key];
+                unset($yamlData[$key]);
+            }
+        }
+        if ($tokens !== []) {
+            GeneralUtility::makeInstance(TokenStorage::class)->saveTokens($tokens);
+        }
+
+        $yamlFileContents = Yaml::dump($yamlData, 99, 2);
         GeneralUtility::writeFile($this->fileName, $yamlFileContents);
+
+        $this->reloadConfigurations();
     }
 
     public function reloadConfigurations(): void
     {
-        $this->configurationArray = $this->getYamlConfiguration();
-        $extensionConfiguration = $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['mautic'];
+        $this->configurationArray = $this->getMergedConfiguration();
+        $this->applyConfigurationToProperties();
+    }
+
+    protected function getMergedConfiguration(): array
+    {
+        $yaml = $this->getYamlConfiguration();
+        $tokenStorage = GeneralUtility::makeInstance(TokenStorage::class);
+        if ($tokenStorage->hasTokens()) {
+            return array_replace($yaml, $tokenStorage->getTokens());
+        }
+        return $yaml;
+    }
+
+    private function applyConfigurationToProperties(): void
+    {
+        $extensionConfiguration = $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['mautic'] ?? [];
         $settings = array_replace_recursive($this->configurationArray, $extensionConfiguration);
 
         foreach ($settings as $key => $value) {
             if (property_exists(self::class, $key)) {
                 $this->$key = $value;
+            }
+        }
+    }
+
+    /**
+     * On first construction after upgrade, copy any tokens still present in
+     * the YAML over to the registry and rewrite the YAML without them. Gated
+     * by TokenStorage::hasTokens() so it runs at most once per installation.
+     */
+    private function migrateLegacyTokensIfNeeded(): void
+    {
+        $tokenStorage = GeneralUtility::makeInstance(TokenStorage::class);
+        if ($tokenStorage->hasTokens()) {
+            return;
+        }
+        foreach (self::TOKEN_KEYS as $key) {
+            if (!empty($this->configurationArray[$key])) {
+                $this->save($this->configurationArray);
+                return;
             }
         }
     }
