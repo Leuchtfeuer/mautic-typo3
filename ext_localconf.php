@@ -7,8 +7,6 @@ use Leuchtfeuer\Mautic\Hooks\TCEmainHook;
 use TYPO3\CMS\Core\Core\Environment;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use Leuchtfeuer\MarketingAutomation\Dispatcher\Dispatcher;
-use Leuchtfeuer\Mautic\Slot\MauticSubscriber;
 use Leuchtfeuer\Mautic\Form\FormDataProvider\MauticFormDataProvider;
 use TYPO3\CMS\Backend\Form\FormDataProvider\DatabaseRowDefaultValues;
 use TYPO3\CMS\Backend\Form\FormDataProvider\TcaSelectItems;
@@ -55,9 +53,6 @@ call_user_func(function (): void {
     if (ExtensionManagementUtility::isLoaded('marketing_automation') === false) {
         throw new \Exception('Required extension is not loaded: EXT:marketing_automation.', 7616907311);
     }
-
-    $marketingDispatcher = GeneralUtility::makeInstance(Dispatcher::class);
-    $marketingDispatcher->addSubscriber(MauticSubscriber::class);
 
     // Hooks for configArrayPostProc removed in TYPO3 13 (Breaking #102932)
     // - MauticTagHook -> AssignMauticTagsListener (PSR-14)

@@ -36,3 +36,10 @@ services:
       - name: event.listener
         identifier: mautic.setLocale
         event: TYPO3\CMS\Frontend\Event\AfterPageAndLanguageIsResolvedEvent
+
+  Leuchtfeuer\Mautic\EventListener\EnrichPersonaWithMauticSegmentsListener:
+    tags:
+      - name: event.listener
+        identifier: 'mautic.enrich-persona-with-segments'
+        event: Leuchtfeuer\MarketingAutomation\Event\EnrichPersonaEvent
+        after: 'marketing-automation-enrich-persona-with-language'
