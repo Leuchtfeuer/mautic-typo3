@@ -84,6 +84,21 @@ class MauticAuthorizeService
         );
     }
 
+    public function getRefreshAuthorizationButton(): string
+    {
+        $title = htmlspecialchars($this->translate('authorization.refreshAuthorization'));
+        $icon = GeneralUtility::makeInstance(IconFactory::class)->getIcon('tx_mautic-mautic-icon', \TYPO3\CMS\Core\Imaging\IconSize::SMALL);
+        $url = GeneralUtility::getIndpEnv('TYPO3_REQUEST_HOST') . AuthorizeMiddleware::PATH . '?reset=1';
+
+        return sprintf(
+            '<a href="%s" class="btn btn-default btn-sm" title="%s" target="_blank">%s %s</a>',
+            rawurldecode($url),
+            $title,
+            $icon,
+            $title
+        );
+    }
+
     public function checkConnection(): bool
     {
         // Perform a dummy request for retrieving HTTP headers and getting Mautic Version
