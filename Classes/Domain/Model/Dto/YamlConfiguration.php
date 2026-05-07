@@ -95,8 +95,11 @@ class YamlConfiguration implements SingletonInterface
      */
     private const TOKEN_KEYS = ['accessToken', 'accessTokenSecret', 'refreshToken', 'expires'];
 
-    public function __construct()
+    private readonly TokenStorage $tokenStorage;
+
+    public function __construct(?TokenStorage $tokenStorage = null)
     {
+        $this->tokenStorage = $tokenStorage ?? GeneralUtility::makeInstance(TokenStorage::class);
         $this->configPath = Environment::getConfigPath() . '/mautic';
         $this->fileName = $this->configPath . '/' . $this->configFileName;
         $this->configurationArray = $this->getMergedConfiguration();
@@ -140,7 +143,7 @@ class YamlConfiguration implements SingletonInterface
             }
         }
         if ($tokens !== []) {
-            GeneralUtility::makeInstance(TokenStorage::class)->saveTokens($tokens);
+            $this->tokenStorage->saveTokens($tokens);
         }
 
         $yamlFileContents = Yaml::dump($yamlData, 99, 2);
@@ -164,9 +167,8 @@ class YamlConfiguration implements SingletonInterface
             'expires' => 0,
         ];
         $merged = array_replace($defaults, $this->getYamlConfiguration());
-        $tokenStorage = GeneralUtility::makeInstance(TokenStorage::class);
-        if ($tokenStorage->hasTokens()) {
-            $merged = array_replace($merged, $tokenStorage->getTokens());
+        if ($this->tokenStorage->hasTokens()) {
+            $merged = array_replace($merged, $this->tokenStorage->getTokens());
         }
         return $merged;
     }
@@ -190,8 +192,7 @@ class YamlConfiguration implements SingletonInterface
      */
     private function migrateLegacyTokensIfNeeded(): void
     {
-        $tokenStorage = GeneralUtility::makeInstance(TokenStorage::class);
-        if ($tokenStorage->hasTokens()) {
+        if ($this->tokenStorage->hasTokens()) {
             return;
         }
         foreach (self::TOKEN_KEYS as $key) {
