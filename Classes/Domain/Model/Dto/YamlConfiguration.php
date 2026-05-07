@@ -157,12 +157,18 @@ class YamlConfiguration implements SingletonInterface
 
     protected function getMergedConfiguration(): array
     {
-        $yaml = $this->getYamlConfiguration();
+        $defaults = [
+            'accessToken' => '',
+            'accessTokenSecret' => '',
+            'refreshToken' => '',
+            'expires' => 0,
+        ];
+        $merged = array_replace($defaults, $this->getYamlConfiguration());
         $tokenStorage = GeneralUtility::makeInstance(TokenStorage::class);
         if ($tokenStorage->hasTokens()) {
-            return array_replace($yaml, $tokenStorage->getTokens());
+            $merged = array_replace($merged, $tokenStorage->getTokens());
         }
-        return $yaml;
+        return $merged;
     }
 
     private function applyConfigurationToProperties(): void
