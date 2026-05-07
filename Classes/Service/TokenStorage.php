@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Leuchtfeuer\Mautic\Service;
 
 use TYPO3\CMS\Core\Registry;
+use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
@@ -21,7 +22,7 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  * versioned config.yaml. The four fields stored here rotate at runtime
  * (token refresh, OAuth callback, admin reset) and must not end up in git.
  */
-final class TokenStorage
+final class TokenStorage implements SingletonInterface
 {
     private const NAMESPACE = 'tx_mautic_oauth';
 
