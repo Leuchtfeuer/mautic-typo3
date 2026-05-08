@@ -62,30 +62,7 @@ class AuthorizeMiddleware implements MiddlewareInterface, LoggerAwareInterface
             return new Response('php://temp', 403);
         }
 
-        if (($request->getQueryParams()['reset'] ?? '') === '1' && $userAspect->isLoggedIn()) {
-            $this->resetTokens();
-        }
-
         return $this->handleRequest();
-    }
-
-    protected function resetTokens(): void
-    {
-        $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['mautic'] = array_merge(
-            $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['mautic'] ?? [],
-            ['accessToken' => '', 'accessTokenSecret' => '', 'refreshToken' => '', 'expires' => 0]
-        );
-
-        $yamlConfiguration = GeneralUtility::makeInstance(YamlConfiguration::class);
-        $extensionConfiguration = $yamlConfiguration->getConfigurationArray();
-        $extensionConfiguration['accessToken'] = '';
-        $extensionConfiguration['accessTokenSecret'] = '';
-        $extensionConfiguration['refreshToken'] = '';
-        $extensionConfiguration['expires'] = 0;
-        $yamlConfiguration->save($extensionConfiguration);
-        $yamlConfiguration->reloadConfigurations();
-
-        unset($_SESSION['oauth']);
     }
 
     protected function validateState(): bool

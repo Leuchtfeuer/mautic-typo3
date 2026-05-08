@@ -47,8 +47,14 @@
             <trans-unit id="authorization.withMautic">
                 <source>Authorize with Mautic</source>
             </trans-unit>
-            <trans-unit id="authorization.refreshAuthorization">
-                <source>Refresh Authorization</source>
+            <trans-unit id="authorization.resetAuthorization">
+                <source>Reset Authorization</source>
+            </trans-unit>
+            <trans-unit id="authorization.reset.title">
+                <source>Authorization reset</source>
+            </trans-unit>
+            <trans-unit id="authorization.reset.message">
+                <source>OAuth tokens have been cleared.</source>
             </trans-unit>
             <trans-unit id="authorization.wrongMauticVersion.title">
                 <source>Your Mautic installation is out of date</source>

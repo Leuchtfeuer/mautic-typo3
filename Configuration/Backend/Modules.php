@@ -14,6 +14,7 @@ return [
             BackendController::class => [
                 'show',
                 'save',
+                'resetAuthorization',
             ],
         ],
     ],

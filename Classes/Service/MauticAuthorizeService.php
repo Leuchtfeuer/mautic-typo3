@@ -84,19 +84,25 @@ class MauticAuthorizeService
         );
     }
 
-    public function getRefreshAuthorizationButton(): string
+    public function resetTokens(): void
     {
-        $title = htmlspecialchars($this->translate('authorization.refreshAuthorization'));
-        $icon = GeneralUtility::makeInstance(IconFactory::class)->getIcon('tx_mautic-mautic-icon', \TYPO3\CMS\Core\Imaging\IconSize::SMALL);
-        $url = GeneralUtility::getIndpEnv('TYPO3_REQUEST_HOST') . AuthorizeMiddleware::PATH . '?reset=1';
-
-        return sprintf(
-            '<a href="%s" class="btn btn-default btn-sm" title="%s" target="_blank">%s %s</a>',
-            rawurldecode($url),
-            $title,
-            $icon,
-            $title
+        $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['mautic'] = array_merge(
+            $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['mautic'] ?? [],
+            ['accessToken' => '', 'accessTokenSecret' => '', 'refreshToken' => '', 'expires' => 0]
         );
+
+        $yamlConfiguration = GeneralUtility::makeInstance(YamlConfiguration::class);
+        $extensionConfiguration = $yamlConfiguration->getConfigurationArray();
+        $extensionConfiguration['accessToken'] = '';
+        $extensionConfiguration['accessTokenSecret'] = '';
+        $extensionConfiguration['refreshToken'] = '';
+        $extensionConfiguration['expires'] = 0;
+        $yamlConfiguration->save($extensionConfiguration);
+        $yamlConfiguration->reloadConfigurations();
+
+        $this->extensionConfiguration = $yamlConfiguration->getConfigurationArray();
+
+        unset($_SESSION['oauth']);
     }
 
     public function checkConnection(): bool
