@@ -13,9 +13,9 @@ declare(strict_types=1);
 
 namespace Leuchtfeuer\Mautic\EventListener;
 
+use Leuchtfeuer\MarketingAutomation\Event\EnrichPersonaEvent;
 use Leuchtfeuer\Mautic\Domain\Repository\ContactRepository;
 use Leuchtfeuer\Mautic\Domain\Repository\PersonaRepository;
-use Leuchtfeuer\MarketingAutomation\Event\EnrichPersonaEvent;
 
 final class EnrichPersonaWithMauticSegmentsListener
 {
