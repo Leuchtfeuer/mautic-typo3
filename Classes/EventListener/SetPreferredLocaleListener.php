@@ -25,7 +25,7 @@ use TYPO3\CMS\Frontend\Event\AfterPageAndLanguageIsResolvedEvent;
 final class SetPreferredLocaleListener
 {
     private bool $languageNeedsUpdate = false;
-    private int $mauticId;
+    private readonly int $mauticId;
 
     public function __construct(
         private readonly ContactRepository $contactRepository,
@@ -41,10 +41,9 @@ final class SetPreferredLocaleListener
             return;
         }
 
-        $controller = $event->getController();
+        $pageInformation = $event->getPageInformation();
         $languageId = $this->context->getPropertyFromAspect('language', 'id');
-        // @extensionScannerIgnoreLine
-        $site = $this->siteFinder->getSiteByPageId($controller->id);
+        $site = $this->siteFinder->getSiteByPageId($pageInformation->getId());
         $isoCode = $site->getLanguageById($languageId)->getLocale()->getLanguageCode();
 
         $this->contactRepository->editContact(

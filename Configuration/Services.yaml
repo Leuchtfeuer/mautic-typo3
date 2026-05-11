@@ -10,8 +10,36 @@ services:
   Leuchtfeuer\Mautic\Hooks\MauticFormHook:
     public: true
 
+  Leuchtfeuer\Mautic\UserFunctions\Tracking:
+    public: true
+
   Leuchtfeuer\Mautic\EventListener\SynchronizeMauticData:
     tags:
       - name: event.listener
         identifier: synchronizeMauticData
         event: TYPO3\CMS\Backend\Controller\Event\AfterFormEnginePageInitializedEvent
+
+  Leuchtfeuer\Mautic\EventListener\AssignMauticTagsListener:
+    tags:
+      - name: event.listener
+        identifier: mautic.assignTags
+        event: TYPO3\CMS\Frontend\Event\AfterPageWithRootLineIsResolvedEvent
+
+  Leuchtfeuer\Mautic\EventListener\MauticFormPreviewListener:
+    tags:
+      - name: event.listener
+        identifier: mautic.formPreview
+        event: TYPO3\CMS\Backend\View\Event\PageContentPreviewRenderingEvent
+
+  Leuchtfeuer\Mautic\EventListener\SetPreferredLocaleListener:
+    tags:
+      - name: event.listener
+        identifier: mautic.setLocale
+        event: TYPO3\CMS\Frontend\Event\AfterPageAndLanguageIsResolvedEvent
+
+  Leuchtfeuer\Mautic\EventListener\EnrichPersonaWithMauticSegmentsListener:
+    tags:
+      - name: event.listener
+        identifier: 'mautic.enrich-persona-with-segments'
+        event: Leuchtfeuer\MarketingAutomation\Event\EnrichPersonaEvent
+        after: 'marketing-automation-enrich-persona-with-language'

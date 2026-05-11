@@ -13,13 +13,12 @@ declare(strict_types=1);
 
 namespace Leuchtfeuer\Mautic\Domain\Repository;
 
-use Doctrine\DBAL\Exception;
+use Leuchtfeuer\Mautic\Mautic\AuthorizationFactory;
 use Mautic\Api\Segments;
 use Mautic\Exception\ContextNotFoundException;
 use TYPO3\CMS\Core\Context\Context;
 use TYPO3\CMS\Core\Database\Connection;
 use TYPO3\CMS\Core\Database\ConnectionPool;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class SegmentRepository extends AbstractRepository
 {
@@ -27,6 +26,10 @@ class SegmentRepository extends AbstractRepository
      * @var Segments
      */
     protected $segmentsApi;
+    public function __construct(AuthorizationFactory $authorizationFactory, private readonly ConnectionPool $connectionPool, private readonly Context $context)
+    {
+        parent::__construct($authorizationFactory);
+    }
 
     /**
      * @throws ContextNotFoundException
@@ -46,24 +49,9 @@ class SegmentRepository extends AbstractRepository
         return $segments['lists'] ?? [];
     }
 
-    /**
-     * @throws Exception
-     */
-    public function initializeSegments(): void
-    {
-        $connection = GeneralUtility::makeInstance(ConnectionPool::class)
-            ->getConnectionForTable('tx_marketingautomation_segment');
-        $query = $connection->getDatabasePlatform()->getTruncateTableSQL('tx_marketingautomation_segment');
-        $connection->executeQuery($query);
-        $query = $connection->getDatabasePlatform()->getTruncateTableSQL('tx_marketingautomation_segment_mm');
-        $connection->executeQuery($query);
-
-        $this->synchronizeSegments();
-    }
-
     public function synchronizeSegments(): void
     {
-        $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)
+        $queryBuilder = $this->connectionPool
             ->getQueryBuilderForTable('tx_marketingautomation_segment');
         $queryBuilder->getRestrictions()->removeAll();
 
@@ -84,11 +72,11 @@ class SegmentRepository extends AbstractRepository
             if (!empty($segment['dateModified'])) {
                 $dateModified = \DateTime::createFromFormat('Y-m-d\TH:i:sP', $segment['dateModified']);
             } else {
-                $dateModified = \DateTime::createFromFormat('U', (string)GeneralUtility::makeInstance(Context::class)->getPropertyFromAspect('date', 'timestamp'));
+                $dateModified = \DateTime::createFromFormat('U', (string)$this->context->getPropertyFromAspect('date', 'timestamp'));
             }
 
             if (!isset($availableSegments[$segment['id']])) {
-                $insertQueryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)
+                $insertQueryBuilder = $this->connectionPool
                     ->getQueryBuilderForTable('tx_marketingautomation_segment');
                 $insertQueryBuilder->insert('tx_marketingautomation_segment')->values([
                     'uid' => (int)$segment['id'],
@@ -98,7 +86,7 @@ class SegmentRepository extends AbstractRepository
                     'title' => $segment['name'],
                 ])->executeStatement();
             } else {
-                $updateQueryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)
+                $updateQueryBuilder = $this->connectionPool
                     ->getQueryBuilderForTable('tx_marketingautomation_segment');
                 $updateQueryBuilder->update('tx_marketingautomation_segment')
                     ->where(

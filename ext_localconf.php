@@ -1,13 +1,12 @@
 <?php
 
-use Leuchtfeuer\Mautic\Hooks\MauticTrackingHook;
+declare(strict_types=1);
+
+use Leuchtfeuer\Mautic\Hooks\MauticFormHook;
+use Leuchtfeuer\Mautic\Hooks\TCEmainHook;
 use TYPO3\CMS\Core\Core\Environment;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use Leuchtfeuer\MarketingAutomation\Dispatcher\Dispatcher;
-use Leuchtfeuer\Mautic\Slot\MauticSubscriber;
-use Leuchtfeuer\Mautic\Hooks\MauticTagHook;
-use Leuchtfeuer\Mautic\Hooks\TCEmainHook;
 use Leuchtfeuer\Mautic\Form\FormDataProvider\MauticFormDataProvider;
 use TYPO3\CMS\Backend\Form\FormDataProvider\DatabaseRowDefaultValues;
 use TYPO3\CMS\Backend\Form\FormDataProvider\TcaSelectItems;
@@ -19,8 +18,6 @@ use TYPO3\CMS\Core\Resource\Index\ExtractorRegistry;
 use Leuchtfeuer\Mautic\Index\Extractor;
 use TYPO3\CMS\Extbase\Utility\ExtensionUtility;
 use Leuchtfeuer\Mautic\Controller\FrontendController;
-use TYPO3\CMS\Core\Imaging\IconRegistry;
-use TYPO3\CMS\Core\Imaging\IconProvider\SvgIconProvider;
 use Leuchtfeuer\Mautic\Transformation\Form\CampaignFormTransformation;
 use Leuchtfeuer\Mautic\Transformation\Form\StandaloneFormTransformation;
 use Leuchtfeuer\Mautic\Transformation\FormField\IgnoreTransformation;
@@ -57,22 +54,22 @@ call_user_func(function (): void {
         throw new \Exception('Required extension is not loaded: EXT:marketing_automation.', 7616907311);
     }
 
-    $marketingDispatcher = GeneralUtility::makeInstance(Dispatcher::class);
-    $marketingDispatcher->addSubscriber(MauticSubscriber::class);
-
-    ExtensionManagementUtility::addPageTSConfig(
-        '<INCLUDE_TYPOSCRIPT: source="FILE:EXT:mautic/Configuration/PageTS/Mod/Wizards/NewContentElement.tsconfig">'
-    );
-
-    $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['tslib/class.tslib_fe.php']['configArrayPostProc']['mautic_tag'] =
-        MauticTagHook::class . '->setTags';
-
-    $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['tslib/class.tslib_fe.php']['configArrayPostProc']['mautic'] =
-       MauticTrackingHook::class . '->addTrackingCode';
+    // Hooks for configArrayPostProc removed in TYPO3 13 (Breaking #102932)
+    // - MauticTagHook -> AssignMauticTagsListener (PSR-14)
 
     // Register DataHandler hook for tag creation
     $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_tcemain.php']['processDatamapClass'][] =
         TCEmainHook::class;
+
+    // Register form hooks for pushing forms to Mautic (moved from ext_tables.php)
+    $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/form']['beforeFormDuplicate'][1489959059] =
+        MauticFormHook::class;
+
+    $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/form']['beforeFormDelete'][1489959059] =
+        MauticFormHook::class;
+
+    $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/form']['beforeFormSave'][1489959059] =
+        MauticFormHook::class;
 
     //##################
     //       FORM      #
@@ -125,21 +122,7 @@ call_user_func(function (): void {
         ExtensionUtility::PLUGIN_TYPE_CONTENT_ELEMENT
     );
 
-    //##################
-    //      ICONS      #
-    //##################
-    $iconRegistry = GeneralUtility::makeInstance(IconRegistry::class);
-    $icons = [
-        'tx_mautic-mautic-icon' => 'EXT:mautic/Resources/Public/Icons/Extension.svg',
-    ];
-
-    foreach ($icons as $identifier => $source) {
-        $iconRegistry->registerIcon(
-            $identifier,
-            SvgIconProvider::class,
-            ['source' => $source]
-        );
-    }
+    // Icons are registered via Configuration/Icons.php
 
     //######################
     //##    TYPOSCRIPT    ##

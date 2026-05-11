@@ -7,6 +7,7 @@ Welcome to the official Mautic extension for TYPO3.
 ## Supported Versions
 We currently support Mautic v4 and higher.
 
+* **For TYPO3 v13 please use extension release 13.0.x** 
 * **For TYPO3 v12 please use extension release 12.0.x** 
 * **For TYPO3 v11 and above on PHP8, please use extension release 4.4.x**
 * **For TYPO3 v10 and v11 on PHP7, please use extension release 4.3.x**
@@ -62,7 +63,7 @@ can easily configure your API tokens in the extension manager of TYPO3.
 Set tags for users when they are visiting a page!
 
 ### Assets ###
-Link to Mautic assets directly in TYPO3 using file relations or the TYPO3 link wizard!
+Link to Mautic assets directly in TYPO3 using file relations or the TYPO3 link wizard! The mautic driver should be used as read-only.
 
 ### Language sync ###
 (currently in flux)

@@ -17,6 +17,7 @@ use Leuchtfeuer\Mautic\Domain\Model\Dto\YamlConfiguration;
 use Leuchtfeuer\Mautic\Service\MauticAuthorizeService;
 use Psr\Http\Message\ResponseInterface;
 use TYPO3\CMS\Backend\Template\ModuleTemplateFactory;
+use TYPO3\CMS\Core\Type\ContextualFeedbackSeverity;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 
@@ -36,7 +37,9 @@ class BackendController extends ActionController
         if ($authorizeService->validateCredentials() === true) {
             if (!$authorizeService->validateAccessToken()) {
                 if ($authorizeService->accessTokenToBeRefreshed()) {
-                    $authorizeService->refreshAccessToken();
+                    if (!$authorizeService->refreshAccessToken()) {
+                        $moduleTemplate->assign('showResetAuthorizationButton', true);
+                    }
                     $emConfiguration->reloadConfigurations();
                 } else {
                     $moduleTemplate->assign('authorizeButton', $authorizeService->getAuthorizeButton());
@@ -48,6 +51,21 @@ class BackendController extends ActionController
 
         $moduleTemplate->assign('configuration', $emConfiguration);
         return $moduleTemplate->renderResponse('Backend/Show');
+    }
+
+    public function resetAuthorizationAction(): ResponseInterface
+    {
+        /** @var MauticAuthorizeService $authorizeService */
+        $authorizeService = GeneralUtility::makeInstance(MauticAuthorizeService::class);
+        $authorizeService->resetTokens();
+
+        $this->addFlashMessage(
+            $GLOBALS['LANG']->sL('LLL:EXT:mautic/Resources/Private/Language/locallang_mod.xlf:authorization.reset.message'),
+            $GLOBALS['LANG']->sL('LLL:EXT:mautic/Resources/Private/Language/locallang_mod.xlf:authorization.reset.title'),
+            ContextualFeedbackSeverity::OK,
+        );
+
+        return $this->redirect('show');
     }
 
     public function saveAction(array $configuration): ResponseInterface

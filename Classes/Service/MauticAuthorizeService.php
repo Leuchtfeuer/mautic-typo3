@@ -19,7 +19,6 @@ use Leuchtfeuer\Mautic\Mautic\AuthorizationFactory;
 use Leuchtfeuer\Mautic\Mautic\OAuth;
 use Leuchtfeuer\Mautic\Middleware\AuthorizeMiddleware;
 use Mautic\MauticApi;
-use TYPO3\CMS\Core\Imaging\Icon;
 use TYPO3\CMS\Core\Imaging\IconFactory;
 use TYPO3\CMS\Core\Localization\LanguageService;
 use TYPO3\CMS\Core\Localization\LanguageServiceFactory;
@@ -73,7 +72,7 @@ class MauticAuthorizeService
     public function getAuthorizeButton(): string
     {
         $title = htmlspecialchars($this->translate('authorization.withMautic'));
-        $icon = GeneralUtility::makeInstance(IconFactory::class)->getIcon('tx_mautic-mautic-icon', Icon::SIZE_SMALL);
+        $icon = GeneralUtility::makeInstance(IconFactory::class)->getIcon('tx_mautic-mautic-icon', \TYPO3\CMS\Core\Imaging\IconSize::SMALL);
         $url = GeneralUtility::getIndpEnv('TYPO3_REQUEST_HOST') . AuthorizeMiddleware::PATH;
 
         return sprintf(
@@ -83,6 +82,27 @@ class MauticAuthorizeService
             $icon,
             $title
         );
+    }
+
+    public function resetTokens(): void
+    {
+        $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['mautic'] = array_merge(
+            $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['mautic'] ?? [],
+            ['accessToken' => '', 'accessTokenSecret' => '', 'refreshToken' => '', 'expires' => 0]
+        );
+
+        $yamlConfiguration = GeneralUtility::makeInstance(YamlConfiguration::class);
+        $extensionConfiguration = $yamlConfiguration->getConfigurationArray();
+        $extensionConfiguration['accessToken'] = '';
+        $extensionConfiguration['accessTokenSecret'] = '';
+        $extensionConfiguration['refreshToken'] = '';
+        $extensionConfiguration['expires'] = 0;
+        $yamlConfiguration->save($extensionConfiguration);
+        $yamlConfiguration->reloadConfigurations();
+
+        $this->extensionConfiguration = $yamlConfiguration->getConfigurationArray();
+
+        unset($_SESSION['oauth']);
     }
 
     public function checkConnection(): bool
@@ -255,9 +275,6 @@ class MauticAuthorizeService
 
     protected function translate(string $key): string
     {
-        if (!$this->languageService instanceof LanguageService) {
-            $this->languageService = GeneralUtility::makeInstance(LanguageServiceFactory::class)->createFromUserPreferences($GLOBALS['BE_USER']);
-        }
         return $this->languageService->sL('LLL:EXT:mautic/Resources/Private/Language/locallang_mod.xlf:' . $key);
     }
 

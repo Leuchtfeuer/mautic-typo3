@@ -13,15 +13,15 @@ declare(strict_types=1);
 
 namespace Leuchtfeuer\Mautic\Domain\Repository;
 
-use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\ArrayParameterType;
 use TYPO3\CMS\Core\Database\ConnectionPool;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class PersonaRepository
 {
+    public function __construct(private readonly ConnectionPool $connectionPool) {}
     public function findBySegments(array $segments): array
     {
-        $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable('tx_marketingautomation_persona');
+        $queryBuilder = $this->connectionPool->getQueryBuilderForTable('tx_marketingautomation_persona');
         $expressionBuilder = $queryBuilder->expr();
         $persona = $queryBuilder->select('*')
             ->from('tx_marketingautomation_persona', 'persona')
@@ -34,7 +34,7 @@ class PersonaRepository
             ->where(
                 $expressionBuilder->in(
                     'segment.uid_local',
-                    $queryBuilder->createNamedParameter($segments, Connection::PARAM_INT_ARRAY)
+                    $queryBuilder->createNamedParameter($segments, ArrayParameterType::INTEGER)
                 )
             )
             ->orderBy('persona.sorting')->setMaxResults(1)->executeQuery()->fetchAllAssociative();
