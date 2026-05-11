@@ -85,24 +85,26 @@ Afterwards, establish the API connection:
 Documentation and a getting started guide can be found [here](https://docs.typo3.org/p/mautic/mautic-typo3/master/en-us/).
 
 ## Known Issues & Ideas for the Future 
-### TYPO3 Form Builder
-* "Mautic Property Type" currently not working: Mautic field mappings are currently not possible through the TYPO3 UI, 
-only for the pre-defined fields in template "Simple Contact Form"
 
 ### Form Framework: Currently limited support
 * Make sure to use Predefined Form from Prototype "Mautic Form"
 * Recommended: Use template "Simple Contact Form"
 * Mautic-side changes in form are NOT sync'd back to TYPO3 
-* TYPO3-side changes (fields, field properties, form type, ...) after creation are NOT sync'd to Mautic 
-* Make sure to use finisher "Create Mautic Contact"
+* TYPO3-side changes (fields, field properties, form type, ...) after creation are NOT sync'd to Mautic. You can specify a Mautic alias for each field in the form YAML file. The data will then be sent to Mautic accordingly with the finisher "Send to Mautic form". Make sure to use the correct Mautic field types.
+* Use finisher "Create Mautic Contact" for creating contacts and not submitting the form
 * Use "Send to Mautic form" only if you wish to send to a different form ID
-* Idea: Move "updating" of forms (normally by the form's Javascriupt snippets) to TYPO3 so that we can always deliver static HTML (which works even in restricted environments)
+* Idea: Move "updating" of forms (normally by the form's JavaScript snippets) to TYPO3 so that we can always deliver static HTML (which works even in restricted environments)
 
 ### Tags
 On the very first page visit, setting tags can not work reliably. (We are considering using mpixel in addition to API for that reason...)
 
-### Language Sync, Assets 
+### Language Sync
 On the very first page visit, setting tags can not work reliably. (We are considering using mpixel in addition to API for that reason...)
+
+### Assets
+Currently, Mautic assets can be integrated for read-only access. Metadata is not written back from TYPO3 to Mautic. It is also not possible to upload files from TYPO3 to Mautic.
+
+**Note:** Page views are already counted on the Mautic side due to the generation of thumbnails.
 
 ## Packaging for use in the Extension Manager
 Clone the repository and run the following in the extension root directory:
