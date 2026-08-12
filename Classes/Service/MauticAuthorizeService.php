@@ -33,7 +33,7 @@ class MauticAuthorizeService
 
     protected array $extensionConfiguration = [];
 
-    protected string $minimumMauticVersion = '2.14.2';
+    protected string $minimumMauticVersion = '4.4';
 
     protected array $messages = [];
 
