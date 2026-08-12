@@ -24,7 +24,7 @@ class OAuth implements AuthInterface
 {
     protected string $baseUrl;
 
-    public function __construct(protected AuthInterface $authorization, string $baseUrl, protected string $accesToken = '', protected string $authorizationMode = '')
+    public function __construct(protected AuthInterface $authorization, string $baseUrl, protected string $accesToken = '')
     {
         // @extensionScannerIgnoreLine
         $this->baseUrl = rtrim($baseUrl, '/');

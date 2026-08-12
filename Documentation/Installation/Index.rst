@@ -71,9 +71,7 @@ All configuration made in the backend module can simply be overwritten in your c
    $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['mautic']['publicKey'] = '...';
    $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['mautic']['secretKey'] = '...';
    $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['mautic']['accessToken'] = '...';
-   $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['mautic']['accessTokenSecret'] = '...';
    $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['mautic']['tracking'] = '1';
    $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['mautic']['trackingScriptOverride'] = '';
-   $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['mautic']['authorizeMode'] = 'OAuth2';
    $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['mautic']['refreshToken'] = '...';
    $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['mautic']['expires'] = '...';

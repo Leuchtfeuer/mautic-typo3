@@ -177,12 +177,8 @@ class AuthorizeMiddleware implements MiddlewareInterface, LoggerAwareInterface
 
         $extensionConfiguration = $yamlConfiguration->getConfigurationArray();
         $extensionConfiguration['accessToken'] = $accessTokenData['access_token'];
-        if ($extensionConfiguration['authorizeMode'] === YamlConfiguration::OAUTH1_AUTHORIZATION_MODE) {
-            $extensionConfiguration['accessTokenSecret'] = $accessTokenData['access_token_secret'];
-        } else {
-            $extensionConfiguration['refreshToken'] = $accessTokenData['refresh_token'];
-            $extensionConfiguration['expires'] = $accessTokenData['expires'];
-        }
+        $extensionConfiguration['refreshToken'] = $accessTokenData['refresh_token'];
+        $extensionConfiguration['expires'] = $accessTokenData['expires'];
 
         $yamlConfiguration->save($extensionConfiguration);
     }

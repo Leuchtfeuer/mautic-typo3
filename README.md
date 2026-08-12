@@ -56,8 +56,9 @@ with this extension.
 Integrate the Mautic tracking script into your frontend with one click of a button!
 
 ### OAuth 2.0 support
-All requests made by this extension are secured using OAuth (with Mautic only supping OAuth2 in recent versions). You 
-can easily configure your API tokens in the extension manager of TYPO3.
+All requests made by this extension are secured using OAuth2, which is the only OAuth version supported by Mautic 4 and
+later. Make sure the API is enabled in your Mautic configuration. You can easily configure your API tokens in the
+extension manager of TYPO3.
 
 ### Tags ###
 Set tags for users when they are visiting a page!

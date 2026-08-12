@@ -18,12 +18,6 @@
             <trans-unit id="authorization.accessToken">
                 <target>Access token</target>
             </trans-unit>
-            <trans-unit id="authorization.accessTokenSecret">
-                <target>Access token secret</target>
-            </trans-unit>
-            <trans-unit id="authorization.authorizeMode">
-                <source>Autorisierung-Protokoll</source>
-            </trans-unit>
             <trans-unit id="authorization.refreshToken">
                 <source>Refresh token</source>
             </trans-unit>

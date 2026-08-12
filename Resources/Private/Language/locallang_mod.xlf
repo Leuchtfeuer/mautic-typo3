@@ -18,12 +18,6 @@
             <trans-unit id="authorization.accessToken">
                 <source>Access token</source>
             </trans-unit>
-            <trans-unit id="authorization.accessTokenSecret">
-                <source>Access token secret</source>
-            </trans-unit>
-            <trans-unit id="authorization.authorizeMode">
-                <source>Authorization Mode</source>
-            </trans-unit>
             <trans-unit id="authorization.refreshToken">
                 <source>Refresh token</source>
             </trans-unit>

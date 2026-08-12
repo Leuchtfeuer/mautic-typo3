@@ -22,8 +22,6 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class AuthorizationFactory implements SingletonInterface
 {
-    public const VERSION = 'OAuth1a';
-
     protected static ?OAuth $oAuth = null;
 
     public static function createAuthorizationFromExtensionConfiguration(?string $state = null): OAuth
@@ -39,7 +37,6 @@ class AuthorizationFactory implements SingletonInterface
 
         $settings = [
             'baseUrl' => $baseUrl,
-            'version' => $extensionConfiguration->getAuthorizeMode(),
             'clientKey' => $extensionConfiguration->getPublicKey(),
             'clientSecret' => $extensionConfiguration->getSecretKey(),
             'callback' => self::getCallback($state),
@@ -47,20 +44,14 @@ class AuthorizationFactory implements SingletonInterface
 
         if (!empty($extensionConfiguration->getAccessToken())) {
             $settings['accessToken'] = $extensionConfiguration->getAccessToken();
-            if ($extensionConfiguration->isOAuth1()
-                && !empty($extensionConfiguration->getAccessTokenSecret())) {
-                $settings['accessTokenSecret'] = $extensionConfiguration->getAccessTokenSecret();
-            } else {
-                $settings['refreshToken'] = $extensionConfiguration->getRefreshToken();
-                $settings['accessTokenExpires'] = $extensionConfiguration->getExpires();
-            }
+            $settings['refreshToken'] = $extensionConfiguration->getRefreshToken();
+            $settings['accessTokenExpires'] = $extensionConfiguration->getExpires();
         }
 
         self::$oAuth = new OAuth(
             (new ApiAuth())->newAuth($settings),
             $baseUrl,
-            $settings['accessToken'] ?? '',
-            $extensionConfiguration->getAuthorizeMode()
+            $settings['accessToken'] ?? ''
         );
 
         /** @var MauticAuthorizeService $authorizeService */

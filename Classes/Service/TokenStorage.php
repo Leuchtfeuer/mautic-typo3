@@ -29,7 +29,7 @@ final class TokenStorage implements SingletonInterface
     /**
      * @var list<string>
      */
-    private const STRING_KEYS = ['accessToken', 'accessTokenSecret', 'refreshToken'];
+    private const STRING_KEYS = ['accessToken', 'refreshToken'];
 
     private readonly Registry $registry;
 
@@ -46,7 +46,7 @@ final class TokenStorage implements SingletonInterface
     public function hasTokens(): bool
     {
         $sentinel = new \stdClass();
-        foreach (['accessToken', 'accessTokenSecret', 'refreshToken', 'expires'] as $key) {
+        foreach (['accessToken', 'refreshToken', 'expires'] as $key) {
             if ($this->registry->get(self::NAMESPACE, $key, $sentinel) !== $sentinel) {
                 return true;
             }
@@ -55,13 +55,12 @@ final class TokenStorage implements SingletonInterface
     }
 
     /**
-     * @return array{accessToken: string, accessTokenSecret: string, refreshToken: string, expires: int}
+     * @return array{accessToken: string, refreshToken: string, expires: int}
      */
     public function getTokens(): array
     {
         return [
             'accessToken' => (string)$this->registry->get(self::NAMESPACE, 'accessToken', ''),
-            'accessTokenSecret' => (string)$this->registry->get(self::NAMESPACE, 'accessTokenSecret', ''),
             'refreshToken' => (string)$this->registry->get(self::NAMESPACE, 'refreshToken', ''),
             'expires' => (int)$this->registry->get(self::NAMESPACE, 'expires', 0),
         ];

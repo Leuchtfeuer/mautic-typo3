@@ -58,14 +58,12 @@
 				</f:if>
 			</div>
 
-			<f:render section="form-element-select" arguments="{key: 'authorizeMode', type: 'authorization', options: '{OAuth1a: \' OAuth 1\', OAuth2: \' OAuth 2\'}'}" />
 			<f:render section="form-element-text" arguments="{key: 'baseUrl', type: 'authorization'}" />
 			<f:render section="form-element-text" arguments="{key: 'publicKey', type: 'authorization'}" />
 			<f:render section="form-element-text" arguments="{key: 'secretKey', type: 'authorization'}" />
 			<f:render section="form-element-text" arguments="{key: 'accessToken', type: 'authorization', readOnly: 1}" />
-			<f:render section="form-element-text" arguments="{key: 'accessTokenSecret', type: 'authorization', readOnly: 1}" />
-			<f:render section="form-element-text" arguments="{key: 'refreshToken', type: 'authorization'}" />
-			<f:render section="form-element-text" arguments="{key: 'expires', type: 'authorization'}" />
+			<f:render section="form-element-text" arguments="{key: 'expires', type: 'authorization', readOnly: 1}" />
+			<f:render section="form-element-text" arguments="{key: 'refreshToken', type: 'authorization', readOnly: 1}" />
 		</div>
 	</div>
 </f:section>

@@ -22,8 +22,6 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class YamlConfiguration implements SingletonInterface
 {
-    public const OAUTH1_AUTHORIZATION_MODE = 'OAuth1a';
-
     /**
      * @var int
      */
@@ -50,11 +48,6 @@ class YamlConfiguration implements SingletonInterface
     protected $accessToken = '';
 
     /**
-     * @var string
-     */
-    protected $accessTokenSecret = '';
-
-    /**
      * @var bool
      */
     protected $tracking = false;
@@ -78,11 +71,6 @@ class YamlConfiguration implements SingletonInterface
     /**
      * @var string
      */
-    protected $authorizeMode = '';
-
-    /**
-     * @var string
-     */
     protected $refreshToken = '';
 
     /**
@@ -93,7 +81,7 @@ class YamlConfiguration implements SingletonInterface
     /**
      * @var list<string>
      */
-    private const TOKEN_KEYS = ['accessToken', 'accessTokenSecret', 'refreshToken', 'expires'];
+    private const TOKEN_KEYS = ['accessToken', 'refreshToken', 'expires'];
 
     private readonly TokenStorage $tokenStorage;
 
@@ -162,7 +150,6 @@ class YamlConfiguration implements SingletonInterface
     {
         $defaults = [
             'accessToken' => '',
-            'accessTokenSecret' => '',
             'refreshToken' => '',
             'expires' => 0,
         ];
@@ -229,11 +216,6 @@ class YamlConfiguration implements SingletonInterface
         return (string)$this->accessToken;
     }
 
-    public function getAccessTokenSecret(): string
-    {
-        return (string)$this->accessTokenSecret;
-    }
-
     public function isTracking(): bool
     {
         return (bool)$this->tracking;
@@ -247,11 +229,6 @@ class YamlConfiguration implements SingletonInterface
     public function getConfigurationArray(): array
     {
         return $this->configurationArray;
-    }
-
-    public function getAuthorizeMode(): string
-    {
-        return empty($this->authorizeMode) ? self::OAUTH1_AUTHORIZATION_MODE : $this->authorizeMode;
     }
 
     public function getRefreshToken(): string
@@ -268,11 +245,6 @@ class YamlConfiguration implements SingletonInterface
     {
         // extensionScannerIgnoreLine won't work if every && is on its own line
         // @extensionScannerIgnoreLine
-        return $this->authorizeMode === $configuration['authorizeMode'] && $this->secretKey === $configuration['secretKey'] && $this->publicKey === $configuration['publicKey'] && $this->baseUrl === $configuration['baseUrl'];
-    }
-
-    public function isOAuth1(): bool
-    {
-        return $this->getAuthorizeMode() === self::OAUTH1_AUTHORIZATION_MODE;
+        return $this->secretKey === $configuration['secretKey'] && $this->publicKey === $configuration['publicKey'] && $this->baseUrl === $configuration['baseUrl'];
     }
 }
