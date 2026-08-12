@@ -37,8 +37,8 @@ Configuration
 =============
 
 Log in to your Mautic dashboard. Click on the little cog-wheel icon at the top-right of the screen. A menu opens,
-select "API Credentials". Click "New" at the top right. Select the authorization protocol "OAuth 1.0a" or "OAuth2", that you want to use, fill in a name, and leave the Callback URI
-field blank to restrict callbacks. Then hit "Save & Close" at the top right of the screen.
+select "API Credentials". Click "New" at the top right. Select the authorization protocol "OAuth2", fill in a name, and
+enter the URL of your TYPO3 instance as Callback URI. Then hit "Save & Close" at the top right of the screen.
 
 You should now have two keys, "Public Key" and "Secret Key". We will come back to them later.
 
@@ -51,7 +51,7 @@ Again in configuration, on the left side click the tab "API Settings". Set "API 
 Before we continue you must clear Mautic's cache. This can be done by deleting the contents of the `app/cache` directory
 on the server.
 
-Go back to the TYPO3 backend and open the Mautic backend module. Select the right authorization protocol. Fill in the root URL of your Mautic installation. Then
+Go back to the TYPO3 backend and open the Mautic backend module. Fill in the root URL of your Mautic installation. Then
 fill the public and the secret key with the values we generated earlier in Mautic. Click save. A new button should now
 pop up that reads "Authorize with Mautic". Click this button, then log in and accept. You will be redirected back to
 your TYPO3 instance.
@@ -60,18 +60,45 @@ If all went well a green flashmessage should show you that the connection to the
 
 Your extension has now been configured.
 
+Where the configuration is stored
+---------------------------------
+
+The configuration is split into two locations:
+
+*  The connection settings are stored in :file:`config/mautic/config.yaml` of your TYPO3 instance. The file is written
+   by the backend module and can also be edited or deployed manually:
+
+   .. code-block:: yaml
+
+      baseUrl: 'https://mautic.example.com'
+      publicKey: '...'
+      secretKey: '...'
+      tracking: '1'
+      trackingScriptOverride: ''
+
+*  The OAuth2 tokens (``accessToken``, ``refreshToken`` and ``expires``) are stored in the TYPO3 registry within the
+   namespace ``tx_mautic_oauth``. They are written and refreshed by the extension itself, must not be edited manually
+   and are deliberately kept out of the configuration file so that they never end up in your version control system.
+
+   Tokens that are still present in :file:`config/mautic/config.yaml` from an earlier version are migrated to the
+   registry automatically and removed from the file.
+
 Override Configuration
 ----------------------
 
-All configuration made in the backend module can simply be overwritten in your configuration files:
+:file:`config/mautic/config.yaml` is the default source of the configuration. All values can still be overwritten in
+your configuration files, which takes precedence over the values from the configuration file and the registry:
 
 .. code-block:: php
 
    $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['mautic']['baseUrl'] = 'https://mautic.example.com';
    $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['mautic']['publicKey'] = '...';
    $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['mautic']['secretKey'] = '...';
-   $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['mautic']['accessToken'] = '...';
    $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['mautic']['tracking'] = '1';
    $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['mautic']['trackingScriptOverride'] = '';
-   $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['mautic']['refreshToken'] = '...';
-   $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['mautic']['expires'] = '...';
+
+.. note::
+
+   Overriding the tokens (``accessToken``, ``refreshToken`` and ``expires``) this way is discouraged. They are refreshed
+   at runtime and the refreshed values are written to the registry, where a static override would then no longer match.
+   Use the "Reset Authorization" button in the backend module to discard the stored tokens instead.
