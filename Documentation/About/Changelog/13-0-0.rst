@@ -34,6 +34,7 @@ Removed
 * Drop compatibility with TYPO3 before v13
 * Drop OAuth1
 * Remove the deprecated ``EmConfiguration`` DTO, use ``YamlConfiguration`` instead
+* Remove the deprecated method ``YamlConfiguration::getRawEmConfig()``, use ``getYamlConfiguration()`` instead
 
 Documentation
 =============

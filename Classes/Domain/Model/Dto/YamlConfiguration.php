@@ -106,16 +106,6 @@ class YamlConfiguration implements SingletonInterface
         }
     }
 
-    /**
-     * @deprecated Use getYamlConfiguration() instead.
-     */
-    protected function getRawEmConfig(): array
-    {
-        trigger_error('Use getYamlConfiguration() instead.', E_USER_DEPRECATED);
-
-        return $this->getYamlConfiguration();
-    }
-
     public function save(array $configuration = []): void
     {
         if (!file_exists($this->fileName)) {
