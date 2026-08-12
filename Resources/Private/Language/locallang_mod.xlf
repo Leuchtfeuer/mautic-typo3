@@ -24,6 +24,15 @@
             <trans-unit id="authorization.expires">
                 <source>Expires</source>
             </trans-unit>
+            <trans-unit id="authorization.expires.in">
+                <source>expires in %s</source>
+            </trans-unit>
+            <trans-unit id="authorization.expires.ago">
+                <source>expired %s ago</source>
+            </trans-unit>
+            <trans-unit id="authorization.expires.none">
+                <source>no access token stored</source>
+            </trans-unit>
 
             <trans-unit id="tracking.tracking">
                 <source>Enable Mautic user tracking</source>

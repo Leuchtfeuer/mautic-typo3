@@ -17,15 +17,22 @@ use Leuchtfeuer\Mautic\Domain\Model\Dto\YamlConfiguration;
 use Leuchtfeuer\Mautic\Service\MauticAuthorizeService;
 use Psr\Http\Message\ResponseInterface;
 use TYPO3\CMS\Backend\Template\ModuleTemplateFactory;
+use TYPO3\CMS\Core\Context\Context;
 use TYPO3\CMS\Core\Type\ContextualFeedbackSeverity;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
+use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 
 class BackendController extends ActionController
 {
     public const FLASH_MESSAGE_QUEUE = 'marketingautomation.mautic.flashMessages';
 
-    public function __construct(private readonly ModuleTemplateFactory $moduleTemplateFactory) {}
+    private const LANGUAGE_FILE = 'LLL:EXT:mautic/Resources/Private/Language/locallang_mod.xlf:';
+
+    public function __construct(
+        private readonly ModuleTemplateFactory $moduleTemplateFactory,
+        private readonly Context $context,
+    ) {}
 
     public function showAction(): ResponseInterface
     {
@@ -47,7 +54,59 @@ class BackendController extends ActionController
         }
 
         $moduleTemplate->assign('configuration', $emConfiguration);
+        $moduleTemplate->assign('expiresInfo', $this->buildExpiresInfo($emConfiguration->getExpires()));
         return $moduleTemplate->renderResponse('Backend/Show');
+    }
+
+    /**
+     * Renders the access token expiry timestamp in a human readable way, e.g.
+     * "2026-08-12 15:42:07 (expires in 58 min)".
+     */
+    protected function buildExpiresInfo(int $expires): string
+    {
+        if ($expires <= 0) {
+            return $this->translate('authorization.expires.none');
+        }
+
+        $seconds = $expires - (int)$this->context->getPropertyFromAspect('date', 'timestamp');
+        $interval = $this->formatInterval(abs($seconds));
+
+        return sprintf(
+            '%s (%s)',
+            date('Y-m-d H:i:s', $expires),
+            $seconds >= 0
+                ? $this->translate('authorization.expires.in', [$interval])
+                : $this->translate('authorization.expires.ago', [$interval])
+        );
+    }
+
+    /**
+     * Formats a number of seconds using language neutral units, e.g. "3 d 4 h".
+     */
+    protected function formatInterval(int $seconds): string
+    {
+        $units = ['d' => 86400, 'h' => 3600, 'min' => 60];
+        $parts = [];
+
+        foreach ($units as $unit => $length) {
+            if ($seconds >= $length) {
+                $parts[] = intdiv($seconds, $length) . ' ' . $unit;
+                $seconds %= $length;
+            }
+            if (count($parts) === 2) {
+                return implode(' ', $parts);
+            }
+        }
+
+        return $parts === [] ? $seconds . ' s' : implode(' ', $parts);
+    }
+
+    /**
+     * @param list<string> $arguments Replacements for the sprintf placeholders of the label
+     */
+    protected function translate(string $key, array $arguments = []): string
+    {
+        return LocalizationUtility::translate(self::LANGUAGE_FILE . $key, null, $arguments) ?? $key;
     }
 
     public function resetAuthorizationAction(): ResponseInterface
@@ -57,8 +116,8 @@ class BackendController extends ActionController
         $authorizeService->resetTokens();
 
         $this->addFlashMessage(
-            $GLOBALS['LANG']->sL('LLL:EXT:mautic/Resources/Private/Language/locallang_mod.xlf:authorization.reset.message'),
-            $GLOBALS['LANG']->sL('LLL:EXT:mautic/Resources/Private/Language/locallang_mod.xlf:authorization.reset.title'),
+            $this->translate('authorization.reset.message'),
+            $this->translate('authorization.reset.title'),
             ContextualFeedbackSeverity::OK,
         );
 

@@ -25,7 +25,7 @@
 	</ul>
 	<f:form action="save" name="configurationform" object="{configuration}" objectName="configuration" class="t3js-extensionConfiguration-form extensionConfiguration-form">
 		<div class="tab-content">
-			<f:render section="tabpanel-authorization" arguments="{authorizeButton: authorizeButton}"/>
+			<f:render section="tabpanel-authorization" arguments="{authorizeButton: authorizeButton, expiresInfo: expiresInfo}"/>
 			<f:render section="tabpanel-tracking" />
 		</div>
 		<f:form.button type="submit" class="btn btn-default" name="save">
@@ -68,7 +68,7 @@
 			<f:render section="form-element-text" arguments="{key: 'publicKey', type: 'authorization'}" />
 			<f:render section="form-element-text" arguments="{key: 'secretKey', type: 'authorization'}" />
 			<f:render section="form-element-text" arguments="{key: 'accessToken', type: 'authorization', readOnly: 1}" />
-			<f:render section="form-element-text" arguments="{key: 'expires', type: 'authorization', readOnly: 1}" />
+			<f:render section="form-element-text" arguments="{key: 'expires', type: 'authorization', readOnly: 1, dataType: 'int', hint: expiresInfo}" />
 			<f:render section="form-element-text" arguments="{key: 'refreshToken', type: 'authorization', readOnly: 1}" />
 		</div>
 	</div>
@@ -92,7 +92,7 @@
 		<label for="{type}-{key}">
 			<f:translate key="LLL:EXT:mautic/Resources/Private/Language/locallang_mod.xlf:{type}.{key}" />
 		</label>
-		<p>{type}.{key} (string)</p>
+		<p>{type}.{key} ({f:if(condition: dataType, then: dataType, else: 'string')})</p>
 		<div class="form-control-wrap">
 			<f:if condition="{readOnly}">
 				<f:then>
@@ -103,7 +103,7 @@
 				</f:else>
 			</f:if>
 		</div>
-		<div class="help-block"></div>
+		<div class="help-block">{hint}</div>
 	</div>
 </f:section>
 
