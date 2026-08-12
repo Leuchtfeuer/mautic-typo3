@@ -37,9 +37,6 @@ class BackendController extends ActionController
         if ($authorizeService->validateCredentials() === true) {
             if (!$authorizeService->validateAccessToken()) {
                 if ($authorizeService->accessTokenToBeRefreshed()) {
-                    if (!$authorizeService->refreshAccessToken()) {
-                        $moduleTemplate->assign('showResetAuthorizationButton', true);
-                    }
                     $emConfiguration->reloadConfigurations();
                 } else {
                     $moduleTemplate->assign('authorizeButton', $authorizeService->getAuthorizeButton());
