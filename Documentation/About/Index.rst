@@ -17,20 +17,30 @@ Compatibility
 You need access to an Mautic instance. We are currently supporting following TYPO3 versions:
 
 .. csv-table:: Version Matrix
-   :header: "Extension Version", "TYPO3 v10 Support", "TYPO3 v9 Support", "TYPO3 v8 Support"
+   :header: "Extension Version", "TYPO3 v13 Support", "TYPO3 v12 Support", "TYPO3 v11 Support", "TYPO3 v10 Support", "TYPO3 v9 Support"
    :align: center
 
-        "4.x", "🙋‍♂️", "🙅‍♀️", "🙅‍♀️"
-        "3.x", "🙅‍♀️", "🙋‍♂️", "🙅‍♀️"
-        "2.x", "🙅‍♀️", "🙅‍♀️", "🙋‍♂️"
-        "1.x", "🙅‍♀️", "🙅‍♀️", "🙋‍♂️"
+        "13.x", "Yes️", "No️", "No️", "No️", "No"
+        "12.x", "No", "Yes️", "No️", "No️", "No"
+        "4.4", "No️", "No️", "Yes", "No", "No️"
+        "4.2 - 4.3", "No️", "No️", "Yes", "Yes️", "No️"
+        "4.0 - 4.1", "No️", "No️", "No️", "Yes️", "No️"
+        "3.x", "No️", "No️", "No️", "No️", "Yes"
 
-.. scv-table:: Required Mautic Version
-   :header: "Extension Version", "Mautic Version"
+.. csv-table:: Required Mautic Version
+   :header: "Extension Version", "Minimum Mautic Version", "Recommended Mautic Version"
    :align: center
 
-        "4.x", "2.16.0"
-        "3.x", "2.14.2"
+        "13.x", "4.4", "5.2 or later"
+        "12.x", "4.4", "5.2 or later"
+        "4.x", "2.16.0", ""
+        "3.x", "2.14.2", ""
+
+Starting with extension version 12.x all requests are authorized via OAuth2 (``/oauth/v2/authorize`` and
+``/oauth/v2/token``), which requires the API to be enabled in your Mautic configuration. Mautic 4.4 is the lowest
+version providing reliable OAuth2 refresh token handling together with all API endpoints used by this extension
+(contacts, contact fields, companies, company fields, forms, segments, tags, assets and files). As Mautic 4.4 has
+reached its end of life, we recommend running Mautic 5.2 or later.
 
 .. _about-aboutMautic:
 

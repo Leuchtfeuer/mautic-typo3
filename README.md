@@ -5,8 +5,15 @@ The Mautic Extension for TYPO3
 Welcome to the official Mautic extension for TYPO3.
 
 ## Supported Versions
-We currently support Mautic v4 and higher.
 
+### Mautic
+You need access to a Mautic instance in **version 4.4 or later**. We recommend running **Mautic 5.2 or later**, since
+Mautic 4.4 has reached its end of life.
+
+The Mautic instance usually runs on a separate server, so the PHP requirement of this extension (PHP 8.2 or later)
+applies to your TYPO3 installation only.
+
+### TYPO3
 * **For TYPO3 v13 please use extension release 13.0.x** 
 * **For TYPO3 v12 please use extension release 12.0.x** 
 * **For TYPO3 v11 and above on PHP8, please use extension release 4.4.x**

@@ -2,7 +2,7 @@
 
 $EM_CONF['mautic'] = [
     'title' => 'Marketing Automation - Mautic Adapter',
-    'description' => 'Add-on TYPO3 extension that enhances the "marketing-automation" TYPO3 extension by connecting it to the Mautic Marketing Automation platform: Determine "Persona" from Mautic segments. Also provides additional services e.g. language synchronisation between Mautic and TYPO3.',
+    'description' => 'Add-on TYPO3 extension that enhances the "marketing-automation" TYPO3 extension by connecting it to the Mautic Marketing Automation platform: Determine "Persona" from Mautic segments. Also provides additional services e.g. language synchronisation between Mautic and TYPO3. Requires access to a Mautic instance in version 4.4 or later (5.2 or later recommended).',
     'category' => 'fe',
     'state' => 'stable',
     'author_company' => 'Leuchtfeuer Digital Marketing',
