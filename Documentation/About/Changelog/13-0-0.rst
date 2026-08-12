@@ -53,6 +53,8 @@ All Changes
 
 This is a list of all changes in this release::
 
+    2026-08-12 [TASK] Enhance token expiration handling with readable timestamps and update XLIFF translations [TER-500] (Commit ba9ad9b by Marcus Balasch)
+    2026-08-12 [TASK] Update documentation for TYPO3 v13 compatibility, adjust OAuth2 configuration workflow [TER-500] (Commit 6948875 by Marcus Balasch)
     2026-08-12 [TASK] Update XLIFF files to version 1.2 and enhance German translations [TER-500] (Commit c6a37c9 by Marcus Balasch)
     2026-08-12 [TASK] Remove deprecated YamlConfiguration::getRawEmConfig method and update documentation [TER-500] (Commit c25c89f by Marcus Balasch)
     2026-08-12 [TASK] Update minimum Mautic version requirement to 4.4 in MauticAuthorizeService [TER-500] (Commit e2d8f24 by Marcus Balasch)
