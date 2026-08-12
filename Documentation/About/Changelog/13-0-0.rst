@@ -43,6 +43,9 @@ Documentation
 * Fix the rendering of the "Required Mautic Version" table
 * Describe where the configuration is stored: connection settings in :file:`config/mautic/config.yaml`, OAuth2 tokens
   in the TYPO3 registry
+* Document the read-only nature of the Mautic file storage in the Features chapter
+* Document that the synchronization of the preferred language is still under development and currently has no effect
+* Fix outdated version, branch and extension key references throughout the manual
 
 
 All Changes
@@ -50,6 +53,13 @@ All Changes
 
 This is a list of all changes in this release::
 
+    2026-08-12 [TASK] Update XLIFF files to version 1.2 and enhance German translations [TER-500] (Commit c6a37c9 by Marcus Balasch)
+    2026-08-12 [TASK] Remove deprecated YamlConfiguration::getRawEmConfig method and update documentation [TER-500] (Commit c25c89f by Marcus Balasch)
+    2026-08-12 [TASK] Update minimum Mautic version requirement to 4.4 in MauticAuthorizeService [TER-500] (Commit e2d8f24 by Marcus Balasch)
+    2026-08-12 [TASK] Add TYPO3 v13 compatibility and update documentation [TER-500] (Commit f97bc27 by Marcus Balasch)
+    2026-08-12 [TASK] Simplify authorization markup and remove unused "Reset Authorization" button logic [TER-502] [TER-500] (Commit 77ece7f by Marcus Balasch)
+    2026-08-12 [TASK] Remove deprecated EmConfiguration class and update documentation to reflect new OAuth2 token handling and configuration workflow [TER-504] [TER-500] (Commit eb5fe42 by Marcus Balasch)
+    2026-08-12 [TASK] Remove OAuth1 support, streamline token handling, and update documentation accordingly [TER-501] [TER-500] (Commit f00c79e by Marcus Balasch)
     2026-05-11 [DOC] Expand README with form finisher details, asset integration limitations, and clarifications (Commit 4f962a0 by Marcus Balasch)
     2026-05-11 Merge pull request #6 from Leuchtfeuer/feature/TER-437 (Commit 6aef6f1 by Marcus Balasch)
     2026-05-08 [TASK] Fix import order in EnrichPersonaWithMauticSegmentsListener for consistency (Commit 76d35fb by Marcus Balasch)

@@ -7,7 +7,7 @@ Contributing
 ============
 
 You can contribute by making a **pull request** to the
-`master branch <https://github.com/mautic/mautic-typo3/tree/master>`__ of the extension repository on GitHub. Or just
+`main branch <https://github.com/mautic/mautic-typo3/tree/main>`__ of the extension repository on GitHub. Or just
 send us some **beers** 🍻...
 
 .. _about-contributing-documentation:

@@ -16,8 +16,8 @@ applies to your TYPO3 installation only.
 ### TYPO3
 * **For TYPO3 v13 please use extension release 13.0.x** 
 * **For TYPO3 v12 please use extension release 12.0.x** 
-* **For TYPO3 v11 and above on PHP8, please use extension release 4.4.x**
-* **For TYPO3 v10 and v11 on PHP7, please use extension release 4.3.x**
+* **For TYPO3 v11 on PHP 8, please use extension release 4.4.x**
+* **For TYPO3 v10 and v11 on PHP 7, please use extension release 4.3.x**
 * For TYPO3 v9, please use extension release 3.x
 
 ## Features
@@ -64,8 +64,9 @@ Integrate the Mautic tracking script into your frontend with one click of a butt
 
 ### OAuth 2.0 support
 All requests made by this extension are secured using OAuth2, which is the only OAuth version supported by Mautic 4 and
-later. Make sure the API is enabled in your Mautic configuration. You can easily configure your API tokens in the
-extension manager of TYPO3.
+later. Make sure the API is enabled in your Mautic configuration. You can configure the connection in the "Configure
+Extension Mautic" backend module (Admin Tools). The settings are stored in `config/mautic/config.yaml`, the OAuth2
+tokens in the TYPO3 registry.
 
 ### Tags ###
 Set tags for users when they are visiting a page!
@@ -85,12 +86,12 @@ First, install the extensions *marketing_automation*  and *mautic* in your TYPO3
 Afterwards, establish the API connection:
 * Go to "API Credentials" in Mautic and create a new "OAuth2" credential set (give your TYPO3 website's domain as "redirect URI")
 * write down public and secret key
-* go to the "API Connection" backend module in TYPO3, select "OAuth2", and enter the keys from above
+* go to the "Configure Extension Mautic" backend module in TYPO3 (Admin Tools), enter the base URL of your Mautic instance and the keys from above, and save
 * Now hit "Authorize with Mautic"
 * A Mautic login windows comes up. Log in, and click "Accept"
 
 ## Documentation
-Documentation and a getting started guide can be found [here](https://docs.typo3.org/p/mautic/mautic-typo3/master/en-us/).
+Documentation and a getting started guide can be found [here](https://docs.typo3.org/p/mautic/mautic-typo3/main/en-us/).
 
 ## Known Issues & Ideas for the Future 
 
@@ -126,7 +127,7 @@ composer package
 * [Beech](https://beech.it)
 
 ## Contributing
-You can contribute by making a pull request to the master branch of this repository.
+You can contribute by making a pull request to the main branch of this repository.
 
 ## Questions or Suggestions?
 You can always open an issue in this repository if you find a bug or have a feature request. Next to that you can 

@@ -22,9 +22,9 @@ Features
 - Mautic form actions in TYPO3
 - Mautic form embedding
 - Tracking script integration
-- OAuth support
+- OAuth2 support
 - Tag users
-- Link assets
+- Link assets (read-only)
 
 Requirements
 ============
@@ -37,7 +37,7 @@ Suggestions
 ===========
 
 If you want to use your own forms provided by TYPO3, you need to install the TYPO3 Extension
-`form <https://github.com/TYPO3/TYPO3.CMS/tree/master/typo3/sysext/form>`_.
+`form <https://github.com/TYPO3/typo3/tree/main/typo3/sysext/form>`_.
 
 See also
 ========
@@ -48,4 +48,5 @@ See also
 Compatibility
 =============
 
-This extension works with TYPO3 v10 LTS.
+This extension works with TYPO3 v13 LTS and requires PHP 8.2 or later. It connects to a Mautic instance in version 4.4
+or later. See :ref:`about-compatibility` for the full version matrix.

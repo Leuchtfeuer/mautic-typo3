@@ -39,7 +39,7 @@ Syncing TYPO3 forms with Mautic
 ===============================
 
 Instead of including forms from Mautic, the extension also allows you to sync your TYPO3 forms to Mautic. With this
-feature you can keep using the TYPO3 Forms environment (`EXT:forms`) to create your forms, and make sure Mautic
+feature you can keep using the TYPO3 Forms environment (`EXT:form`) to create your forms, and make sure Mautic
 receives all the relevant data.
 
 To start creating a form, go to the Forms module. Click the "Create a new form" button at the top. You can now name your
@@ -70,11 +70,12 @@ added to the form. The demo form should already have this added.
    .. figure:: 009.png
       :class: with-shadow
 
-   .. warning::
-   **IMPORTANT:** If you want to have multiple finisher for your form, keep in mind that the order matters! Make sure to add the Mautic
-   finisher's first, and TYPO3 finisher like "Redirect to a page" or other 3rd party finishers after it! For example, if
-   by mistake the "Redirect to a page" is placed before the "Send to Mautic Form" finisher, the API call to Mautic never
-   happens and no data are submitted.
+.. warning::
+
+   If you want to have multiple finishers for your form, keep in mind that the order matters! Make sure to add the
+   Mautic finishers first, and TYPO3 finishers like "Redirect to a page" or other 3rd party finishers after it! For
+   example, if by mistake the "Redirect to a page" is placed before the "Send to Mautic Form" finisher, the API call to
+   Mautic never happens and no data are submitted.
 
 With this set, all data submitted to the form will automatically be saved in Mautic.
 
@@ -186,3 +187,20 @@ You can now link your assets:
 
    .. figure:: 013.png
       :class: with-shadow
+
+.. note::
+
+   The Mautic file storage is meant to be used read-only. Metadata edited in TYPO3 is not written back to Mautic, and
+   uploading files from TYPO3 to Mautic is not possible. Note that page views are already counted on the Mautic side,
+   because TYPO3 generates thumbnails for the linked assets.
+
+Synchronizing the preferred language
+====================================
+
+The extension ships an event listener that writes the language of the current TYPO3 page to the ``preferred_locale``
+field of the corresponding Mautic contact, identified by the ``mtc_id`` cookie.
+
+.. warning::
+
+   This feature is still under development and currently has no effect: the listener is registered, but nothing
+   triggers the update yet. Do not rely on the preferred locale being kept in sync.

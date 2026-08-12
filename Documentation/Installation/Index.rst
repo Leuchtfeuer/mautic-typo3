@@ -48,8 +48,7 @@ Click the little cog-wheel icon at the top-right of the screen again, then click
 
 Again in configuration, on the left side click the tab "API Settings". Set "API enabled?" to Yes. Save the configuration.
 
-Before we continue you must clear Mautic's cache. This can be done by deleting the contents of the `app/cache` directory
-on the server.
+Before we continue you must clear Mautic's cache.
 
 Go back to the TYPO3 backend and open the Mautic backend module. Fill in the root URL of your Mautic installation. Then
 fill the public and the secret key with the values we generated earlier in Mautic. Click save. A new button should now
