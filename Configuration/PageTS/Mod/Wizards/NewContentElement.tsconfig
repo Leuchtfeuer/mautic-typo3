@@ -2,7 +2,6 @@
 #### Mautic ####
 ################
 mod.wizards.newContentElement.wizardItems.forms {
-    show := addToList(mautic_form)
     elements {
         mautic_form {
             iconIdentifier = tx_mautic-mautic-icon

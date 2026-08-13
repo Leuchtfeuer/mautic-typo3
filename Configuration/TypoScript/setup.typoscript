@@ -40,3 +40,6 @@ tt_content {
         }
     }
 }
+
+page.jsFooterInline.1777030600 = USER
+page.jsFooterInline.1777030600.userFunc = Leuchtfeuer\Mautic\UserFunctions\Tracking->addMauticTrackingScript

@@ -1,0 +1,118 @@
+.. include:: ../../Includes.txt
+
+===========================
+Version 13.0.0 - 2026-08-13
+===========================
+
+This release is a feature release. It includes compatibility with TYPO3 v13.
+
+Download
+========
+
+Download this version from the `TYPO3 extension repository <https://extensions.typo3.org/extension/mautic/>`__ or from
+`GitHub <https://github.com/mautic/mautic-typo3/releases/tag/v13.0.0>`__.
+
+Announcement
+============
+To simplify version handling, extensions will in future be given the same major version as the corresponding TYPO3 version.
+
+Added
+=====
+
+* Add compatibility with TYPO3 v13
+
+Changed
+=======
+
+* Raise the minimum required Mautic version to 4.4, Mautic 5.2 or later is recommended
+* Raise the minimum required PHP version to 8.2
+* Raise ``mautic/api-library`` to 4.0, which communicates with Mautic via a PSR-18 HTTP client
+
+Removed
+=======
+
+* Drop compatibility with TYPO3 before v13
+* Drop OAuth1
+* Remove the deprecated ``EmConfiguration`` DTO, use ``YamlConfiguration`` instead
+* Remove the deprecated method ``YamlConfiguration::getRawEmConfig()``, use ``getYamlConfiguration()`` instead
+
+Documentation
+=============
+
+* Add the required Mautic versions for the extension versions 12.x and 13.x to the version matrix
+* Fix the rendering of the "Required Mautic Version" table
+* Describe where the configuration is stored: connection settings in :file:`config/mautic/config.yaml`, OAuth2 tokens
+  in the TYPO3 registry
+* Document the read-only nature of the Mautic file storage in the Features chapter
+* Document that the synchronization of the preferred language is still under development and currently has no effect
+* Fix outdated version, branch and extension key references throughout the manual
+
+
+All Changes
+===========
+
+This is a list of all changes in this release::
+
+    2026-08-12 [TASK] Enhance token expiration handling with readable timestamps and update XLIFF translations [TER-500] (Commit ba9ad9b by Marcus Balasch)
+    2026-08-12 [TASK] Update documentation for TYPO3 v13 compatibility, adjust OAuth2 configuration workflow [TER-500] (Commit 6948875 by Marcus Balasch)
+    2026-08-12 [TASK] Update XLIFF files to version 1.2 and enhance German translations [TER-500] (Commit c6a37c9 by Marcus Balasch)
+    2026-08-12 [TASK] Remove deprecated YamlConfiguration::getRawEmConfig method and update documentation [TER-500] (Commit c25c89f by Marcus Balasch)
+    2026-08-12 [TASK] Update minimum Mautic version requirement to 4.4 in MauticAuthorizeService [TER-500] (Commit e2d8f24 by Marcus Balasch)
+    2026-08-12 [TASK] Add TYPO3 v13 compatibility and update documentation [TER-500] (Commit f97bc27 by Marcus Balasch)
+    2026-08-12 [TASK] Simplify authorization markup and remove unused "Reset Authorization" button logic [TER-502] [TER-500] (Commit 77ece7f by Marcus Balasch)
+    2026-08-12 [TASK] Remove deprecated EmConfiguration class and update documentation to reflect new OAuth2 token handling and configuration workflow [TER-504] [TER-500] (Commit eb5fe42 by Marcus Balasch)
+    2026-08-12 [TASK] Remove OAuth1 support, streamline token handling, and update documentation accordingly [TER-501] [TER-500] (Commit f00c79e by Marcus Balasch)
+    2026-05-11 [DOC] Expand README with form finisher details, asset integration limitations, and clarifications (Commit 4f962a0 by Marcus Balasch)
+    2026-05-11 Merge pull request #6 from Leuchtfeuer/feature/TER-437 (Commit 6aef6f1 by Marcus Balasch)
+    2026-05-08 [TASK] Fix import order in EnrichPersonaWithMauticSegmentsListener for consistency (Commit 76d35fb by Marcus Balasch)
+    2026-05-08 [TASK] Replace "Refresh Authorization" with "Reset Authorization" functionality [TER-437] (Commit fd21ee7 by Marcus Balasch)
+    2026-05-07 [TASK] Inject TokenStorage into YamlConfiguration for improved dependency management and remove redundant instance calls (Commit a5db4f2 by Marcus Balasch)
+    2026-05-07 [TASK] Implement SingletonInterface in TokenStorage for consistent instance management [TER-437] (Commit 009a4c8 by Marcus Balasch)
+    2026-05-07 [TASK] Add default OAuth token values in YamlConfiguration merge logic to ensure completeness [TER-437] (Commit 9f9fd8c by Marcus Balasch)
+    2026-05-06 [TASK] Introduce TokenStorage for secure OAuth token management and migrate tokens from YAML configuration [TER-437] (Commit 39203d0 by Marcus Balasch)
+    2026-05-06 [TASK] Replace MauticSubscriber with EnrichPersonaWithMauticSegmentsListener for event-based handling [TER-437] (Commit 1ca60f8 by Marcus Balasch)
+    2026-05-06 [TASK] Add refresh authorization button in backend module [TER-474] [TER-475] (Commit 9a034e8 by Niklas Grieger)
+    2026-05-06 [TASK] Refactor FormEditor ViewModel for ES module compatibility and update MauticProperties logic (Commit 7a0fdf7 by Marcus Balasch)
+    2026-04-30 [TASK] Update README.md [TER-437] [TER-448] (Commit 7e633d5 by Niklas Grieger)
+    2026-04-30 [TASK] Assign mautic tags even when the page is cached [TER-437] [TER-448] (Commit 7d5e93b by Niklas Grieger)
+    2026-04-29 [TASK] Raise PHPStan level and fix driver [TER-437] [TER-448] (Commit 327dc25 by Niklas Grieger)
+    2026-04-28 [TASK] Replace initializeSegments() with synchronizeSegments() to prevent deleting existing segment relations during OAuth authorization [TER-437] [TER-448] (Commit a2af196 by Niklas Grieger)
+    2026-04-28 [TASK] Adjust parameter type [TER-437] [TER-447] (Commit c0dd608 by Niklas Grieger)
+    2026-04-24 [TASK] Include Mautic tracking code directly via TypoScript instead of deprecated hook [TER-437] [TER-448] (Commit d0ddf95 by Niklas Grieger)
+    2026-04-24 [TASK] Adjust asset driver to be non-breaking [TER-437] [TER-444] (Commit 9264997 by Niklas Grieger)
+    2026-04-24 [TASK] Mark extension scanner false positives [TER-437] [TER-445] (Commit 4dc6757 by Niklas Grieger)
+    2026-04-24 [TASK] Deprecation #105230: Clean up unused dependencies in MauticSubscriber [TER-437] [TER-438] (Commit 8d386a0 by Niklas Grieger)
+    2026-04-24 [TASK] Breaking #101305: Add type safety for GeneralUtility::writeFile() strict typing [TER-437] [TER-438] (Commit a1ca7e0 by Niklas Grieger)
+    2026-04-24 [TASK] Breaking #100963: Replace removed GuzzleHttp json_decode with native PHP json_decode [TER-437] [TER-438] (Commit da09891 by Niklas Grieger)
+    2026-04-24 [TASK] Deprecation #105076: Add PLUGIN_TYPE_CONTENT_ELEMENT to registerPlugin call [TER-437] [TER-438] (Commit a7d03e1 by Niklas Grieger)
+    2026-04-24 [TASK] Breaking #100963: Move form hooks from ext_tables.php to ext_localconf.php [TER-437] [TER-438] (Commit ca4ac0e by Niklas Grieger)
+    2026-04-24 [TASK] Deprecation #105230: Remove deprecated setPreferredLocale method using TSFE from MauticSubscriber [TER-437] [TER-438] (Commit d5805be by Niklas Grieger)
+    2026-04-24 [TASK] Breaking #102715: Replace getController() with getPageInformation() in SetPreferredLocaleListener [TER-437] [TER-438] (Commit 9c654ca by Niklas Grieger)
+    2026-04-24 [TASK] Breaking #102834: Remove deprecated show syntax from NewContentElement wizard [TER-437] [TER-438] (Commit 8a90f7d by Niklas Grieger)
+    2026-04-24 [TASK] Breaking #102875: Replace Connection::PARAM_STR_ARRAY with ArrayParameterType::STRING [TER-437] [TER-438] (Commit 7c92eb6 by Niklas Grieger)
+    2026-04-24 [TASK] Deprecation #104778: Remove manual IconRegistry instantiation from ext_localconf.php [TER-437] [TER-438] (Commit 23846e8 by Niklas Grieger)
+    2026-04-24 [TASK] Breaking #102932: Remove unused hook classes replaced by PSR-14 event listeners [TER-437] [TER-438] (Commit 1b68ad4 by Niklas Grieger)
+    2026-04-24 [TASK] Breaking #101471: Fix dumpFileContents() void method returning string [TER-437] [TER-438] (Commit 7fdf011 by Niklas Grieger)
+    2026-04-24 [TASK] Deprecation #104773: Replace deprecated TemplateView with ViewFactoryInterface [TER-437] [TER-438] (Commit 6694cbf by Niklas Grieger)
+    2026-04-24 [TASK] Deprecation #105171: Replace INCLUDE_TYPOSCRIPT with @import syntax [TER-437] [TER-438] (Commit eb51752 by Niklas Grieger)
+    2026-04-24 [TASK] Breaking #102932: Remove configArrayPostProc hooks and register PSR-14 event listeners [TER-437] [TER-438] (Commit c0f830a by Niklas Grieger)
+    2026-04-24 [TASK] Breaking #102779: Update version constraints to TYPO3 13 and PHP 8.2 [TER-437] [TER-438] (Commit dd5aedf by Niklas Grieger)
+    2026-04-23 [TASK] Run code styles after rector [TER-437] [TER-438] (Commit 9e0f347 by Niklas Grieger)
+    2026-04-23 [TASK] Run rector [TER-437] [TER-438] (Commit 5c228ef by Niklas Grieger)
+    2026-04-07 Merge pull request #103 from Leuchtfeuer/feature/TER-412 (Commit aa27040 by Ekkehard Gümbel)
+    2026-03-30 [TASK] no new release till now [TER-412][TER-413] (Commit 257aec6 by Ines Willenbrock)
+    2026-03-30 [TASK] prevent locally generated documentation to reach the repository [TER-412][TER-413] (Commit 45119ee by Ines Willenbrock)
+    2026-03-30 [TASK] migrate documentation to PHP based rendering [TER-412][TER-413] (Commit 2dd33cf by Ines Willenbrock)
+    2026-03-18 Merge pull request #102 from mautic/ekkeguembel-patch-1 (Commit b4f76c3 by Ekkehard Gümbel)
+    2026-03-18 Update README.md (Commit e3e0d5c by Ekkehard Gümbel)
+
+Contributors
+============
+Following people have contributed to this release:
+
+* Ekkehard Gümbel
+* Ines Willenbrock
+* Marcus Balasch
+* Niklas Grieger
+
+Thank you very much for your support. The next beer is on us! 🍻

@@ -5,11 +5,19 @@ The Mautic Extension for TYPO3
 Welcome to the official Mautic extension for TYPO3.
 
 ## Supported Versions
-We currently support Mautic v4 and higher.
 
+### Mautic
+You need access to a Mautic instance in **version 4.4 or later**. We recommend running **Mautic 5.2 or later**, since
+Mautic 4.4 has reached its end of life.
+
+The Mautic instance usually runs on a separate server, so the PHP requirement of this extension (PHP 8.2 or later)
+applies to your TYPO3 installation only.
+
+### TYPO3
+* **For TYPO3 v13 please use extension release 13.0.x** 
 * **For TYPO3 v12 please use extension release 12.0.x** 
-* **For TYPO3 v11 and above on PHP8, please use extension release 4.4.x**
-* **For TYPO3 v10 and v11 on PHP7, please use extension release 4.3.x**
+* **For TYPO3 v11 on PHP 8, please use extension release 4.4.x**
+* **For TYPO3 v10 and v11 on PHP 7, please use extension release 4.3.x**
 * For TYPO3 v9, please use extension release 3.x
 
 ## Features
@@ -55,14 +63,16 @@ with this extension.
 Integrate the Mautic tracking script into your frontend with one click of a button!
 
 ### OAuth 2.0 support
-All requests made by this extension are secured using OAuth (with Mautic only supping OAuth2 in recent versions). You 
-can easily configure your API tokens in the extension manager of TYPO3.
+All requests made by this extension are secured using OAuth2, which is the only OAuth version supported by Mautic 4 and
+later. Make sure the API is enabled in your Mautic configuration. You can configure the connection in the "Configure
+Extension Mautic" backend module (Admin Tools). The settings are stored in `config/mautic/config.yaml`, the OAuth2
+tokens in the TYPO3 registry.
 
 ### Tags ###
 Set tags for users when they are visiting a page!
 
 ### Assets ###
-Link to Mautic assets directly in TYPO3 using file relations or the TYPO3 link wizard!
+Link to Mautic assets directly in TYPO3 using file relations or the TYPO3 link wizard! The mautic driver should be used as read-only.
 
 ### Language sync ###
 (currently in flux)
@@ -76,32 +86,34 @@ First, install the extensions *marketing_automation*  and *mautic* in your TYPO3
 Afterwards, establish the API connection:
 * Go to "API Credentials" in Mautic and create a new "OAuth2" credential set (give your TYPO3 website's domain as "redirect URI")
 * write down public and secret key
-* go to the "API Connection" backend module in TYPO3, select "OAuth2", and enter the keys from above
+* go to the "Configure Extension Mautic" backend module in TYPO3 (Admin Tools), enter the base URL of your Mautic instance and the keys from above, and save
 * Now hit "Authorize with Mautic"
 * A Mautic login windows comes up. Log in, and click "Accept"
 
 ## Documentation
-Documentation and a getting started guide can be found [here](https://docs.typo3.org/p/mautic/mautic-typo3/master/en-us/).
+Documentation and a getting started guide can be found [here](https://docs.typo3.org/p/mautic/mautic-typo3/main/en-us/).
 
 ## Known Issues & Ideas for the Future 
-### TYPO3 Form Builder
-* "Mautic Property Type" currently not working: Mautic field mappings are currently not possible through the TYPO3 UI, 
-only for the pre-defined fields in template "Simple Contact Form"
 
 ### Form Framework: Currently limited support
 * Make sure to use Predefined Form from Prototype "Mautic Form"
 * Recommended: Use template "Simple Contact Form"
 * Mautic-side changes in form are NOT sync'd back to TYPO3 
-* TYPO3-side changes (fields, field properties, form type, ...) after creation are NOT sync'd to Mautic 
-* Make sure to use finisher "Create Mautic Contact"
+* TYPO3-side changes (fields, field properties, form type, ...) after creation are NOT sync'd to Mautic. You can specify a Mautic alias for each field in the form YAML file. The data will then be sent to Mautic accordingly with the finisher "Send to Mautic form". Make sure to use the correct Mautic field types.
+* Use finisher "Create Mautic Contact" for creating contacts and not submitting the form
 * Use "Send to Mautic form" only if you wish to send to a different form ID
-* Idea: Move "updating" of forms (normally by the form's Javascriupt snippets) to TYPO3 so that we can always deliver static HTML (which works even in restricted environments)
+* Idea: Move "updating" of forms (normally by the form's JavaScript snippets) to TYPO3 so that we can always deliver static HTML (which works even in restricted environments)
 
 ### Tags
 On the very first page visit, setting tags can not work reliably. (We are considering using mpixel in addition to API for that reason...)
 
-### Language Sync, Assets 
+### Language Sync
 On the very first page visit, setting tags can not work reliably. (We are considering using mpixel in addition to API for that reason...)
+
+### Assets
+Currently, Mautic assets can be integrated for read-only access. Metadata is not written back from TYPO3 to Mautic. It is also not possible to upload files from TYPO3 to Mautic.
+
+**Note:** Page views are already counted on the Mautic side due to the generation of thumbnails.
 
 ## Packaging for use in the Extension Manager
 Clone the repository and run the following in the extension root directory:
@@ -115,7 +127,7 @@ composer package
 * [Beech](https://beech.it)
 
 ## Contributing
-You can contribute by making a pull request to the master branch of this repository.
+You can contribute by making a pull request to the main branch of this repository.
 
 ## Questions or Suggestions?
 You can always open an issue in this repository if you find a bug or have a feature request. Next to that you can 

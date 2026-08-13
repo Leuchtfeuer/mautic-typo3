@@ -16,10 +16,10 @@ Mautic
    en
 
 :Copyright:
-   2018-2020
+   2018-2026
 
 :Authors:
-   Florian Wessels, Jurian Janssen
+   Leuchtfeuer Digital Marketing
 
 :Email:
    dev@leuchtfeuer.com
@@ -36,7 +36,7 @@ Mautic
 
 **Community documentation:**
 
-   This documentation is community documentation for the TYPO3 extension {extension.name}
+   This documentation is community documentation for the TYPO3 extension mautic.
 
    It is maintained as part of this third party extension.
 

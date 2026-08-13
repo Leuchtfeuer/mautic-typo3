@@ -3,7 +3,11 @@
     <ROOT>
         <type>array</type>
         <el>
-            <!-- Maybe we can support categories here later on -->
-            </el>
-        </ROOT>
-    </T3DataStructure>
+            <info>
+                <config>
+                    <type>passthrough</type>
+                </config>
+            </info>
+        </el>
+    </ROOT>
+</T3DataStructure>

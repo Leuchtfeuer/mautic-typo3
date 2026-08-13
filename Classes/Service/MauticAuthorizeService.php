@@ -19,7 +19,6 @@ use Leuchtfeuer\Mautic\Mautic\AuthorizationFactory;
 use Leuchtfeuer\Mautic\Mautic\OAuth;
 use Leuchtfeuer\Mautic\Middleware\AuthorizeMiddleware;
 use Mautic\MauticApi;
-use TYPO3\CMS\Core\Imaging\Icon;
 use TYPO3\CMS\Core\Imaging\IconFactory;
 use TYPO3\CMS\Core\Localization\LanguageService;
 use TYPO3\CMS\Core\Localization\LanguageServiceFactory;
@@ -34,7 +33,7 @@ class MauticAuthorizeService
 
     protected array $extensionConfiguration = [];
 
-    protected string $minimumMauticVersion = '2.14.2';
+    protected string $minimumMauticVersion = '4.4';
 
     protected array $messages = [];
 
@@ -65,15 +64,10 @@ class MauticAuthorizeService
         return true;
     }
 
-    public function configurationHasAccessToken(): bool
-    {
-        return !empty($this->extensionConfiguration['accessToken']) && !empty($this->extensionConfiguration['accessTokenSecret']);
-    }
-
     public function getAuthorizeButton(): string
     {
         $title = htmlspecialchars($this->translate('authorization.withMautic'));
-        $icon = GeneralUtility::makeInstance(IconFactory::class)->getIcon('tx_mautic-mautic-icon', Icon::SIZE_SMALL);
+        $icon = GeneralUtility::makeInstance(IconFactory::class)->getIcon('tx_mautic-mautic-icon', \TYPO3\CMS\Core\Imaging\IconSize::SMALL);
         $url = GeneralUtility::getIndpEnv('TYPO3_REQUEST_HOST') . AuthorizeMiddleware::PATH;
 
         return sprintf(
@@ -83,6 +77,26 @@ class MauticAuthorizeService
             $icon,
             $title
         );
+    }
+
+    public function resetTokens(): void
+    {
+        $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['mautic'] = array_merge(
+            $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['mautic'] ?? [],
+            ['accessToken' => '', 'refreshToken' => '', 'expires' => 0]
+        );
+
+        $yamlConfiguration = GeneralUtility::makeInstance(YamlConfiguration::class);
+        $extensionConfiguration = $yamlConfiguration->getConfigurationArray();
+        $extensionConfiguration['accessToken'] = '';
+        $extensionConfiguration['refreshToken'] = '';
+        $extensionConfiguration['expires'] = 0;
+        $yamlConfiguration->save($extensionConfiguration);
+        $yamlConfiguration->reloadConfigurations();
+
+        $this->extensionConfiguration = $yamlConfiguration->getConfigurationArray();
+
+        unset($_SESSION['oauth']);
     }
 
     public function checkConnection(): bool
@@ -255,18 +269,11 @@ class MauticAuthorizeService
 
     protected function translate(string $key): string
     {
-        if (!$this->languageService instanceof LanguageService) {
-            $this->languageService = GeneralUtility::makeInstance(LanguageServiceFactory::class)->createFromUserPreferences($GLOBALS['BE_USER']);
-        }
         return $this->languageService->sL('LLL:EXT:mautic/Resources/Private/Language/locallang_mod.xlf:' . $key);
     }
 
     public function validateAccessToken(): bool
     {
-        if (!isset($this->extensionConfiguration['authorizeMode']) || $this->extensionConfiguration['authorizeMode'] === YamlConfiguration::OAUTH1_AUTHORIZATION_MODE) {
-            return $this->extensionConfiguration['accessToken'] !== '' && $this->extensionConfiguration['accessTokenSecret'] !== '';
-        }
-
         if ($this->extensionConfiguration['accessToken'] === '' || $this->extensionConfiguration['refreshToken'] === '') {
             return false;
         }
@@ -276,14 +283,7 @@ class MauticAuthorizeService
 
     public function accessTokenToBeRefreshed(): bool
     {
-        //Access token have no expire on OAuth 1
-        if ($this->extensionConfiguration['authorizeMode'] === YamlConfiguration::OAUTH1_AUTHORIZATION_MODE) {
-            return false;
-        }
-
-        if ($this->extensionConfiguration['accessToken'] === ''
-            || $this->extensionConfiguration['refreshToken'] === ''
-        ) {
+        if ($this->extensionConfiguration['accessToken'] === '' || $this->extensionConfiguration['refreshToken'] === '') {
             return false;
         }
 
@@ -296,12 +296,8 @@ class MauticAuthorizeService
             if ($this->authorization->validateAccessToken() && $this->authorization->accessTokenUpdated()) {
                 $accessTokenData = $this->authorization->getAccessTokenData();
                 $this->extensionConfiguration['accessToken'] = $accessTokenData['access_token'];
-                if ($this->extensionConfiguration['authorizeMode'] === YamlConfiguration::OAUTH1_AUTHORIZATION_MODE) {
-                    $this->extensionConfiguration['accessTokenSecret'] = $accessTokenData['access_token_secret'];
-                } else {
-                    $this->extensionConfiguration['refreshToken'] = $accessTokenData['refresh_token'];
-                    $this->extensionConfiguration['expires'] = $accessTokenData['expires'];
-                }
+                $this->extensionConfiguration['refreshToken'] = $accessTokenData['refresh_token'];
+                $this->extensionConfiguration['expires'] = $accessTokenData['expires'];
 
                 GeneralUtility::makeInstance(YamlConfiguration::class)->save($this->extensionConfiguration);
             }

@@ -43,7 +43,7 @@ class MauticTrackingService implements SingletonInterface
 
         $overrideScript = trim(strip_tags($this->extensionConfiguration->getTrackingScriptOverride()));
 
-        if (!empty($overrideScript)) {
+        if ($overrideScript !== '' && $overrideScript !== '0') {
             return $overrideScript;
         }
 

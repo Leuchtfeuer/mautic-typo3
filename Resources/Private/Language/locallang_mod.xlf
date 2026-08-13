@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xliff version="1.0">
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
     <file source-language="en" datatype="plaintext" original="messages" date="2018-06-20T21:17:23Z" product-name="mautic">
         <header />
         <body>
@@ -18,17 +18,20 @@
             <trans-unit id="authorization.accessToken">
                 <source>Access token</source>
             </trans-unit>
-            <trans-unit id="authorization.accessTokenSecret">
-                <source>Access token secret</source>
-            </trans-unit>
-            <trans-unit id="authorization.authorizeMode">
-                <source>Authorization Mode</source>
-            </trans-unit>
             <trans-unit id="authorization.refreshToken">
                 <source>Refresh token</source>
             </trans-unit>
             <trans-unit id="authorization.expires">
                 <source>Expires</source>
+            </trans-unit>
+            <trans-unit id="authorization.expires.in">
+                <source>expires in %s</source>
+            </trans-unit>
+            <trans-unit id="authorization.expires.ago">
+                <source>expired %s ago</source>
+            </trans-unit>
+            <trans-unit id="authorization.expires.none">
+                <source>no access token stored</source>
             </trans-unit>
 
             <trans-unit id="tracking.tracking">
@@ -46,6 +49,15 @@
             </trans-unit>
             <trans-unit id="authorization.withMautic">
                 <source>Authorize with Mautic</source>
+            </trans-unit>
+            <trans-unit id="authorization.resetAuthorization">
+                <source>Reset Authorization</source>
+            </trans-unit>
+            <trans-unit id="authorization.reset.title">
+                <source>Authorization reset</source>
+            </trans-unit>
+            <trans-unit id="authorization.reset.message">
+                <source>OAuth tokens have been cleared.</source>
             </trans-unit>
             <trans-unit id="authorization.wrongMauticVersion.title">
                 <source>Your Mautic installation is out of date</source>

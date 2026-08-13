@@ -1,112 +1,150 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xliff version="1.0">
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
     <file source-language="en" target-language="de" datatype="plaintext" original="messages" date="2018-06-20T21:17:23Z" product-name="mautic">
         <header />
         <body>
             <trans-unit id="authorization.baseUrl">
+                <source>Base URL of the Mautic instance</source>
                 <target>Basis URL der Mautic Instanz</target>
             </trans-unit>
             <trans-unit id="authorization.publicKey">
+                <source>Public Key from Mautic API Credentials</source>
                 <target>Public Key from Mautic API Credentials</target>
             </trans-unit>
             <trans-unit id="authorization.secretKey">
+                <source>Secret Key from Mautic API Credentials</source>
                 <target>Secret Key from Mautic API Credentials</target>
             </trans-unit>
             <trans-unit id="authorization.authorize">
+                <source>Provide OAuth2 API Credentials from Mautic</source>
                 <target>Provide OAuth2 API Credentials from Mautic</target>
             </trans-unit>
             <trans-unit id="authorization.accessToken">
+                <source>Access token</source>
                 <target>Access token</target>
-            </trans-unit>
-            <trans-unit id="authorization.accessTokenSecret">
-                <target>Access token secret</target>
-            </trans-unit>
-            <trans-unit id="authorization.authorizeMode">
-                <source>Autorisierung-Protokoll</source>
             </trans-unit>
             <trans-unit id="authorization.refreshToken">
                 <source>Refresh token</source>
+                <target>Refresh token</target>
             </trans-unit>
             <trans-unit id="authorization.expires">
-                <source>Läuft aus</source>
+                <source>Expires</source>
+                <target>Läuft aus</target>
+            </trans-unit>
+            <trans-unit id="authorization.expires.in">
+                <source>expires in %s</source>
+                <target>läuft ab in %s</target>
+            </trans-unit>
+            <trans-unit id="authorization.expires.ago">
+                <source>expired %s ago</source>
+                <target>abgelaufen vor %s</target>
+            </trans-unit>
+            <trans-unit id="authorization.expires.none">
+                <source>no access token stored</source>
+                <target>kein Access Token gespeichert</target>
             </trans-unit>
 
             <trans-unit id="tracking.tracking">
+                <source>Enable Mautic user tracking</source>
                 <target>Benutzertracking mit Mautic aktivieren</target>
             </trans-unit>
             <trans-unit id="tracking.trackingScriptOverride">
+                <source>Override default Mautic tracking script (without script tags)</source>
                 <target>Standard Mautic Tracking-Script überschrieben (Eingabe ohne script tags)</target>
             </trans-unit>
 
             <trans-unit id="authorization.missingInformation.title">
+                <source>Required information missing</source>
                 <target>Notwendige Informationen fehlen</target>
             </trans-unit>
             <trans-unit id="authorization.missingInformation.message">
+                <source>You need to provide information for %s.</source>
                 <target>Bitte geben Sie folgende Informationen an: %s.</target>
             </trans-unit>
             <trans-unit id="authorization.withMautic">
+                <source>Authorize with Mautic</source>
                 <target>Mautic verknüpfen</target>
             </trans-unit>
             <trans-unit id="authorization.wrongMauticVersion.title">
+                <source>Your Mautic installation is out of date</source>
                 <target>Ihre Mautic Installation ist veraltet</target>
             </trans-unit>
             <trans-unit id="authorization.wrongMauticVersion.message">
+                <source>Your Mautic installation is running version %s. The minimum version required is %s.</source>
                 <target>Sie nutzen Mautic in der Version %s. Vorausgesetzt wird mindestens die Version %s.</target>
             </trans-unit>
             <trans-unit id="authorization.insecureConnection.title">
+                <source>Connection successful, but your Mautic connection is not secure</source>
                 <target>Unsichere Verbindung zu Mautic hergestellt</target>
             </trans-unit>
             <trans-unit id="authorization.insecureConnection.message">
+                <source>Your Mautic installation is contacted over HTTP and not HTTPs. Consider securing your Mautic installation with an SSL certificate.</source>
                 <target>Ihre Mautic Installation wird über HTTP und nicht über HTTPS angesprochen. Schützen Sie die Mautic Installation mit einem SSL Zertifikat.</target>
             </trans-unit>
             <trans-unit id="authorization.error.title">
+                <source>An error occurred</source>
                 <target>Ein Fehler ist aufgetreten</target>
             </trans-unit>
             <trans-unit id="authorization.error.title.invalid_response">
-                <source>Ungültige Antwort</source>
+                <source>Invalid response</source>
+                <target>Ungültige Antwort</target>
             </trans-unit>
             <trans-unit id="authorization.error.message">
+                <source>Please verify your credentials.</source>
                 <target>Bitte überprüfen Sie Ihre Anmeldedaten.</target>
             </trans-unit>
             <trans-unit id="authorization.error.message.consumer_key_unknown">
-                <source>Öffentlicher Schlüssel ist unbekannt</source>
+                <source>Consumer key (public key) unknown.</source>
+                <target>Öffentlicher Schlüssel ist unbekannt</target>
             </trans-unit>
             <trans-unit id="authorization.error.message.signature_invalid">
-                <source>Ungültige Signatur</source>
+                <source>Invalid signature.</source>
+                <target>Ungültige Signatur</target>
             </trans-unit>
             <trans-unit id="authorization.error.message.invalid_response">
-                <source>Die Server Antwort war kein gültiges JSON. Ist die baseURL vorhanden/fehlerhaft?</source>
+                <source>The given response was not a valid JSON. Does the baseURL exists?</source>
+                <target>Die Server Antwort war kein gültiges JSON. Ist die baseURL vorhanden/fehlerhaft?</target>
             </trans-unit>
             <trans-unit id="authorization.warning.title">
+                <source>Warning</source>
                 <target>Warnung</target>
             </trans-unit>
             <trans-unit id="authorization.warning.message">
+                <source>A non-critical issue has been detected.</source>
                 <target>Ein minderschwerer Fehler ist aufgetreten.</target>
             </trans-unit>
             <trans-unit id="authorization.success.title">
+                <source>API authorization verified</source>
                 <target>API autorisiert</target>
             </trans-unit>
             <trans-unit id="authorization.success.message">
+                <source>Connection to Mautic REST API can be established.</source>
                 <target>Verbindung zur Mautic REST API hergestellt.</target>
             </trans-unit>
 
             <trans-unit id="mlang_tabs_tab">
-                <source>API Verbindung</source>
+                <source>API Connection</source>
+                <target>API Verbindung</target>
             </trans-unit>
             <trans-unit id="mlang_labels_tabdescr">
-                <source>Verbindet TYPO3 mit der Mautic API.</source>
+                <source>Connects TYPO3 with the Mautic API.</source>
+                <target>Verbindet TYPO3 mit der Mautic API.</target>
             </trans-unit>
             <trans-unit id="mlang_labels_tablabel">
-                <source>Mautic API Verbindung</source>
+                <source>Mautic API Connection.</source>
+                <target>Mautic API Verbindung</target>
             </trans-unit>
             <trans-unit id="module.title">
-                <source>Mautic Extension Konfiguration</source>
+                <source>Configure Extension Mautic</source>
+                <target>Mautic Extension Konfiguration</target>
             </trans-unit>
             <trans-unit id="module.features">
-                <source>Funktionen aktivieren</source>
+                <source>Connect to your Mautic</source>
+                <target>Funktionen aktivieren</target>
             </trans-unit>
             <trans-unit id="module.save">
-                <source>Speichere Konfiguration</source>
+                <source>Save Configuration</source>
+                <target>Speichere Konfiguration</target>
             </trans-unit>
         </body>
     </file>

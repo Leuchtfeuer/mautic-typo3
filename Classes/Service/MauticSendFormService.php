@@ -72,13 +72,12 @@ class MauticSendFormService implements SingletonInterface, LoggerAwareInterface
 
         $extensionConfiguration = GeneralUtility::makeInstance(YamlConfiguration::class)->getConfigurationArray();
         $authorizeService = GeneralUtility::makeInstance(MauticAuthorizeService::class);
-        if ($extensionConfiguration['authorizeMode'] !== YamlConfiguration::OAUTH1_AUTHORIZATION_MODE) {
-            if ($authorizeService->accessTokenToBeRefreshed()) {
-                $authorizeService->refreshAccessToken();
-                $extensionConfiguration = GeneralUtility::makeInstance(YamlConfiguration::class)->getConfigurationArray();
-            }
-            $headers['Authorization'] = sprintf('Bearer %s', $extensionConfiguration['accessToken']);
+
+        if ($authorizeService->accessTokenToBeRefreshed()) {
+            $authorizeService->refreshAccessToken();
+            $extensionConfiguration = GeneralUtility::makeInstance(YamlConfiguration::class)->getConfigurationArray();
         }
+        $headers['Authorization'] = sprintf('Bearer %s', $extensionConfiguration['accessToken']);
 
         return $headers;
     }
@@ -106,7 +105,7 @@ class MauticSendFormService implements SingletonInterface, LoggerAwareInterface
                     // Multiple IPs are present so use the last IP which should be
                     // the most reliable IP that last connected to the proxy
                     $ips = explode(',', (string)$ip);
-                    $ips = array_map('trim', $ips);
+                    $ips = array_map(trim(...), $ips);
                     $ip = end($ips);
                 }
                 $ip = trim((string)$ip);

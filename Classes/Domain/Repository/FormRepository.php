@@ -20,9 +20,6 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class FormRepository extends AbstractRepository
 {
-    /**
-     * @var Forms
-     */
     protected Forms $formsApi;
 
     /**
@@ -78,7 +75,7 @@ class FormRepository extends AbstractRepository
     {
         $data['formId'] = $id;
         // @extensionScannerIgnoreLine
-        $url = rtrim(trim((string)$this->authorization->getBaseUrl()), '/') . '/form/submit?formId=' . $id;
+        $url = rtrim(trim($this->authorization->getBaseUrl()), '/') . '/form/submit?formId=' . $id;
 
         $mauticSendFormService = GeneralUtility::makeInstance(MauticSendFormService::class);
         $code = $mauticSendFormService->submitForm($url, $data);

@@ -32,8 +32,6 @@ use TYPO3\CMS\Core\Http\Response;
 use TYPO3\CMS\Core\Http\Stream;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-use function GuzzleHttp\json_decode;
-
 class AuthorizeMiddleware implements MiddlewareInterface, LoggerAwareInterface
 {
     use LoggerAwareTrait;
@@ -44,7 +42,8 @@ class AuthorizeMiddleware implements MiddlewareInterface, LoggerAwareInterface
 
     public function __construct(
         private readonly SegmentRepository $segmentRepository,
-        private readonly TagRepository $tagRepository
+        private readonly TagRepository $tagRepository,
+        private readonly Context $context
     ) {}
 
     #[\Override]
@@ -56,7 +55,7 @@ class AuthorizeMiddleware implements MiddlewareInterface, LoggerAwareInterface
             return $handler->handle($request);
         }
 
-        $userAspect = GeneralUtility::makeInstance(Context::class)->getAspect('backend.user');
+        $userAspect = $this->context->getAspect('backend.user');
         $this->state = $request->getQueryParams()['state'] ?? '';
 
         if (($this->state === '' || $this->state === '0') && !$userAspect->isLoggedIn()) {
@@ -115,14 +114,14 @@ class AuthorizeMiddleware implements MiddlewareInterface, LoggerAwareInterface
                     $this->updateExtensionConfiguration($accessTokenData);
                 }
 
-                $this->segmentRepository->initializeSegments();
+                $this->segmentRepository->synchronizeSegments();
                 $this->tagRepository->synchronizeTags();
 
                 return null;
             }
         } catch (UnexpectedResponseFormatException $exception) {
             try {
-                $errors = json_decode($exception->getResponse()->getBody(), true)['errors'];
+                $errors = json_decode((string)$exception->getResponse()->getBody(), true)['errors'];
                 $error = array_shift($errors);
 
                 $title = sprintf('Error %d', $error['code']);
@@ -178,12 +177,8 @@ class AuthorizeMiddleware implements MiddlewareInterface, LoggerAwareInterface
 
         $extensionConfiguration = $yamlConfiguration->getConfigurationArray();
         $extensionConfiguration['accessToken'] = $accessTokenData['access_token'];
-        if ($extensionConfiguration['authorizeMode'] === YamlConfiguration::OAUTH1_AUTHORIZATION_MODE) {
-            $extensionConfiguration['accessTokenSecret'] = $accessTokenData['access_token_secret'];
-        } else {
-            $extensionConfiguration['refreshToken'] = $accessTokenData['refresh_token'];
-            $extensionConfiguration['expires'] = $accessTokenData['expires'];
-        }
+        $extensionConfiguration['refreshToken'] = $accessTokenData['refresh_token'];
+        $extensionConfiguration['expires'] = $accessTokenData['expires'];
 
         $yamlConfiguration->save($extensionConfiguration);
     }

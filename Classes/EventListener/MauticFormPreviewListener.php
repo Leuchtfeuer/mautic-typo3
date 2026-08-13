@@ -20,10 +20,10 @@ use TYPO3\CMS\Backend\View\Event\PageContentPreviewRenderingEvent;
  * Event listener for rendering preview of Mautic form content elements.
  * Replaces the deprecated hook: $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['cms/layout/class.tx_cms_layout.php']['tt_content_drawItem']
  */
-final class MauticFormPreviewListener
+final readonly class MauticFormPreviewListener
 {
     public function __construct(
-        private readonly FormRepository $formRepository
+        private FormRepository $formRepository
     ) {}
 
     public function __invoke(PageContentPreviewRenderingEvent $event): void
@@ -39,7 +39,7 @@ final class MauticFormPreviewListener
 
         $mauticForm = $this->formRepository->getForm((int)$record['mautic_form_id']);
 
-        if (empty($mauticForm)) {
+        if ($mauticForm === []) {
             $event->setPreviewContent($this->getFormNotFoundContent((int)$record['mautic_form_id']));
             return;
         }

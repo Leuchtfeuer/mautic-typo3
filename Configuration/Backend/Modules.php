@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use Leuchtfeuer\Mautic\Controller\BackendController;
 return [
     'tools_Api' => [
@@ -12,6 +14,7 @@ return [
             BackendController::class => [
                 'show',
                 'save',
+                'resetAuthorization',
             ],
         ],
     ],

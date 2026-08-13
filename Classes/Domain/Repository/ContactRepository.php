@@ -18,9 +18,6 @@ use Mautic\Exception\ContextNotFoundException;
 
 class ContactRepository extends AbstractRepository
 {
-    /**
-     * @var Contacts
-     */
     protected Contacts $contactsApi;
 
     /**

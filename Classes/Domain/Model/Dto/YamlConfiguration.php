@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Leuchtfeuer\Mautic\Domain\Model\Dto;
 
+use Leuchtfeuer\Mautic\Service\TokenStorage;
 use Symfony\Component\Yaml\Yaml;
 use TYPO3\CMS\Core\Configuration\Loader\YamlFileLoader;
 use TYPO3\CMS\Core\Core\Environment;
@@ -21,8 +22,6 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class YamlConfiguration implements SingletonInterface
 {
-    public const OAUTH1_AUTHORIZATION_MODE = 'OAuth1a';
-
     /**
      * @var int
      */
@@ -49,11 +48,6 @@ class YamlConfiguration implements SingletonInterface
     protected $accessToken = '';
 
     /**
-     * @var string
-     */
-    protected $accessTokenSecret = '';
-
-    /**
      * @var bool
      */
     protected $tracking = false;
@@ -77,11 +71,6 @@ class YamlConfiguration implements SingletonInterface
     /**
      * @var string
      */
-    protected $authorizeMode = '';
-
-    /**
-     * @var string
-     */
     protected $refreshToken = '';
 
     /**
@@ -89,19 +78,21 @@ class YamlConfiguration implements SingletonInterface
      */
     protected $expires = 0;
 
-    public function __construct()
+    /**
+     * @var list<string>
+     */
+    private const TOKEN_KEYS = ['accessToken', 'refreshToken', 'expires'];
+
+    private readonly TokenStorage $tokenStorage;
+
+    public function __construct(?TokenStorage $tokenStorage = null)
     {
+        $this->tokenStorage = $tokenStorage ?? GeneralUtility::makeInstance(TokenStorage::class);
         $this->configPath = Environment::getConfigPath() . '/mautic';
         $this->fileName = $this->configPath . '/' . $this->configFileName;
-        $this->configurationArray = $this->getYamlConfiguration();
-        $extensionConfiguration = $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['mautic'];
-        $settings = array_replace_recursive($this->configurationArray, $extensionConfiguration);
-
-        foreach ($settings as $key => $value) {
-            if (property_exists(self::class, $key)) {
-                $this->$key = $value;
-            }
-        }
+        $this->configurationArray = $this->getMergedConfiguration();
+        $this->applyConfigurationToProperties();
+        $this->migrateLegacyTokensIfNeeded();
     }
 
     protected function getYamlConfiguration(): array
@@ -115,35 +106,76 @@ class YamlConfiguration implements SingletonInterface
         }
     }
 
-    /**
-     * @deprecated Use getYamlConfiguration() instead.
-     */
-    protected function getRawEmConfig(): array
-    {
-        trigger_error('Use getYamlConfiguration() instead.', E_USER_DEPRECATED);
-
-        return $this->getYamlConfiguration();
-    }
-
     public function save(array $configuration = []): void
     {
         if (!file_exists($this->fileName)) {
             GeneralUtility::mkdir_deep($this->configPath);
         }
 
-        $yamlFileContents = Yaml::dump($configuration, 99, 2);
+        $tokens = [];
+        $yamlData = $configuration;
+        foreach (self::TOKEN_KEYS as $key) {
+            if (array_key_exists($key, $yamlData)) {
+                $tokens[$key] = $yamlData[$key];
+                unset($yamlData[$key]);
+            }
+        }
+        if ($tokens !== []) {
+            $this->tokenStorage->saveTokens($tokens);
+        }
+
+        $yamlFileContents = Yaml::dump($yamlData, 99, 2);
         GeneralUtility::writeFile($this->fileName, $yamlFileContents);
+
+        $this->reloadConfigurations();
     }
 
     public function reloadConfigurations(): void
     {
-        $this->configurationArray = $this->getYamlConfiguration();
-        $extensionConfiguration = $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['mautic'];
+        $this->configurationArray = $this->getMergedConfiguration();
+        $this->applyConfigurationToProperties();
+    }
+
+    protected function getMergedConfiguration(): array
+    {
+        $defaults = [
+            'accessToken' => '',
+            'refreshToken' => '',
+            'expires' => 0,
+        ];
+        $merged = array_replace($defaults, $this->getYamlConfiguration());
+        if ($this->tokenStorage->hasTokens()) {
+            $merged = array_replace($merged, $this->tokenStorage->getTokens());
+        }
+        return $merged;
+    }
+
+    private function applyConfigurationToProperties(): void
+    {
+        $extensionConfiguration = $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['mautic'] ?? [];
         $settings = array_replace_recursive($this->configurationArray, $extensionConfiguration);
 
         foreach ($settings as $key => $value) {
             if (property_exists(self::class, $key)) {
                 $this->$key = $value;
+            }
+        }
+    }
+
+    /**
+     * On first construction after upgrade, copy any tokens still present in
+     * the YAML over to the registry and rewrite the YAML without them. Gated
+     * by TokenStorage::hasTokens() so it runs at most once per installation.
+     */
+    private function migrateLegacyTokensIfNeeded(): void
+    {
+        if ($this->tokenStorage->hasTokens()) {
+            return;
+        }
+        foreach (self::TOKEN_KEYS as $key) {
+            if (!empty($this->configurationArray[$key])) {
+                $this->save($this->configurationArray);
+                return;
             }
         }
     }
@@ -174,11 +206,6 @@ class YamlConfiguration implements SingletonInterface
         return (string)$this->accessToken;
     }
 
-    public function getAccessTokenSecret(): string
-    {
-        return (string)$this->accessTokenSecret;
-    }
-
     public function isTracking(): bool
     {
         return (bool)$this->tracking;
@@ -192,11 +219,6 @@ class YamlConfiguration implements SingletonInterface
     public function getConfigurationArray(): array
     {
         return $this->configurationArray;
-    }
-
-    public function getAuthorizeMode(): string
-    {
-        return empty($this->authorizeMode) ? self::OAUTH1_AUTHORIZATION_MODE : $this->authorizeMode;
     }
 
     public function getRefreshToken(): string
@@ -213,11 +235,6 @@ class YamlConfiguration implements SingletonInterface
     {
         // extensionScannerIgnoreLine won't work if every && is on its own line
         // @extensionScannerIgnoreLine
-        return $this->authorizeMode === $configuration['authorizeMode'] && $this->secretKey === $configuration['secretKey'] && $this->publicKey === $configuration['publicKey'] && $this->baseUrl === $configuration['baseUrl'];
-    }
-
-    public function isOAuth1(): bool
-    {
-        return $this->getAuthorizeMode() === self::OAUTH1_AUTHORIZATION_MODE;
+        return $this->secretKey === $configuration['secretKey'] && $this->publicKey === $configuration['publicKey'] && $this->baseUrl === $configuration['baseUrl'];
     }
 }
