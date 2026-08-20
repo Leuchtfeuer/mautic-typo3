@@ -46,6 +46,17 @@ if [ "$VENDORED_REQUIREMENTS" != "$DECLARED_REQUIREMENTS" ]; then
   exit 1;
 fi
 
+# The platform override pins the PHP version Libraries/vendor is resolved
+# against. It has to match the lowest PHP version the extension supports,
+# otherwise the TER package ships dependencies the target environment cannot run.
+ROOT_PHP_FLOOR=$(jq -r '.require.php' "$ROOT_MANIFEST" | grep -oE '[0-9]+\.[0-9]+' | head -1)
+LIBRARIES_PHP_PLATFORM=$(jq -r '.config.platform.php' "$LIBRARIES_MANIFEST" | grep -oE '^[0-9]+\.[0-9]+')
+
+if [ "$ROOT_PHP_FLOOR" != "$LIBRARIES_PHP_PLATFORM" ]; then
+  echo "PHP version mismatch: composer.json requires ${ROOT_PHP_FLOOR}, Libraries/composer.json resolves against ${LIBRARIES_PHP_PLATFORM}."
+  exit 1;
+fi
+
 if [ ! -f "$DIR/Libraries/composer.lock" ]; then
   echo "Libraries/composer.lock is missing. Exit."
   exit 1;
