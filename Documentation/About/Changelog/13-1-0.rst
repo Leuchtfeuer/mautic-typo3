@@ -16,7 +16,8 @@ Added
 =====
 
 * New option ``timeout`` limits every request to Mautic to the given number of seconds (default ``5``). It can be set
-  in the new "misc" tab of the backend module, see :ref:`Installation <installation>` for details
+  in the new "misc" tab of the backend module, see :ref:`Installation <installation>` for details. ``0`` sets no
+  timeout of its own; the TYPO3 HTTP settings ``connect_timeout`` and ``timeout`` apply instead
 
 Changed
 =======
@@ -24,7 +25,7 @@ Changed
 * An unreachable Mautic instance no longer blocks the rendering of uncached pages: once a request has timed out, all
   further requests to Mautic within the same page request fail immediately and the page is delivered without Mautic
   content
-* Each failed request to Mautic is logged exactly once
+* An unreachable Mautic instance is logged as a warning once per page request
 
 Fixed
 =====
